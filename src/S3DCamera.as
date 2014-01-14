@@ -9,32 +9,35 @@ package  {
 	
 	public class S3DCamera {
 		
-		public var _perspective:PerspectiveMatrix3D;
-		public var _camera_view:PerspectiveMatrix3D = new PerspectiveMatrix3D();
+		private static const CAM_FACING:Vector3D = new Vector3D(0, 0, -1);
+		private static const CAM_UP:Vector3D = new Vector3D(0, -1, 0);
+		
+		public var _projection:PerspectiveMatrix3D = new PerspectiveMatrix3D();
+		public var _world:Matrix3D = new Matrix3D();
+		private var _view:Matrix3D = new Matrix3D();
 		
 		public var _x:Number = 0, _y:Number = 0, _z:Number = 0;
 		public function set_position(x:Number, y:Number, z:Number):void { _x = x; _y = y; _z = z; }
-		public var _rotation_x:Number = 0, _rotation_y:Number = 0, _rotation_z:Number = 0;
 		
-		public function S3DCamera() {
-			_perspective = new PerspectiveMatrix3D();
-			_perspective.perspectiveFieldOfViewLH(90 * Math.PI / 180, 1, 0.1, 1000);
-			this.update();
+		public function S3DCamera(aspect_ratio:Number) {
+			_projection.perspectiveFieldOfViewRH(45, aspect_ratio, 0.1, 100);
+		}
+		
+		public var _look_at_target:Vector3D = new Vector3D(0, 0, 0);
+		public function look_at(l_x:Number, l_y:Number, l_z:Number) {
+			_look_at_target.x = l_x;
+			_look_at_target.y = l_y;
+			_look_at_target.z = l_z;
+		}
+		
+		public function get_view_matrix():Matrix3D {
+			_view.identity();
+			_view.appendTranslation(_x, _y, _z);
+			_view.pointAt(_look_at_target,CAM_FACING,CAM_UP);
+			return _view;
 		}
 		
 		public function update():void {
-			//_camera_view.identity();
-			//_camera_view.appendTranslation(_x, _y, _z);
-			//_camera_view.appendRotation(_rotation_x, Vector3D.X_AXIS);
-			//_camera_view.appendRotation(_rotation_y, Vector3D.Y_AXIS);
-			//_camera_view.appendRotation(_rotation_z, Vector3D.Z_AXIS);
-			
-			
-			//_camera_view.pointAt(new Vector3D(_x, _y, _z), tmp_pos, Vector3D.Y_AXIS);
-			
-			//_camera_view.invert();
-			
-			//trace(tmp_pos);
 		}
 		
 	}

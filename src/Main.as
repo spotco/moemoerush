@@ -8,7 +8,7 @@ package {
 	import flash.utils.*;
 	import flash.ui.Keyboard;
 	
-	[SWF(width="500", height="500", frameRate="60", backgroundColor="#FFFFFF")]
+	[SWF(width="1000", height="500", frameRate="60", backgroundColor="#FFFFFF")]
 	public class Main extends Sprite {
 		
 		public function Main():void {
@@ -22,42 +22,43 @@ package {
 			this.addEventListener(Event.ENTER_FRAME, update);
 		}
 		
-		private var _context:Context3D;
-		private var _camera:S3DCamera;
-		private var _objects:Vector.<S3DObj> = new Vector.<S3DObj>();
+		public var _context:Context3D;
+		public var _camera:S3DCamera;
+		public var _objects:Vector.<S3DObj> = new Vector.<S3DObj>();
 		
 		public function init3d(e:Event):void {
 			_context = stage.stage3Ds[0].context3D;
-			_context.configureBackBuffer(500, 500, 1);
+			_context.configureBackBuffer(1000, 500, 1);
 			
-			_camera = new S3DCamera();
-			
-			
-			var testobj:S3DObj = new S3DObj(_context);
-			testobj.set_position(0, 0, 5);
-			_objects.push(testobj);
-			
-			testobj = new S3DObj(_context);
-			testobj.set_position(0, -3, 2);
-			testobj._scale = 10;
-			testobj._rotation_x = -85;
-			_objects.push(testobj);
-			
+			_context.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
 			_context.enableErrorChecking = true;
 			_context.setCulling(Context3DTriangleFace.BACK);
-			_projection.perspectiveFieldOfViewRH(45, stage.stageWidth / stage.stageHeight, 0.1, 100);
-			_view.appendTranslation(0, 0, 10);
-		}
-		
-		private static const CAM_FACING:Vector3D = new Vector3D(0, 0, -1);
-		private static const CAM_UP:Vector3D = new Vector3D(0, -1, 0);
-		
-		private var _projection:PerspectiveMatrix3D = new PerspectiveMatrix3D();
-		private var _world:Matrix3D = new Matrix3D();
-		private var _view:Matrix3D = new Matrix3D();
+			
+			_camera = new S3DCamera(stage.stageWidth / stage.stageHeight);
+			_camera.set_position(0, 0, 10);
+			
+			
+			var testobj:S3DObj;
+			
+			testobj = new S3DObj(_context, Resource.RESC_GROUND);
+			testobj.set_position(0, -3, 2);
+			testobj._scale = 30;
+			testobj._rotation_x = -85;
+			testobj.set_anchor_point(0.5, 0.5);
+			testobj.extend_y(6);
+			testobj._shader = S3DObj.REPEAT_SHADER;
+			_objects.push(testobj);
+			
+			testobj = new S3DObj(_context, Resource.RESC_TREE);
+			testobj.set_position(-8, -3, 2);
+			testobj.set_anchor_point(0.5, 0);
+			testobj._scale = 6;
+			_objects.push(testobj);
+			
+		}		
+
 		private static var output_matrix:Matrix3D = new Matrix3D();
 		
-		var theta = 0;
 		private var _last_time:Number = NaN;
 		public function update(e:Event):void {
 			if (!_context) return;
@@ -67,23 +68,18 @@ package {
 			_last_time = cur_time;
 			if (isNaN(dt)) return;
 			
-			theta += 0.1*dt_scale;
-			_view.pointAt(new Vector3D(Math.cos(theta) * 2, Math.sin(theta) * 2, 0), CAM_FACING, CAM_UP);
-			
-			
-			var camera:Matrix3D = _view.clone();
-			camera.invert();
-			
 			_context.clear(1, 1, 1, 1);
+			
+			var output_view:Matrix3D = _camera.get_view_matrix().clone();
+			output_view.invert();
+			
 			for each (var o:S3DObj in _objects) {
 				output_matrix.identity();
 				output_matrix.append(o.get_matrix());
-				output_matrix.append(_world);
-				output_matrix.append(camera);
-				output_matrix.append(_projection);
-				
+				output_matrix.append(_camera._world);
+				output_matrix.append(output_view);
+				output_matrix.append(_camera._projection);
 				_context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, output_matrix, true);
-				
 				o.render();
 			}
 			_context.present();
