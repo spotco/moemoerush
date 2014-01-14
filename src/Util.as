@@ -27,6 +27,10 @@ package  {
 			return r * (180 / Math.PI);
 		}
 		
+		public static function rand_range(min:Number, max:Number):Number {
+			return Math.random() * (max - min) + min;
+		}
+		
 	}
 
 }

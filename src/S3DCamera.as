@@ -20,7 +20,7 @@ package  {
 		public function set_position(x:Number, y:Number, z:Number):void { _x = x; _y = y; _z = z; }
 		
 		public function S3DCamera(aspect_ratio:Number) {
-			_projection.perspectiveFieldOfViewRH(45, aspect_ratio, 0.1, 100);
+			_projection.perspectiveFieldOfViewRH(45, aspect_ratio, 0.1, 10000);
 		}
 		
 		public var _look_at_target:Vector3D = new Vector3D(0, 0, 0);
