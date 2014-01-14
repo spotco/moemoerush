@@ -21,11 +21,13 @@ package {
 			_renderer._on_init = function() {
 				_game_engine.init(stage, _renderer);
 				_renderer._logic_update = _game_engine.update;
-				self.addEventListener(Event.ENTER_FRAME, update);
+				var t:Timer = (new Timer(20));
+				t.addEventListener(TimerEvent.TIMER, update);
+				t.start();
 			};
 		}
 		
-		public function update(e:Event):void {
+		public function update(e:TimerEvent):void {
 			_renderer.update();
 		}
 		
