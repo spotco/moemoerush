@@ -1,4 +1,4 @@
-package com {
+package  {
 	import flash.display.Stage;
 	import gameobjects.TestDecoration;
 	public class S3DGameEngine {

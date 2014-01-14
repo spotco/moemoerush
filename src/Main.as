@@ -1,6 +1,5 @@
 package {
 	import com.adobe.utils.*;
-	import com.S3DGameEngine;
 	import flash.display.*;
 	import flash.display3D.*;
 	import flash.events.*;
