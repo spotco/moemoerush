@@ -10,6 +10,7 @@ package testsrc
           super();
           addTest(new TestModels("testSongConstructor"));
           addTest(new TestModels("testEnemyConstructor"));
+          addTest(new TestModels("testTimingPointConstructor"));
         }
     }
 }
