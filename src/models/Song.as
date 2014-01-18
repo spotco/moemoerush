@@ -16,26 +16,30 @@ package models {
             this.timingPoints = timingPoints;
         }
 
-        // Given a time, returns the first enemy that exists beyond or at that moment in time
-        // Returns null if there is no enemy that exists beyond that moment in time.
-        public function getNextEnemy(time:int): Enemy {
+        // Returns the first Enemy. Returns null if there are none.
+        public function peekAtFirstEnemy():Enemy {
             if (enemies.length == 0) {
                 return null;
             }
-
-            // TODO: This is naive and runs in O(n) time, fix it.
-            for (var i:int = 0; i < enemies.length; i++) {
-                if (enemies[i].time >= time) {
-                    return enemies[i];
-                }
-            }
-
-            return null;
+            return enemies[0];
         }
 
         // Removes the first enemy and returns it.
         public function popFirstEnemy():Enemy {
             return enemies.shift();
+        }
+
+        // Returns the first Timing Point. Returns null if there are none.
+        public function peekAtFirstTimingPoint():TimingPoint {
+            if (timingPoints.length == 0) {
+                return null;
+            }
+            return timingPoints[0];
+        }
+
+        // Removes the first TimngPoint and returns it.
+        public function popFirstTimingPoint():TimingPoint {
+            return timingPoints.shift();
         }
 
         // Given a moment in time, returns and removes returns all enemies that exist in

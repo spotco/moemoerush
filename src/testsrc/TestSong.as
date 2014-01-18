@@ -19,22 +19,16 @@ package testsrc {
             assertEquals(song.timingPoints.length, 0);
         }
 
-        public function testGetNextEnemy(): void {
+        public function testPeekAtFirstEnemy(): void {
             var emptySong:Song = new Song("test", "test", 1, [], []);
-            assertEquals(emptySong.getNextEnemy(1), null);
+            assertEquals(emptySong.peekAtFirstTimingPoint(), null);
 
             var enemyOne:Enemy = new Enemy(5, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
             var enemyTwo:Enemy = new Enemy(6, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
             var enemyThree:Enemy = new Enemy(8, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
             var song:Song = new Song("test", "test", 1, [enemyOne, enemyTwo, enemyThree], []);
-            assertEquals(song.getNextEnemy(1), enemyOne);
-            assertEquals(song.getNextEnemy(4), enemyOne);
-            assertEquals(song.getNextEnemy(5), enemyOne);
-            assertEquals(song.getNextEnemy(6), enemyTwo);
-            assertEquals(song.getNextEnemy(7), enemyThree);
-            assertEquals(song.getNextEnemy(8), enemyThree);
-            assertEquals(song.getNextEnemy(9), null);
-
+            assertEquals(song.peekAtFirstEnemy(), enemyOne);
+            assertEquals(song.peekAtFirstEnemy(), enemyOne);
         }
 
         public function testPopFirstEnemy(): void {
@@ -45,6 +39,28 @@ package testsrc {
             assertEquals(song.popFirstEnemy(), enemyOne);
             assertEquals(song.popFirstEnemy(), enemyTwo);
             assertEquals(song.popFirstEnemy(), enemyThree);
+        }
+
+        public function testPeekAtFirstTimingPoint(): void {
+            var emptySong:Song = new Song("test", "test", 1, [], []);
+            assertEquals(emptySong.peekAtFirstTimingPoint(), null);
+
+            var timingPointOne:TimingPoint = new TimingPoint(5, 100, 3);
+            var timingPointTwo:TimingPoint = new TimingPoint(6, 100, 3);
+            var timingPointThree:TimingPoint = new TimingPoint(8, 100, 3);
+            var song:Song = new Song("test", "test", 1, [], [timingPointOne, timingPointTwo, timingPointThree]);
+            assertEquals(song.peekAtFirstTimingPoint(), timingPointOne);
+            assertEquals(song.peekAtFirstTimingPoint(), timingPointOne);
+        }
+
+        public function testPopFirstTimingPoint(): void {
+            var timingPointOne:TimingPoint = new TimingPoint(5, 100, 3);
+            var timingPointTwo:TimingPoint = new TimingPoint(6, 100, 3);
+            var timingPointThree:TimingPoint = new TimingPoint(8, 100, 3);
+            var song:Song = new Song("test", "test", 1, [], [timingPointOne, timingPointTwo, timingPointThree]);
+            assertEquals(song.popFirstTimingPoint(), timingPointOne);
+            assertEquals(song.popFirstTimingPoint(), timingPointTwo);
+            assertEquals(song.popFirstTimingPoint(), timingPointThree);
         }
 
         public function testPopAllEnemiesBeforeMoment(): void {
