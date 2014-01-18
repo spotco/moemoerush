@@ -41,7 +41,20 @@ package models {
         // Given a moment in time, returns and removes returns all enemies that exist in
         // the song before that moment in time. 
         public function popAllEnemiesBeforeMoment(time:int): Array {
-                return null;
+            if (enemies.length == 0) {
+                return [];
+            }
+
+            var results:Array = [];
+            var foundEnemyBeyondMoment:Boolean = false;
+            while (!foundEnemyBeyondMoment) {
+                if (enemies.length > 0 && enemies[0].time < time) {
+                    results.push(enemies.shift());
+                } else {
+                    foundEnemyBeyondMoment = true;
+                }
+            }
+            return results;
         }
 
     }
