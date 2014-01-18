@@ -1,4 +1,5 @@
-package src.models {
+package models {
+    import asunit.textui.ResultPrinter;
     public class Song {
         public var title:String;
         public var artist:String;
@@ -14,6 +15,35 @@ package src.models {
             this.enemies = enemies;
             this.timingPoints = timingPoints;
         }
+
+        // Given a time, returns the first enemy that exists beyond or at that moment in time
+        // Returns null if there is no enemy that exists beyond that moment in time.
+        public function getNextEnemy(time:int): Enemy {
+            if (enemies.length == 0) {
+                return null;
+            }
+
+            // TODO: This is naive and runs in O(n) time, fix it.
+            for (var i:int = 0; i < enemies.length; i++) {
+                if (enemies[i].time >= time) {
+                    return enemies[i];
+                }
+            }
+
+            return null;
+        }
+
+        // Removes the first enemy and returns it.
+        public function popFirstEnemy():Enemy {
+            return enemies.shift();
+        }
+
+        // Given a moment in time, returns and removes returns all enemies that exist in
+        // the song before that moment in time. 
+        public function popAllEnemiesBeforeMoment(time:int): Array {
+                return null;
+        }
+
     }
 }
 

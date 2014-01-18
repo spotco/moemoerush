@@ -1,1 +1,1 @@
-mxmlc -source-path=. testsrc\TestGui.as -output .\TestGui.swf
+mxmlc -source-path=.\src .\src\testsrc\TestGui.as -output .\TestGui.swf

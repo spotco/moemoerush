@@ -38,7 +38,11 @@ package asunit.textui {
         protected var startTime:Number;
         protected var testTimes:Array;
 
-        public function ResultPrinter(showTrace:Boolean = false) {
+        public static var printer:ResultPrinter;
+
+        public function ResultPrinter(showTrace:Boolean = true) {
+            ResultPrinter.printer = this;
+
             this.showTrace = showTrace;
             testTimes = new Array();
             configureAssets();

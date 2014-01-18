@@ -1,4 +1,4 @@
-package src.models {
+package models {
     public class EnemyType {
         // Type acts as an ENUM for the different enemy possibilities.
         public static var ENEMY_EXAMPLE_FOR_TEST_PURPOSES:EnemyType = new EnemyType();

@@ -1,4 +1,4 @@
-package src.models {
+package models {
     public class EnemyResult {
 
         // Effectively an ENUM to represent each possible type
