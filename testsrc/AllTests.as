@@ -8,7 +8,8 @@ package testsrc
         public function AllTests()
         {
           super();
-          addTest(new TestModels("testModels"));
+          addTest(new TestModels("testSongConstructor"));
+          addTest(new TestModels("testEnemyConstructor"));
         }
     }
 }
