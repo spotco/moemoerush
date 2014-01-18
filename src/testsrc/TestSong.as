@@ -63,6 +63,11 @@ package testsrc {
             assertEquals(enemiesBeforeSeven[1], enemyTwo);
             assertEquals(song.enemies.length, 1);
 
+            var enemiesBeforeNine:Array = song.popAllEnemiesBeforeMoment(9);
+            assertEquals(enemiesBeforeNine.length, 1);
+            assertEquals(enemiesBeforeNine[0], enemyThree);
+            assertEquals(song.enemies.length, 0);
+
         }
 
     }
