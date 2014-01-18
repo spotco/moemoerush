@@ -1,14 +1,14 @@
 package testsrc
 {
     import asunit.framework.TestSuite;
+    import src.models.*;
 
     public class AllTests extends TestSuite
     {
         public function AllTests()
         {
           super();
-          addTest(new TestFirstTry("TestIntegerMath"));
-          addTest(new TestFirstTry("TestFloatMath"));
+          addTest(new TestModels("testModels"));
         }
     }
 }
