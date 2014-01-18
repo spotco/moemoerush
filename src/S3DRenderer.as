@@ -22,7 +22,6 @@ package {
 		public var _camera:S3DCamera;
 		public var _layers:Vector.<Vector.<S3DObj>> = new Vector.<Vector.<S3DObj>>();
 		
-		public var _logic_update:Function = function(dt:Number, dt_scale:Number):void { };
 		public var _on_init:Function = function():void { };
 		
 		public function init3d(e:Event):void {
@@ -41,16 +40,9 @@ package {
 
 		private static var output_matrix:Matrix3D = new Matrix3D();
 		
-		private var _last_time:Number = NaN;
+		
 		public function update():void {
 			if (!_context) return;
-			var cur_time:Number = (new Date()).getTime();
-			var dt:Number = cur_time - _last_time;
-			var dt_scale:Number = dt / 20;
-			_last_time = cur_time;
-			if (isNaN(dt)) return;
-			
-			_logic_update(dt, dt_scale);
 			
 			_context.clear(1, 1, 1, 1);
 			

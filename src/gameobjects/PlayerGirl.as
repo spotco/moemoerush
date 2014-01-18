@@ -83,8 +83,8 @@ package gameobjects {
 			}
 		}
 		
-		public function update(dt:Number, dt_scale:Number, game:S3DGameEngine):void {
-			anim_update(dt_scale);
+		public function update(game:S3DGameEngine):void {
+			anim_update(game._dt_scale);
 		}
 		
 	}
