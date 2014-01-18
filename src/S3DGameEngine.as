@@ -54,14 +54,13 @@ package  {
 				_decorations.push(cur);
 				_renderer._decoration_objects.push(cur);
 			}
-
 		}
 		
-		var t:Number = 0;
-		public function update(dt:Number, dt_scale:Number) {
+		private var t:Number = 0;
+		public function update(dt:Number, dt_scale:Number):void {
 			
 			_renderer._decoration_objects.length = 0;
-			_decorations.sort(function(a:TestDecoration, b:TestDecoration) {
+			_decorations.sort(function(a:TestDecoration, b:TestDecoration):Number {
 				return a._z - b._z;
 			});
 			

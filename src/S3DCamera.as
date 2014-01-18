@@ -24,7 +24,7 @@ package  {
 		}
 		
 		public var _look_at_target:Vector3D = new Vector3D(0, 0, 0);
-		public function look_at(l_x:Number, l_y:Number, l_z:Number) {
+		public function look_at(l_x:Number, l_y:Number, l_z:Number):void{
 			_look_at_target.x = l_x;
 			_look_at_target.y = l_y;
 			_look_at_target.z = l_z;

@@ -16,16 +16,28 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'1/14/2014'</value>
+      <value>'1/18/2014'</value>
+    </define>
+    <define append="true">
+      <name>CONFIG::air</name>
+      <value>false</value>
+    </define>
+    <define append="true">
+      <name>CONFIG::mobile</name>
+      <value>false</value>
+    </define>
+    <define append="true">
+      <name>CONFIG::desktop</name>
+      <value>false</value>
     </define>
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
-      <path-element>C:\Users\spotco\Desktop\rhythmtest\src</path-element>
-      <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
+      <path-element>\\vmware-host\Shared Folders\Documents\workspace\Stage3D_test\src</path-element>
+      <path-element>C:\Program Files\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
   </compiler>
   <file-specs>
-    <path-element>C:\Users\spotco\Desktop\rhythmtest\src\Main.as</path-element>
+    <path-element>\\vmware-host\Shared Folders\Documents\workspace\Stage3D_test\src\Main.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>30</default-frame-rate>

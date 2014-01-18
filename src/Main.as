@@ -8,16 +8,21 @@ package {
 	import flash.utils.*;
 	import flash.ui.Keyboard;
 	
-	[SWF(width="1000", height="500", frameRate="60", backgroundColor="#FFFFFF")]
+	 [SWF(width="1000", height="500", frameRate="60", backgroundColor="#FFFFFF")]
 	public class Main extends Sprite {
 		
 		public var _renderer:S3DRenderer = new S3DRenderer();
 		public var _game_engine:S3DGameEngine = new S3DGameEngine();
 		
 		public function Main():void {
-			var self = this;
+			this.init();
+			trace("topkek");
+		}
+		
+		public function init():void {
+			var self:Main = this;
 			_renderer.init(stage);
-			_renderer._on_init = function() {
+			_renderer._on_init = function():void {
 				_game_engine.init(stage, _renderer);
 				_renderer._logic_update = _game_engine.update;
 				var t:Timer = (new Timer(20));

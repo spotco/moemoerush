@@ -24,8 +24,8 @@ package {
 		public var _bg_objects:Vector.<S3DObj> = new Vector.<S3DObj>();
 		public var _decoration_objects:Vector.<S3DObj> = new Vector.<S3DObj>();
 		
-		public var _logic_update:Function = function(dt:Number, dt_scale:Number) { };
-		public var _on_init:Function = function() { };
+		public var _logic_update:Function = function(dt:Number, dt_scale:Number):void { };
+		public var _on_init:Function = function():void { };
 		
 		public function init3d(e:Event):void {
 			_context = _stage.stage3Ds[0].context3D;
