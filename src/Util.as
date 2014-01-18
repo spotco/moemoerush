@@ -3,6 +3,10 @@ package  {
 	import flash.geom.Rectangle;
 	
 	public class Util {
+		
+		public static var WID:Number = 1000;
+		public static var HEI:Number = 500;
+		
 		public static function round_dec(numIn:Number, decimalPlaces:int):Number {
 			var nExp:int = Math.pow(10,decimalPlaces) ;
 			var nRetVal:Number = Math.round(numIn * nExp) / nExp

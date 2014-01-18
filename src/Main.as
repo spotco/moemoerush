@@ -21,6 +21,7 @@ package {
 		
 		public function init():void {
 			var self:Main = this;
+			new KB(stage);
 			_renderer.init(stage);
 			_renderer._on_init = function():void {
 				_game_engine.init(stage, _renderer);

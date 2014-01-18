@@ -1,14 +1,18 @@
 package  {
 	import flash.display.Stage;
-	import gameobjects.TestDecoration;
+	import gameobjects.*;
+	import flash.ui.Keyboard;
+	
 	public class S3DGameEngine {
 		
 		public var _renderer:S3DRenderer;
 		public var _stage:Stage;
 		
 		public var _ground:S3DObj, _ground_fill:S3DObj, _sky_fill:S3DObj;
-		
 		private var _decorations:Vector.<TestDecoration> = new Vector.<TestDecoration>();
+		
+		private var _player:PlayerGirl = new PlayerGirl();
+		
 		
 		public function init(stage:Stage, renderer:S3DRenderer):void {
 			_renderer = renderer;
@@ -54,10 +58,27 @@ package  {
 				_decorations.push(cur);
 				_renderer._decoration_objects.push(cur);
 			}
+			
+			
+			
+			_stage.addChild(_player);
+			_player.init();
 		}
 		
 		private var t:Number = 0;
 		public function update(dt:Number, dt_scale:Number):void {
+			_player.update(dt, dt_scale, this);
+			if (KB.is_key_down(Keyboard.LEFT)) {
+				_player.push_tmp_anim(_player.ANIM_PUNCH_LEFT, 3);
+				
+			} else if (KB.is_key_down(Keyboard.RIGHT)) {
+				_player.push_tmp_anim(_player.ANIM_PUNCH_RIGHT, 3);
+				
+			} else if (KB.is_key_down(Keyboard.UP)) {
+				_player.push_tmp_anim(_player.ANIM_PUNCH_TOP, 3);
+				
+			}
+			
 			
 			_renderer._decoration_objects.length = 0;
 			_decorations.sort(function(a:TestDecoration, b:TestDecoration):Number {
