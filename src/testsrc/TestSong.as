@@ -23,9 +23,9 @@ package testsrc {
             var emptySong:Song = new Song("test", "test", 1, [], []);
             assertEquals(emptySong.getNextEnemy(1), null);
 
-            var enemyOne:Enemy = new Enemy(5, EnemyType.ENEMY_EXAMPLE_FOR_TEST_PURPOSES);
-            var enemyTwo:Enemy = new Enemy(6, EnemyType.ENEMY_EXAMPLE_FOR_TEST_PURPOSES);
-            var enemyThree:Enemy = new Enemy(8, EnemyType.ENEMY_EXAMPLE_FOR_TEST_PURPOSES);
+            var enemyOne:Enemy = new Enemy(5, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
+            var enemyTwo:Enemy = new Enemy(6, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
+            var enemyThree:Enemy = new Enemy(8, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
             var song:Song = new Song("test", "test", 1, [enemyOne, enemyTwo, enemyThree], []);
             assertEquals(song.getNextEnemy(1), enemyOne);
             assertEquals(song.getNextEnemy(4), enemyOne);
@@ -38,9 +38,9 @@ package testsrc {
         }
 
         public function testPopFirstEnemy(): void {
-            var enemyOne:Enemy = new Enemy(5, EnemyType.ENEMY_EXAMPLE_FOR_TEST_PURPOSES);
-            var enemyTwo:Enemy = new Enemy(6, EnemyType.ENEMY_EXAMPLE_FOR_TEST_PURPOSES);
-            var enemyThree:Enemy = new Enemy(8, EnemyType.ENEMY_EXAMPLE_FOR_TEST_PURPOSES);
+            var enemyOne:Enemy = new Enemy(5, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
+            var enemyTwo:Enemy = new Enemy(6, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
+            var enemyThree:Enemy = new Enemy(8, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
             var song:Song = new Song("test", "test", 1, [enemyOne, enemyTwo, enemyThree], []);
             assertEquals(song.popFirstEnemy(), enemyOne);
             assertEquals(song.popFirstEnemy(), enemyTwo);
@@ -52,9 +52,9 @@ package testsrc {
             var emptyEnemies:Array = emptySong.popAllEnemiesBeforeMoment(7);
             assertEquals(emptyEnemies.length, 0);
 
-            var enemyOne:Enemy = new Enemy(5, EnemyType.ENEMY_EXAMPLE_FOR_TEST_PURPOSES);
-            var enemyTwo:Enemy = new Enemy(6, EnemyType.ENEMY_EXAMPLE_FOR_TEST_PURPOSES);
-            var enemyThree:Enemy = new Enemy(8, EnemyType.ENEMY_EXAMPLE_FOR_TEST_PURPOSES);
+            var enemyOne:Enemy = new Enemy(5, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
+            var enemyTwo:Enemy = new Enemy(6, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
+            var enemyThree:Enemy = new Enemy(8, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
             var song:Song = new Song("test", "test", 1, [enemyOne, enemyTwo, enemyThree], []);
 
             var enemiesBeforeSeven:Array = song.popAllEnemiesBeforeMoment(7);
@@ -67,7 +67,6 @@ package testsrc {
             assertEquals(enemiesBeforeNine.length, 1);
             assertEquals(enemiesBeforeNine[0], enemyThree);
             assertEquals(song.enemies.length, 0);
-
         }
 
     }
