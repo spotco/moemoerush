@@ -13,10 +13,15 @@ package  {
 		
 		private var _player:PlayerGirl = new PlayerGirl();
 		
+		public var _bg_objects:Vector.<S3DObj> = new Vector.<S3DObj>();
+		public var _decoration_objects:Vector.<S3DObj> = new Vector.<S3DObj>();
 		
 		public function init(stage:Stage, renderer:S3DRenderer):void {
 			_renderer = renderer;
 			_stage = stage;
+			
+			_renderer._layers.push(_bg_objects);
+			_renderer._layers.push(_decoration_objects);
 			
 			_renderer._camera.set_position(0, 0, 10);
 			_renderer._camera._look_at_target.x = 0;
@@ -32,13 +37,13 @@ package  {
 			_sky_fill.update_vertex(2, S3DObj.I_ELE_X, 2);
 			_sky_fill.update_vertex(3, S3DObj.I_ELE_X, 2);
 			_sky_fill.upload_vertex_uv_buffers();
-			_renderer._bg_objects.push(_sky_fill);
+			_bg_objects.push(_sky_fill);
 			
 			_ground_fill = new S3DObj(renderer._context, Resource.RESC_GROUND_FILL);
 			_ground_fill.set_position(0, 14.5, -200);
 			_ground_fill.set_anchor_point(0.5, 1);
 			_ground_fill._scale = 600;
-			_renderer._bg_objects.push(_ground_fill);
+			_bg_objects.push(_ground_fill);
 			
 			_ground = new S3DObj(renderer._context, Resource.RESC_GROUND);
 			_ground.set_position(0, -3, 2);
@@ -47,7 +52,7 @@ package  {
 			_ground.set_anchor_point(0.5, 0.5);
 			_ground.extend_y(6);
 			_ground._shader = S3DObj.REPEAT_SHADER;
-			_renderer._bg_objects.push(_ground);
+			_bg_objects.push(_ground);
 			
 			var side_i:int = 0;
 			for (var i:Number = 0; i < 2; i += 0.049) {
@@ -56,7 +61,7 @@ package  {
 				cur._x = side_i % 2 == 0? -9:9;
 				side_i++;
 				_decorations.push(cur);
-				_renderer._decoration_objects.push(cur);
+				_decoration_objects.push(cur);
 			}
 			
 			
@@ -80,7 +85,7 @@ package  {
 			}
 			
 			
-			_renderer._decoration_objects.length = 0;
+			_decoration_objects.length = 0;
 			_decorations.sort(function(a:TestDecoration, b:TestDecoration):Number {
 				return a._z - b._z;
 			});
@@ -88,7 +93,7 @@ package  {
 			
 			_ground.move_texture_uv(0.03, dt_scale);
 			for each (var dec:TestDecoration in _decorations) {
-				_renderer._decoration_objects.push(dec);
+				_decoration_objects.push(dec);
 				dec.update(dt_scale);
 			}
 		}

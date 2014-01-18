@@ -22,7 +22,7 @@ package gameobjects {
 		public function update(dt_scale:Number):void {
 			this.set_position( _x, 12 * _t - 3, -142 * _t + 2);
 			_t -= 0.007 * dt_scale;
-			if (_t < -0.2) _t = 2;
+			if (_t < -0.2) _t = 2 - (Math.abs(_t) - 0.2);
 		}
 		
 	}

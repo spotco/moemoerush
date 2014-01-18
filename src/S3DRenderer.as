@@ -21,8 +21,6 @@ package {
 		public var _context:Context3D;
 		public var _camera:S3DCamera;
 		public var _layers:Vector.<Vector.<S3DObj>> = new Vector.<Vector.<S3DObj>>();
-		public var _bg_objects:Vector.<S3DObj> = new Vector.<S3DObj>();
-		public var _decoration_objects:Vector.<S3DObj> = new Vector.<S3DObj>();
 		
 		public var _logic_update:Function = function(dt:Number, dt_scale:Number):void { };
 		public var _on_init:Function = function():void { };
@@ -30,9 +28,6 @@ package {
 		public function init3d(e:Event):void {
 			_context = _stage.stage3Ds[0].context3D;
 			_context.configureBackBuffer(1000, 500, 1);
-			
-			_layers.push(_bg_objects);
-			_layers.push(_decoration_objects);
 			
 			_context.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
 			_context.enableErrorChecking = true;
