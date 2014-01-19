@@ -8,7 +8,8 @@ package models {
     public class Song {
         // TODO: Get this damn health code out of the song model
         public static const MAX_HEALTH:int = 10;
-        public static const PERFECT_RATIO:Number = 0.33333;
+        public static const PERFECT_RATIO:Number = 0.3;
+        public static const GREAT_RATIO:Number = 0.5;
 
         public var title:String;
         public var artist:String;
@@ -37,6 +38,7 @@ package models {
             this.savedEnemies = enemies.concat();
 
             this.playerHealth = MAX_HEALTH;
+            this.combo = 0;
 
             assignSides(this.enemies);
             testInvariants();
@@ -160,10 +162,10 @@ package models {
                 var differenceRatio:Number = ( timeDifference / timeMargin);
                 var resultType:String = null;
 
-                if (differenceRatio <= 0.3) {
+                if (differenceRatio <= PERFECT_RATIO) {
                     resultType = EnemyResult.TYPE_PERFECT;
                     combo += 1;
-                } else if (differenceRatio <= 0.5) {
+                } else if (differenceRatio <= GREAT_RATIO) {
                     resultType = EnemyResult.TYPE_GREAT;
                     combo += 1;
                 } else {

@@ -30,6 +30,9 @@ package  {
 		public var _song:Song;
         private var _timingPoint:TimingPoint;
 		public var _ui_particles:Vector.<UIParticle> = new Vector.<UIParticle>();
+        public var _small_combo_achieved:Boolean = false;
+        public var _medium_combo_achieved:Boolean = false;
+        public var _big_combo_achieved:Boolean = false;
 		
 		private var _ingame_ui:IngameUI;
 		
@@ -182,9 +185,9 @@ package  {
 				tar_vec = BaseEnemy.POS_TOP_HIT;
 				particle_spawn_pos = new Vector3D(_player.x, _player.y - 250 ,0);
 				hit_result = attack_enemy_on_side(particle_spawn_pos, Enemy.SIDE_UP);
-				
 			}
 			
+            // Little animations and bubblies and stuff that pop up
 			if (tar_side != "") {
 				if (hit_result != null) {
 					if (hit_result.type == EnemyResult.TYPE_GREAT || hit_result.type == EnemyResult.TYPE_PERFECT) {
@@ -208,6 +211,23 @@ package  {
 				}
 
 			}
+
+            // TODO: Play sound effects based on combos
+            // Lol innefficient don't give a shits
+            if (_song.combo < 10) {
+                _small_combo_achieved = false;
+                _medium_combo_achieved = false;
+                _big_combo_achieved = false;
+            } else if (_song.combo == 10 && !_small_combo_achieved) {
+                trace("10 combo");
+                _small_combo_achieved = true;
+            } else if (_song.combo == 25 && !_medium_combo_achieved) {
+                _medium_combo_achieved = true;
+                trace("25 combo");
+            } else if (_song.combo == 50  && !_big_combo_achieved) {
+                trace("50 combo");
+                _big_combo_achieved = true;
+            }
 			
 			_last_left = KB.is_key_down(Keyboard.LEFT);
 			_last_right = KB.is_key_down(Keyboard.RIGHT);
@@ -232,6 +252,7 @@ package  {
 				dec.update(this);
 			}
 			
+            // Clean enemies that are actually dead
 			var itr_enemy:BaseEnemy;
 			for (var i_enemy:int = _enemies.length-1; i_enemy >= 0; i_enemy--) {
 				itr_enemy = _enemies[i_enemy];
@@ -244,6 +265,7 @@ package  {
 				}
 			}
 			
+            // Clean particle effects that aren't visible anymore
 			for (var i_particle:int = _ui_particles.length-1; i_particle >= 0; i_particle--) {
 				var itr_particle:UIParticle = _ui_particles[i_particle];
 				itr_particle.update(this);
@@ -254,6 +276,7 @@ package  {
 				}
 			}
 			
+            // Reorder objects by z-index
 			_layer_objects.sort(function(a:S3DObj, b:S3DObj):Number {
 				return a._z - b._z;
 			});
