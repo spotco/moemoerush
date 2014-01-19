@@ -12,7 +12,7 @@ package models {
         }
 
         public function getBPMAsMillisecondsPerBeat(): Number  {
-            return (1000 / this.bpm / 60);
+            return (1000 / (this.bpm / 60));
         }
     }
 }

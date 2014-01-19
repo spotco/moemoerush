@@ -88,7 +88,8 @@ package testsrc {
         }
 
         public function testMarkEnemy():void {
-            var timingPoint:TimingPoint = new TimingPoint(0, 60, 4);
+            // Carefully constructed so that timeMargin will be 2 seconds
+            var timingPoint:TimingPoint = new TimingPoint(0, 30, 4);
 
             var enemyOne:Enemy = new Enemy(5, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
             var enemyTwo:Enemy = new Enemy(6, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
@@ -121,6 +122,33 @@ package testsrc {
 
             // A click where there is an enemy around that is too far away should return null
             assertEquals(song.markEnemy(7.9, Enemy.SIDE_LEFT), null);
+        }
+
+        public function testMarkEnemyScoring():void {
+            // Carefully constructed so that timeMargin will be 2 seconds
+            var timingPoint:TimingPoint = new TimingPoint(0, 30, 4);
+
+            var enemyOne:Enemy = new Enemy(5, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
+
+            enemyOne.side = Enemy.SIDE_UP;
+            var song:Song = new Song("test", "test", 1, [enemyOne], [timingPoint]);
+            assertEquals(song.markEnemy(5, Enemy.SIDE_UP).type, EnemyResult.TYPE_PERFECT);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(5.5, Enemy.SIDE_UP).type, EnemyResult.TYPE_PERFECT);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(6.2, Enemy.SIDE_UP).type, EnemyResult.TYPE_GREAT);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(6.4, Enemy.SIDE_UP).type, EnemyResult.TYPE_OK);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(7, Enemy.SIDE_UP).type, EnemyResult.TYPE_OK);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(4.5, Enemy.SIDE_UP).type, EnemyResult.TYPE_PERFECT);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(3.8, Enemy.SIDE_UP).type, EnemyResult.TYPE_GREAT);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(3.6, Enemy.SIDE_UP).type, EnemyResult.TYPE_OK);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(3, Enemy.SIDE_UP).type, EnemyResult.TYPE_OK);
         }
 
         public function testHealth():void {

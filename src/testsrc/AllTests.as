@@ -15,6 +15,7 @@ package testsrc
           addTest(new TestSong("testPopFirstTimingPoint"));
           addTest(new TestSong("testPopAllEnemiesBeforeMoment"));
           addTest(new TestSong("testMarkEnemy"));
+          addTest(new TestSong("testMarkEnemyScoring"));
           addTest(new TestSong("testHealth"));
           addTest(new TestSong("testGetTimingPointForTime"));
           addTest(new TestModels("testEnemyResultConstructor"));

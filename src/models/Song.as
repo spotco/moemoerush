@@ -8,6 +8,7 @@ package models {
     public class Song {
         // TODO: Get this damn health code out of the song model
         public static const MAX_HEALTH:int = 10;
+        public static const PERFECT_RATIO:Number = 0.33333;
 
         public var title:String;
         public var artist:String;
@@ -86,11 +87,11 @@ package models {
         // Arguments:
         //     time: The moment in time that the press occurred.
         //     enemySide: The direction of enemy to attempt to mark. See Enemy.SIDE_*
-        public function markEnemy(time:int, enemySide:int): EnemyResult {
+        public function markEnemy(time:Number, enemySide:int): EnemyResult {
             var applicableTimingPoint:TimingPoint = getTimingPointForTime(time);
 
             // One quarter note - in seconds
-            var timeMargin:Number = applicableTimingPoint.getBPMAsMillisecondsPerBeat / 1000;
+            var timeMargin:Number = applicableTimingPoint.getBPMAsMillisecondsPerBeat() / 1000;
 
             // Find the two enemies on either side of the press time
             var frontEnemy:Enemy = null;
@@ -109,7 +110,6 @@ package models {
                 }
             }
 
-
             if (frontEnemy && backEnemy) {
                 if (Math.abs(frontEnemy.time - time) < Math.abs(backEnemy.time - time)) {
                     markedEnemy = frontEnemy;
@@ -125,11 +125,20 @@ package models {
             }
 
             if (markedEnemy) {
-                var timeDifference:int = Math.abs(markedEnemy.time - time);
-                ResultPrinter.printer.println(applicableTimingPoint);
-                var millisecondsPerBeat:Number = applicableTimingPoint.getBPMAsMillisecondsPerBeat();
+                var timeDifference:Number = Math.abs(markedEnemy.time - time);
                 // TODO: Have more than just perfect.
-                var enemyResult:EnemyResult = new EnemyResult(EnemyResult.TYPE_PERFECT, markedEnemy);
+                var differenceRatio:Number = ( timeDifference / timeMargin);
+                var resultType:int = -1;
+
+                if (differenceRatio <= 0.33333) {
+                    resultType = EnemyResult.TYPE_PERFECT;
+                } else if (differenceRatio <= 0.66666) {
+                    resultType = EnemyResult.TYPE_GREAT;
+                } else {
+                    resultType = EnemyResult.TYPE_OK;
+                }
+
+                var enemyResult:EnemyResult = new EnemyResult(resultType, markedEnemy);
                 markedEnemy.enemyResult = enemyResult;
                 return enemyResult;
             }

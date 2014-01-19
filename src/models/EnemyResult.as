@@ -1,4 +1,7 @@
 package models {
+
+    import Util;
+
     public class EnemyResult {
         // Effectively an ENUM to represent each possible type
         public static const TYPE_PERFECT:int = 3;
@@ -29,6 +32,8 @@ package models {
                 this.pointValue = POINT_VALUE_OK;
             } else if (this.type == TYPE_MISS) {
                 this.pointValue = POINT_VALUE_MISS;
+            } else {
+                Util.assert(false);
             }
         }
     }
