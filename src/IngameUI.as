@@ -5,6 +5,7 @@ package {
 	import flash.utils.*;
 	import flash.events.*;
 	import com.greensock.TweenLite;
+	import models.*;
 	
 	/**
 	 * @author spotco
@@ -90,12 +91,12 @@ package {
 			var radius:Number = 50;			
 			_comboText.text = "×1";
 			_comboText.antiAliasType = "advanced";
-			_comboText.width = radius;
-			_comboText.height = radius;
+			_comboText.width = radius*2;
+			_comboText.height = radius*2;
 			_comboText.x = COMBO_CENTER_X - _comboText.width / 2;
 			_comboText.y = COMBO_CENTER_Y - _comboText.height / 2;
 			
-			format.size = 40;
+			format.size = 60;
 			format.align = "center";
 			format.color = 0xFFFFFF;
 			_comboText.defaultTextFormat = format;
@@ -111,59 +112,63 @@ package {
 			_hpbar_back.graphics.beginBitmapFill(Resource.RESC_HEALTHBAR_BACK.bitmapData);
 			_hpbar_back.graphics.drawRect(0, 0, Resource.RESC_HEALTHBAR_BACK.width, Resource.RESC_HEALTHBAR_BACK.height);
 			_hpbar_back.graphics.endFill();
-			
-			set_hp_bar_pct(0.25);
 		}
 		
 		private var _hpbar_back:Sprite = new Sprite();
 		private var _hpbar_fill:Sprite = new Sprite();
+		private var _prevPct:Number = 0;
 		public function set_hp_bar_pct(pct:Number):void {
-			_hpbar_fill.graphics.beginBitmapFill(Resource.RESC_HEALTHBAR_FILL.bitmapData);
-			_hpbar_fill.graphics.drawRect(0, 0, Resource.RESC_HEALTHBAR_FILL.width * pct, Resource.RESC_HEALTHBAR_FILL.height);
-			_hpbar_fill.graphics.endFill();
+			if (pct != _prevPct) {
+				_hpbar_fill.graphics.beginBitmapFill(Resource.RESC_HEALTHBAR_FILL.bitmapData);
+				_hpbar_fill.graphics.drawRect(0, 0, Resource.RESC_HEALTHBAR_FILL.width * pct, Resource.RESC_HEALTHBAR_FILL.height);
+				_hpbar_fill.graphics.endFill();
+				_prevPct = pct;
+			}
 		}
 		
 		public function updateScore(pointValue:int):void {
 			_currentScore += pointValue * _currentCombo;
 			
-			var score:String = "00000000" + _currentScore;
-    		score = score.substr(score.length - 8); //Make sure 8 digits are always displayed
+			var score:String = "0000000000" + _currentScore;
+    		score = score.substr(score.length - 10); //Make sure 10 digits are always displayed
 	
 			_scoreText.text = score;
 		}
 		
 		public function updateComboMultiplier(comboMultiplier:int):void {
-			_currentCombo = comboMultiplier;
-			_comboText.text = "×" + _currentCombo.toString();
-			
-			var ghostComboText:TextField = new TextField();
-			ghostComboText.x = _comboText.x;
-			ghostComboText.y = _comboText.y - 100;
-			ghostComboText.width = _comboText.width;
-			ghostComboText.height = _comboText.height;
-			ghostComboText.antiAliasType = "advanced";
-			ghostComboText.text = _comboText.text;
-			ghostComboText.alpha = 0;
-			
-			var format:TextFormat = new TextFormat();
-			format.size = 60;
-			format.align = "center";
-			format.color = 0xFFFFFF;
-			ghostComboText.defaultTextFormat = format;
-			ghostComboText.setTextFormat(format);
-			_comboText.parent.addChild(ghostComboText);
-			
-			TweenLite.to(ghostComboText, 0.3, {alpha:1, y:_comboText.y, onComplete:this.removeChild, onCompleteParams:[ghostComboText]});
+			if (_currentCombo != comboMultiplier) {
+				_currentCombo = comboMultiplier;
+				_comboText.text = "×" + _currentCombo;
+				
+				var ghostComboText:TextField = new TextField();
+				ghostComboText.x = _comboText.x;
+				ghostComboText.y = _comboText.y - 150;
+				ghostComboText.width = _comboText.width;
+				ghostComboText.height = _comboText.height;
+				ghostComboText.antiAliasType = "advanced";
+				ghostComboText.text = _comboText.text;
+				ghostComboText.alpha = 0;
+				
+				var format:TextFormat = new TextFormat();
+				format.size = 60;
+				format.align = "center";
+				format.color = 0xFFFFFF;
+				ghostComboText.defaultTextFormat = format;
+				ghostComboText.setTextFormat(format);
+				_comboText.parent.addChild(ghostComboText);
+				
+				TweenLite.to(ghostComboText, 0.3, {alpha:1, y:_comboText.y, onComplete:ghostComboText.parent.removeChild, onCompleteParams:[ghostComboText]});
+			}
 		}
 		
 		public function resetComboMultiplier():void {
 			_currentCombo = 1;
-			_comboText.text = "×" + _currentCombo.toString();
+			_comboText.text = "×" + _currentCombo;
 		}
 		
 		public function updateHealth(health:Number):void {
 			// Max possible value is stored at Song.MAX_HEALTH
-			
+			set_hp_bar_pct(health / Song.MAX_HEALTH);
 		}
 		
 		public function update(game:S3DGameEngine):void {
