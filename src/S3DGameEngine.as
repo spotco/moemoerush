@@ -193,7 +193,7 @@ package  {
 			if (tar_side != "") {
 				if (hit_result != null) {
 					
-					var ttest:UIParticle = new FlyupTextParticle(Util.WID*0.225, Util.HEI-50, ""+Math.floor(((.07 * _song.combo + 1) * hit_result.pointValue)), 50);
+					var ttest:UIParticle = new FlyupTextParticle(Util.WID-65, Util.HEI*0.83, ""+Math.floor(((.07 * _song.combo + 1) * hit_result.pointValue)), 50);
 					_ui_particles.push(ttest);
 					_stage.addChild(ttest);
 					

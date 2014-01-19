@@ -11,7 +11,7 @@ package uiparticle {
 			this.y = y;
 			_ct= duration;
 			_ct_max = duration;
-			TextRenderer.render_text(this.graphics, text, 0, 0, 25);
+			TextRenderer.render_text(this.graphics, text, 0, 0, 25, 0x00FF00);
 		}
 		
 		public override function update(game:S3DGameEngine):void{

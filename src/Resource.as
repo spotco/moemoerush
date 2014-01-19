@@ -5,6 +5,10 @@ package  {
 	public class Resource {
 		
 		//ui
+		[Embed( source = "../resc/ui/combotoast.png" )]
+		private static var IMPORT_COMBOTOAST:Class;
+		public static var RESC_COMBOTOAST:Bitmap = new IMPORT_COMBOTOAST as Bitmap;
+		
 		[Embed( source = "../resc/ui/healthbar_back.png" )]
 		private static var IMPORT_HEALTHBAR_BACK:Class;
 		public static var RESC_HEALTHBAR_BACK:Bitmap = new IMPORT_HEALTHBAR_BACK as Bitmap;

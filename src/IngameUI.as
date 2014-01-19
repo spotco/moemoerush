@@ -6,6 +6,7 @@ package {
 	import flash.utils.*;
 	import flash.events.*;
 	import com.greensock.TweenLite;
+	import models.*;
 	
 	/**
 	 * @author spotco
@@ -28,56 +29,25 @@ package {
 		private var COMBO_CENTER_Y:Number = 350;
 		
 		public function IngameUI(stage:Stage) {
-			/*
-			var hpBackground:Sprite = new Sprite();
-			var hpBackgroundWidth:Number = 500;
-			var hpBackgroundHeight:Number = 45;
-			var hpBackgroundTopY:Number = 455;
-			var hpBackgroundCenterX:Number = 600;
-			var hpBackgroundOffsetShear:Number = 50;
-			
-			var gradientMatrix:Matrix = new Matrix();
-			gradientMatrix.createGradientBox(hpBackgroundWidth, hpBackgroundHeight, 0, hpBackgroundWidth / 2, 0);
-			hpBackground.graphics.beginGradientFill(GradientType.LINEAR, [0xf2bd36, 0xfff717], [1, 1], [0, 255], gradientMatrix);
-			hpBackground.graphics.drawTriangles(Vector.<Number>([hpBackgroundCenterX - hpBackgroundWidth/2 + hpBackgroundOffsetShear, hpBackgroundTopY, hpBackgroundCenterX - hpBackgroundWidth/2, hpBackgroundTopY + hpBackgroundHeight, hpBackgroundCenterX + hpBackgroundWidth/2 + hpBackgroundOffsetShear, hpBackgroundTopY]));
-			hpBackground.graphics.drawTriangles(Vector.<Number>([hpBackgroundCenterX - hpBackgroundWidth/2, hpBackgroundTopY + hpBackgroundHeight, hpBackgroundCenterX + hpBackgroundWidth/2, hpBackgroundTopY + hpBackgroundHeight, hpBackgroundCenterX + hpBackgroundWidth/2 + hpBackgroundOffsetShear, hpBackgroundTopY]));
-			hpBackground.graphics.beginFill(0xffffff);
-			var hpSizeOffset:Number = 20;
-			hpBackgroundTopY += hpSizeOffset/2.0;
-			hpBackground.graphics.drawTriangles(Vector.<Number>([hpBackgroundCenterX - (hpBackgroundWidth - hpSizeOffset)/2 + hpBackgroundOffsetShear, hpBackgroundTopY, hpBackgroundCenterX - (hpBackgroundWidth - hpSizeOffset*3)/2, hpBackgroundTopY + (hpBackgroundHeight - hpSizeOffset), hpBackgroundCenterX + (hpBackgroundWidth - hpSizeOffset*3)/2 + hpBackgroundOffsetShear, hpBackgroundTopY]));
-			hpBackground.graphics.drawTriangles(Vector.<Number>([hpBackgroundCenterX - (hpBackgroundWidth - hpSizeOffset*3)/2, hpBackgroundTopY + (hpBackgroundHeight - hpSizeOffset), hpBackgroundCenterX + (hpBackgroundWidth - hpSizeOffset)/2, hpBackgroundTopY + (hpBackgroundHeight - hpSizeOffset), hpBackgroundCenterX + (hpBackgroundWidth - hpSizeOffset*3)/2 + hpBackgroundOffsetShear, hpBackgroundTopY]));
-			stage.addChild(hpBackground);
-			
-			var scoreBackground:Sprite = new Sprite();
-			var scoreBackgroundWidth:Number = 300;
-			var scoreBackgroundHeight:Number = 45;
-			var scoreBackgroundTopY:Number = 455;
-			var scoreBackgroundCenterX:Number = 150;
-			
-			gradientMatrix.createGradientBox(scoreBackgroundWidth, scoreBackgroundHeight, 0, scoreBackgroundWidth / 2, 0);
-			scoreBackground.graphics.beginGradientFill(GradientType.LINEAR, [0xff14de, 0xf2b1e1], [1, 1], [0, 150], gradientMatrix);
-			scoreBackground.graphics.drawRoundRect(0, 500 - scoreBackgroundHeight, scoreBackgroundWidth, scoreBackgroundHeight, 10);
-			scoreBackground.graphics.beginFill(0xffffff);
-			scoreBackground.graphics.drawRoundRect(6, 500 - scoreBackgroundHeight + 6, scoreBackgroundWidth - 12, scoreBackgroundHeight - 12, 10);
-			stage.addChild(scoreBackground);
-			
-			_scoreGradient.graphics.beginGradientFill(GradientType.LINEAR, [0x63f963, 0x56b1f0], [1, 1], [0, 150], gradientMatrix);
-			_scoreGradient.graphics.drawRoundRect(7, 500 - scoreBackgroundHeight + 7, scoreBackgroundWidth - 14, scoreBackgroundHeight - 14, 10);
-			stage.addChild(_scoreGradient);
-			 */
-			
 			_scoreText.text = "0000";
-			_scoreText.x = 20;
-			_scoreText.y = 500 - 37;
+			_scoreText.x = Util.WID * 0.73;
+			_scoreText.y = Util.HEI * 0.83;
+			
 			_scoreText.width = 260;
 			_scoreText.height = 34;
 			
 			var format:TextFormat = new TextFormat();
-			format.size = 30;
+			format.size = 25;
 			format.align = "right";
+			format.font = "Game";
+			_scoreText.embedFonts = true;
 			_scoreText.defaultTextFormat = format;
 			_scoreText.setTextFormat(format);
 			stage.addChild(_scoreText);
+			
+			Resource.RESC_COMBOTOAST.x = Util.WID*0;
+			Resource.RESC_COMBOTOAST.y = Util.HEI*0.83;
+			stage.addChild(Resource.RESC_COMBOTOAST);
 			
 			var radius:Number = 50;			
 			_comboText.text = "×1";
@@ -85,9 +55,11 @@ package {
 			_comboText.autoSize = TextFieldAutoSize.CENTER;
 			_comboText.width = radius;
 			_comboText.height = radius;
+			_comboText.embedFonts = true;
 			_comboText.x = COMBO_CENTER_X - _comboText.width / 2;
-			_comboText.y = COMBO_CENTER_Y - _comboText.height / 2;
+			_comboText.y = Util.HEI*0.93;
 			
+			format.size = 60;
 			format.align = "center";
 			format.color = 0xFFFFFF;
 			_comboText.defaultTextFormat = format;
@@ -103,9 +75,6 @@ package {
 			_hpbar_back.graphics.beginBitmapFill(Resource.RESC_HEALTHBAR_BACK.bitmapData);
 			_hpbar_back.graphics.drawRect(0, 0, Resource.RESC_HEALTHBAR_BACK.width, Resource.RESC_HEALTHBAR_BACK.height);
 			_hpbar_back.graphics.endFill();
-			
-			_hpbar_back_tar_y = _hpbar_back.y;
-			set_hp_bar_pct(1);
 		}
 		
 		//0.9 -> 0.04
@@ -115,8 +84,6 @@ package {
 		public function set_hp_bar_pct(pct:Number):void {
 			var real:Number = Resource.RESC_HEALTHBAR_FILL.width * (1-pct);
 			
-			
-			
 			_hpbar_fill.graphics.clear();
 			_hpbar_fill.graphics.beginBitmapFill(Resource.RESC_HEALTHBAR_FILL.bitmapData);
 			_hpbar_fill.graphics.drawRect(real, 0, Resource.RESC_HEALTHBAR_FILL.width * 0.9 - real, Resource.RESC_HEALTHBAR_FILL.height);
@@ -124,13 +91,43 @@ package {
 		}
 		
 		public function updateScore(pointValue:int):void {
-			_currentScore = pointValue;
-			_scoreText.text = _currentScore.toString();
+			_currentScore += pointValue * _currentCombo;
+			
+			var score:String = "0000000000" + _currentScore;
+    		score = score.substr(score.length - 10); //Make sure 10 digits are always displayed
+	
+			_scoreText.text = score;
 		}
 		
 		public function updateComboMultiplier(comboMultiplier:int):void {
-			_currentCombo = comboMultiplier;
-			_comboText.text = "×" + _currentCombo.toString();
+			if (_currentCombo != comboMultiplier) {
+				_currentCombo = comboMultiplier;
+				_comboText.text = "×" + _currentCombo;
+				
+				var ghostComboText:TextField = new TextField();
+				ghostComboText.x = _comboText.x;
+				ghostComboText.y = _comboText.y - 150;
+				ghostComboText.width = _comboText.width;
+				ghostComboText.height = _comboText.height;
+				ghostComboText.antiAliasType = "advanced";
+				ghostComboText.text = _comboText.text;
+				ghostComboText.alpha = 0;
+				
+				var format:TextFormat = new TextFormat();
+				format.size = 60;
+				format.align = "center";
+				format.color = 0xFFFFFF;
+				ghostComboText.defaultTextFormat = format;
+				ghostComboText.setTextFormat(format);
+				_comboText.parent.addChild(ghostComboText);
+				
+				TweenLite.to(ghostComboText, 0.3, {alpha:1, y:_comboText.y, onComplete:ghostComboText.parent.removeChild, onCompleteParams:[ghostComboText]});
+			}
+		}
+		
+		public function resetComboMultiplier():void {
+			_currentCombo = 1;
+			_comboText.text = "×" + _currentCombo;
 		}
 		
 		private var _last_hpval:Number = 0;
@@ -140,8 +137,7 @@ package {
 				_hpbar_back.y -= 15;
 			}
 			_last_hpval = health*1.0 / Song.MAX_HEALTH;
-			this.set_hp_bar_pct(_last_hpval);
-			
+			this.set_hp_bar_pct(_last_hpval);			
 		}
 		
 		public function update(game:S3DGameEngine):void {
