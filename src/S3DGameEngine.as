@@ -1,4 +1,5 @@
 package  {
+	import flash.geom.Vector3D;
 	import flash.display.Stage;
 	import gameobjects.*;
 	import flash.ui.Keyboard;
@@ -31,7 +32,7 @@ package  {
 			_renderer._camera._look_at_target.z = 0;
 			
 			_sky_fill = new S3DObj(_renderer._context, Resource.RESC_SKY);
-			_sky_fill.set_position(0, -60, -261);
+			_sky_fill.set_position(0, -40, -261);
 			_sky_fill.set_anchor_point(0.5, 0);
 			_sky_fill._scale = 290;
 			_sky_fill.update_vertex(0, S3DObj.I_ELE_X, -1.2);
@@ -42,7 +43,7 @@ package  {
 			_layer_bg.push(_sky_fill);
 			
 			_ground_fill = new S3DObj(renderer._context, Resource.RESC_GROUND_FILL);
-			_ground_fill.set_position(0, 15, -200);
+			_ground_fill.set_position(0, 10, -200);
 			_ground_fill.set_anchor_point(0.5, 1);
 			_ground_fill._scale = 600;
 			_layer_bg.push(_ground_fill);
@@ -52,7 +53,7 @@ package  {
 			_ground._scale = 30;
 			_ground._rotation_x = -85;
 			_ground.set_anchor_point(0.5, 0.5);
-			_ground.extend_y(6);
+			_ground.extend_y(15);
 			_ground._shader = S3DObj.REPEAT_SHADER;
 			_layer_bg.push(_ground);
 			
@@ -70,15 +71,6 @@ package  {
 			
 			_stage.addChild(_player);
 			_player.init();
-		}
-		
-		private var _unused_enemy_pool:Vector.<BaseEnemy> = new Vector.<BaseEnemy>();
-		public function enemy_pool_get():BaseEnemy {
-			if (_unused_enemy_pool.length == 0) _unused_enemy_pool.push(new BaseEnemy(_renderer._context));
-			return _unused_enemy_pool.pop();
-		}
-		public function enemy_pool_put(t:BaseEnemy):void {
-			//TODO
 		}
 		
 		public var _last_time:Number = NaN;
@@ -102,6 +94,16 @@ package  {
 			_player.update(this);
 			if (KB.is_key_down(Keyboard.LEFT) && !_last_left) {
 				_player.push_tmp_anim(_player.ANIM_PUNCH_LEFT, 10);
+				//var enemyResult:EnemyResult = currentSong.markEnemy(currentTime, Enemy.SIDE_LEFT);
+				//enemyResult.type <-- the type
+				//enemyResult.pointValue <-- how many points the user gets, in case you wanted to have that literal number show up on the screen somewhere
+				
+				for each (var itr_enemy:BaseEnemy in _enemies) {
+					if (itr_enemy._side == BaseEnemy.SIDE_LEFT && Util.vec_dist(BaseEnemy.POS_LEFT_HIT, new Vector3D(itr_enemy._x, itr_enemy._y, itr_enemy._z)) < 7) {
+						itr_enemy.force_remove();
+						trace("punch!");
+					}
+				}
 				
 			} else if (KB.is_key_down(Keyboard.RIGHT) && !_last_right) {
 				_player.push_tmp_anim(_player.ANIM_PUNCH_RIGHT, 10);
@@ -112,7 +114,7 @@ package  {
 			}
 			_last_left = KB.is_key_down(Keyboard.LEFT);
 			_last_right = KB.is_key_down(Keyboard.RIGHT);
-			_last_top = KB.is_key_down(Keyboard.UP)
+			_last_top = KB.is_key_down(Keyboard.UP);
 			
 			_test_ct++;
 			if (_test_ct%30==0) {
@@ -130,9 +132,15 @@ package  {
 				dec.update(this);
 			}
 			
-			for each (var enemy:BaseEnemy in _enemies) {
-				_layer_objects.push(enemy);
-				enemy.update(this);
+			for (var i_enemy:int = _enemies.length-1; i_enemy >= 0; i_enemy--) {
+				var itr_enemy:BaseEnemy = _enemies[i_enemy];
+				itr_enemy.update(this);
+				if (itr_enemy.should_remove()) {
+					itr_enemy.do_remove();
+					_enemies.splice(i_enemy, 1);
+				} else {
+					_layer_objects.push(itr_enemy);
+				}
 			}
 			
 			_layer_objects.sort(function(a:S3DObj, b:S3DObj):Number {
