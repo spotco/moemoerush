@@ -11,31 +11,15 @@ package {
 	public class S3DRenderer {
 		
 		public var _stage:Stage;
-		
-		public function init(stage:Stage):void {
-			_stage = stage;
-			_stage.stage3Ds[0].addEventListener( Event.CONTEXT3D_CREATE, init3d ); 
-			_stage.stage3Ds[0].requestContext3D();
-		}
-		
 		public var _context:Context3D;
 		public var _camera:S3DCamera;
 		public var _layers:Vector.<Vector.<S3DObj>> = new Vector.<Vector.<S3DObj>>();
 		
-		public var _on_init:Function = function():void { };
-		
-		public function init3d(e:Event):void {
-			_context = _stage.stage3Ds[0].context3D;
-			_context.configureBackBuffer(1000, 500, 1);
-			
-			_context.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
-			_context.enableErrorChecking = true;
-			_context.setCulling(Context3DTriangleFace.BACK);
-			
+		public function init(stage:Stage, context:Context3D):void {
+			_context = context;
+			_stage = stage;
 			_camera = new S3DCamera(_stage.stageWidth / _stage.stageHeight);
-			_camera.set_position(0, 0, 1);		
-			
-			_on_init();
+			_camera.set_position(0, 0, 1);
 		}		
 
 		private static var output_matrix:Matrix3D = new Matrix3D();

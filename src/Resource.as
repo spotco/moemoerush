@@ -5,19 +5,19 @@ package  {
 	public class Resource {
 		
 		//intro
-		[Embed( source = "../resc/intro/intro_0.png" )]
+		[Embed( source = "../resc/intro/intro_0.jpg" )]
 		private static var IMPORT_INTRO_0:Class;
 		public static var RESC_INTRO_0:Bitmap = new IMPORT_INTRO_0 as Bitmap;
 		
-		[Embed( source = "../resc/intro/intro_1.png" )]
+		[Embed( source = "../resc/intro/intro_1.jpg" )]
 		private static var IMPORT_INTRO_1:Class;
 		public static var RESC_INTRO_1:Bitmap = new IMPORT_INTRO_1 as Bitmap;
 		
-		[Embed( source = "../resc/intro/intro_2.png" )]
+		[Embed( source = "../resc/intro/intro_2.jpg" )]
 		private static var IMPORT_INTRO_2:Class;
 		public static var RESC_INTRO_2:Bitmap = new IMPORT_INTRO_2 as Bitmap;
 		
-		[Embed( source = "../resc/intro/intro_3.png" )]
+		[Embed( source = "../resc/intro/intro_3.jpg" )]
 		private static var IMPORT_INTRO_3:Class;
 		public static var RESC_INTRO_3:Bitmap = new IMPORT_INTRO_3 as Bitmap;
 		
@@ -177,6 +177,14 @@ package  {
 		[Embed( source = "../resc/sfx/explosion.mp3" )]
 		private static var IMPORT_SFX_EXPLOSION:Class;
 		public static var RESC_SFX_EXPLOSION:Sound = new IMPORT_SFX_EXPLOSION as Sound;
+		
+		[Embed( source = "../resc/sfx/whatthehell.mp3" )]
+		private static var IMPORT_SFX_WHATTHEHELL:Class;
+		public static var RESC_SFX_WHATTHEHELL:Sound = new IMPORT_SFX_WHATTHEHELL as Sound;
+		
+		[Embed( source = "../resc/sfx/hai.mp3" )]
+		private static var IMPORT_SFX_HAI:Class;
+		public static var RESC_SFX_HAI:Sound = new IMPORT_SFX_HAI as Sound;
 		
         // Song Data
         // Songs we have available:
