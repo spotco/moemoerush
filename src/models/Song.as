@@ -175,6 +175,12 @@ package models {
             return null;
         }
 
+        public function markEnemyMiss(enemy:Enemy): EnemyResult {
+            var enemyResult:EnemyResult = new EnemyResult(EnemyResult.TYPE_MISS, enemy);
+            enemy.enemyResult = enemyResult;
+            return enemyResult;
+        }
+
         public function damageHealth(): void {
             this.playerHealth -= 1;
         }
@@ -191,12 +197,12 @@ package models {
         // Returns null if there are no timing points at all.
         public function getTimingPointForTime(time:int): TimingPoint {
             var mostRecentTimingPoint:TimingPoint = null;
-            for (var i:int = 0; i < timingPoints.length; i++) {
-                if (timingPoints[i].time <= time) {
-                    mostRecentTimingPoint = timingPoints[i];
+            for (var i:int = 0; i < savedTimingPoints.length; i++) {
+                if (savedTimingPoints[i].time <= time) {
+                    mostRecentTimingPoint = savedTimingPoints[i];
                 } else {
                     if (!mostRecentTimingPoint) {
-                        mostRecentTimingPoint = timingPoints[i];
+                        mostRecentTimingPoint = savedTimingPoints[i];
                     }
                     break;
                 }
