@@ -30,7 +30,7 @@ package misc {
 
       var initBPM:Number = 0;
 
-      for (var j:int = tpIndex, len2 = array.length; j < len2; j++) {
+      for (var j:int = tpIndex, len2:int = array.length; j < len2; j++) {
         if (array[j] == "") {
           break;
         }

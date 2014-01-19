@@ -22,6 +22,7 @@ package testsrc
           addTest(new TestModels("testEnemyConstructor"));
           addTest(new TestModels("testTimingPointConstructor"));
           // addTest(new TestMisc("testResourceAccess"));
+          // addTest(new TestStubModels("testStubConstruction"));
         }
     }
 }

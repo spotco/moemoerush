@@ -1,6 +1,7 @@
 package models {
 
     // TODO: Remove because this is only for debugging
+    import flash.media.Sound;
     import asunit.textui.ResultPrinter;
     import Util;
     import Math;
@@ -13,6 +14,7 @@ package models {
         public var title:String;
         public var artist:String;
         public var difficulty:int; // Between 1 and 10?? ahaha
+        public var music:Sound;
 
         public var savedTimingPoints:Array;
         public var savedEnemies:Array;
