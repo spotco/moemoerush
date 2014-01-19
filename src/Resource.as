@@ -155,14 +155,16 @@ package  {
 		
         // Song Data
         // Songs we have available:
-        // * days-of-dash (Insane)
+        // * days-of-dash (Normal)
         // * drop (Hard)
+        // * my-pace-de-ikimashou (Normal)
         // * scheol (Insane)
-		[Embed( source = "../resc/song/days-of-dash.mp3" )]
+        // * weed-circulation (Normal)
+		[Embed( source = "../resc/song/weed-circulation.mp3" )]
 		private static var IMPORT_SONG_MP3:Class;
 		public static var RESC_SONG_MP3:Sound = new IMPORT_SONG_MP3 as Sound;
 
-		[Embed( source = "../resc/song/days-of-dash.osu", mimeType="application/octet-stream")]
+		[Embed( source = "../resc/song/weed-circulation.osu", mimeType="application/octet-stream")]
 		private static var IMPORT_SONG_BEATMAP:Class;
 		public static var RESC_SONG_BEATMAP:String = (new IMPORT_SONG_BEATMAP as ByteArray).toString();
 	}
