@@ -2,7 +2,6 @@ package models {
 
     // TODO: Remove because this is only for debugging
     import flash.media.Sound;
-    import asunit.textui.ResultPrinter;
     import Util;
     import Math;
 
@@ -37,6 +36,28 @@ package models {
             this.savedEnemies = timingPoints.concat();
 
             this.playerHealth = MAX_HEALTH;
+
+            assignSides(this.enemies);
+            testInvariants();
+        }
+
+        // TODO: better patterns for side assignments
+        public function assignSides(enemies:Array): void {
+            Util.seedRandom(39);
+            for (var i:int = 0; i < enemies.length; i++) {
+                var sideId:int = ((Util.random() * 4) as int) % 4;
+                if (enemies[i].side < 0) {
+                    if (sideId == 0) {
+                        enemies[i].side = Enemy.SIDE_LEFT;
+                    } else if (sideId == 1) {
+                        enemies[i].side = Enemy.SIDE_RIGHT;
+                    } else if (sideId == 2) {
+                        enemies[i].side = Enemy.SIDE_UP;
+                    } else {
+                        enemies[i].side = Enemy.SIDE_DOWN;
+                    }
+                }
+            }
         }
 
         // Returns the first Enemy. Returns null if there are none.
@@ -84,16 +105,19 @@ package models {
             return results;
         }
 
-        // Creates and returns an EnemyResult and associates it with the Enemy nearest in time. Enemies that have already been marked are not considered.
-        // If there is no enemy near enough in time to be considered a reasonable association, returns null.
+        // Creates and returns an EnemyResult and associates it with the Enemy
+        // nearest in time. Enemies that have already been marked are not
+        // considered.  If there is no enemy near enough in time to be
+        // considered a reasonable association, returns null.
+        //
         // Arguments:
-        //     time: The moment in time that the press occurred.
+        //     time: The moment in time that the press occurred in Milliseconds.
         //     enemySide: The direction of enemy to attempt to mark. See Enemy.SIDE_*
-        public function markEnemy(time:Number, enemySide:int): EnemyResult {
+        public function markEnemy(time:Number, enemySide:String): EnemyResult {
             var applicableTimingPoint:TimingPoint = getTimingPointForTime(time);
 
-            // One quarter note - in seconds
-            var timeMargin:Number = applicableTimingPoint.getBPMAsMillisecondsPerBeat() / 1000;
+            // One quarter note - in milliseconds
+            var timeMargin:Number = applicableTimingPoint.getBPMAsMillisecondsPerBeat();
 
             // Find the two enemies on either side of the press time
             var frontEnemy:Enemy = null;
@@ -128,9 +152,8 @@ package models {
 
             if (markedEnemy) {
                 var timeDifference:Number = Math.abs(markedEnemy.time - time);
-                // TODO: Have more than just perfect.
                 var differenceRatio:Number = ( timeDifference / timeMargin);
-                var resultType:int = -1;
+                var resultType:String = null;
 
                 if (differenceRatio <= 0.33333) {
                     resultType = EnemyResult.TYPE_PERFECT;
@@ -172,6 +195,16 @@ package models {
                 }
             }
             return mostRecentTimingPoint;
+        }
+
+        public function testInvariants(): void {
+            for (var i:int = 0; i < enemies.length; i++) {
+                Util.assert(enemies[i].side != -1);
+            }
+
+            for (i = 0; i < timingPoints.length; i++) {
+                Util.assert(timingPoints[i].bpm > 0);
+            }
         }
     }
 }

@@ -40,10 +40,25 @@ package  {
 			return Math.random() * (max - min) + min;
 		}
 
-        public static function assert(expression:Boolean, description:String = ""):void
-        {
+        public static function assert(expression:Boolean, description:String = ""):void {
             if (!expression)
                 throw new Error("Assertion failed! " + description);
         }
-	}
+
+        public static var seed:int = 777;
+        public static const MAX_RATIO:Number = 1 / int.MAX_VALUE;
+        public static const MIN_MAX_RATIO:Number = -MAX_RATIO;
+
+        public static function seedRandom(seed:int):void {
+            Util.seed = seed;
+        }
+
+        public static function random():Number {
+           Util.seed ^= (Util.seed << 21);
+           Util.seed ^= (Util.seed >>> 35);
+           Util.seed ^= (Util.seed << 4);
+           if (Util.seed < 0) return Util.seed * MAX_RATIO;
+           return Util.seed * MIN_MAX_RATIO;
+        }
+    }
 }

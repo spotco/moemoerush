@@ -8,7 +8,8 @@ package misc
         public function AllTests()
         {
           super();
-          addTest(new TestSong("testParse"));
+          addTest(new TestParser("testParse1"));
+          addTest(new TestParser("testParse2"));
         }
     }
 }
