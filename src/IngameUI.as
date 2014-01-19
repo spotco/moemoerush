@@ -46,6 +46,7 @@ package {
 			format.size = 25;
 			format.align = "right";
 			format.font = "Game";
+			format.color = 0xFFFFFF;
 			_scoreText.embedFonts = true;
 			_scoreText.defaultTextFormat = format;
 			_scoreText.setTextFormat(format);

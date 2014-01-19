@@ -40,13 +40,14 @@ package  {
 		public var _big_combo_achieved:Boolean = false;
 		
 		private var _ingame_ui:IngameUI;
+		private var _cover:Sprite = new Sprite();
 		
 		public function init(stage:Stage, main:Main, renderer:S3DRenderer, song:Song):void {
 			_renderer = renderer;
 			_stage = stage;
 			_song = song;
             _main = main;
-			
+				
 			_renderer._layers.push(_layer_bg);
 			_renderer._layers.push(_layer_objects);
 			
@@ -136,6 +137,12 @@ package  {
 			_ingame_ui = new IngameUI(_stage);
 			
 			Resource.RESC_SFX_CROWD.play();
+			
+			
+			_cover.graphics.beginFill(0x000000);
+			_cover.graphics.drawRect(0, 0, Util.WID, Util.HEI);
+			_cover.graphics.endFill();
+			_stage.addChild(_cover);
 		}
 		
 		public var _start_time:Number = NaN;
@@ -343,6 +350,8 @@ package  {
                     }
                 }
             }
+			
+			_cover.visible = false;
         }
 
 		// Arguments:
