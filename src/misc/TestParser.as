@@ -4,6 +4,7 @@ package misc {
     import asunit.textui.ResultPrinter;
     import models.*;
     import misc.*;
+    import flash.utils.*;
 
     public class TestParser extends TestCase {
 
@@ -18,8 +19,15 @@ package misc {
             assertEquals(song.difficulty, 7);
             assertEquals(song.enemies.length, 402);
             assertEquals(song.timingPoints.length, 50);
+            assertEquals(song.timingPoints[0].time, 3954);
+            assertEquals(song.timingPoints[49].time, 249249);
+            assertEquals(song.timingPoints[0].bpm, 451.127819548872);
+            assertEquals(song.timingPoints[49].bpm, 451.127819548872);
+            assertEquals(song.timingPoints[0].beatsPerMeasure, 4);
+            assertEquals(song.timingPoints[49].beatsPerMeasure, 4);
             assertEquals(song.enemies[0].time, 3051);
             assertEquals(song.enemies[0].comboId, 0);
+            assertEquals(song.enemies[4].comboId, 0);
             assertEquals(song.enemies[5].comboId, 1);
             assertEquals(song.enemies[11].comboId, 2);
         }
