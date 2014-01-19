@@ -126,8 +126,6 @@ package  {
 				_song.music.play();
 				_music_has_started = true;
 			}
-            // TODO: remove debug
-            trace(_last_time);
 			
 			_player.update(this);
 			var tar_side:String = "";
