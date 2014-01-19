@@ -4,6 +4,22 @@ package  {
 	import flash.media.Sound;
 	public class Resource {
 		
+		[Embed( source = "../resc/car/car1.png" )]
+		private static var IMPORT_CAR1:Class;
+		public static var RESC_CAR1:Bitmap = new IMPORT_CAR1 as Bitmap;
+		
+		[Embed( source = "../resc/car/car2.png" )]
+		private static var IMPORT_CAR2:Class;
+		public static var RESC_CAR2:Bitmap = new IMPORT_CAR2 as Bitmap;
+		
+		[Embed( source = "../resc/car/car3.png" )]
+		private static var IMPORT_CAR3:Class;
+		public static var RESC_CAR3:Bitmap = new IMPORT_CAR3 as Bitmap;
+		
+		[Embed( source = "../resc/car/car4.png" )]
+		private static var IMPORT_CAR4:Class;
+		public static var RESC_CAR4:Bitmap = new IMPORT_CAR4 as Bitmap;
+		
 		//ui
 		[Embed( source = "../resc/ui/combotoast.png" )]
 		private static var IMPORT_COMBOTOAST:Class;

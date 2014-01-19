@@ -106,7 +106,17 @@ package  {
 				cur._x = (side_i % 2 == 0? -1:1)*Util.rand_range(25,45);
 				_decorations.push(cur);
 				_layer_objects.push(cur);
-				
+			}
+			
+			for (var i:Number = -0.2; i < 2; i += 0.333) {
+				var cur:TestDecoration = new TestDecoration(renderer._context, 
+					[Resource.RESC_CAR1,Resource.RESC_CAR2, Resource.RESC_CAR3,Resource.RESC_CAR4][side_i%4]
+				);
+				cur._t = i;
+				cur._x = side_i % 2 == 0? -3:3;
+				side_i++;
+				_decorations.push(cur);
+				_layer_objects.push(cur);
 			}
 			
 			// Time

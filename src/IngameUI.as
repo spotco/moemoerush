@@ -29,10 +29,9 @@ package {
 		private var COMBO_CENTER_Y:Number = 350;
 		
 		public function IngameUI(stage:Stage) {
-			_scoreText.text = "0000";
+			_scoreText.text = "00000000";
 			_scoreText.x = Util.WID * 0.73;
 			_scoreText.y = Util.HEI * 0.83;
-			
 			_scoreText.width = 260;
 			_scoreText.height = 34;
 			
@@ -53,13 +52,13 @@ package {
 			_comboText.text = "×1";
 			_comboText.antiAliasType = "advanced";
 			_comboText.autoSize = TextFieldAutoSize.CENTER;
-			_comboText.width = radius;
-			_comboText.height = radius;
+			_comboText.width = radius*2;
+			_comboText.height = radius*2;
 			_comboText.embedFonts = true;
 			_comboText.x = COMBO_CENTER_X - _comboText.width / 2;
 			_comboText.y = Util.HEI*0.93;
 			
-			format.size = 60;
+			format.size = 30;
 			format.align = "center";
 			format.color = 0xFFFFFF;
 			_comboText.defaultTextFormat = format;
@@ -80,7 +79,7 @@ package {
 		//0.9 -> 0.04
 		private var _hpbar_back:Sprite = new Sprite();
 		private var _hpbar_fill:Sprite = new Sprite();
-		private var _hpbar_back_tar_y:Number;
+		private var _hpbar_back_tar_y:Number = Util.HEI - Resource.RESC_HEALTHBAR_BACK.height;
 		public function set_hp_bar_pct(pct:Number):void {
 			var real:Number = Resource.RESC_HEALTHBAR_FILL.width * (1-pct);
 			
@@ -91,12 +90,7 @@ package {
 		}
 		
 		public function updateScore(pointValue:int):void {
-			_currentScore += pointValue * _currentCombo;
-			
-			var score:String = "0000000000" + _currentScore;
-    		score = score.substr(score.length - 10); //Make sure 10 digits are always displayed
-	
-			_scoreText.text = score;
+			_scoreText.text = pointValue + "";
 		}
 		
 		public function updateComboMultiplier(comboMultiplier:int):void {
