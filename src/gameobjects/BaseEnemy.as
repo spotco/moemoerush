@@ -1,4 +1,5 @@
 package gameobjects {
+	import flash.media.SoundTransform;
 	import com.adobe.utils.*;
 	import uiparticle.*;
 	import flash.display.*;
@@ -105,7 +106,7 @@ package gameobjects {
 				game._player.push_tmp_anim(game._player.ANIM_HIT, 30);
 				game._song.damageHealth();
 				Resource.RESC_SFX_EXPLOSION.play();
-                Resource.RESC_ITAI.play()
+                Resource.RESC_ITAI.play(0,0,new SoundTransform(0.4));
 				
 				var neu:UIParticle = new FadeoutUIParticle(game._player.x, game._player.y-126, 20, Resource.RESC_EFFECT_POW);
 				game._ui_particles.push(neu);
