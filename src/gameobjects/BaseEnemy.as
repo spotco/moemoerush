@@ -64,7 +64,7 @@ package gameobjects {
 			
 			var time_pct:Number = (game._last_time - this._spawn_time) / (this._end_time - this._spawn_time);
 			
-			if (time_pct >= 1.15) {
+            if (time_pct >= 1.15) {
 				_should_remove = true;
 			}
 			

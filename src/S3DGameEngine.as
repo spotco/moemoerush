@@ -4,8 +4,10 @@ package  {
 	import flash.display.Stage;
 	import gameobjects.*;
 	import flash.ui.Keyboard;
+    import models.*;
 	
 	public class S3DGameEngine {
+		public const TIME_BEFORE_SONG:int = 2000;
 		
 		public var _renderer:S3DRenderer;
 		public var _stage:Stage;
@@ -19,14 +21,18 @@ package  {
 		
 		private var _decorations:Vector.<TestDecoration> = new Vector.<TestDecoration>();
 		private var _enemies:Vector.<BaseEnemy> = new Vector.<BaseEnemy>();
-		
+
+		private var _music_has_started:Boolean = false;
+
+		private var _song:Song;
 		private var _ui_particles:Vector.<UIParticle> = new Vector.<UIParticle>();
 		
 		private var _ingame_ui:IngameUI;
 		
-		public function init(stage:Stage, renderer:S3DRenderer):void {
+		public function init(stage:Stage, renderer:S3DRenderer, song:Song):void {
 			_renderer = renderer;
 			_stage = stage;
+			_song = song;
 			
 			_renderer._layers.push(_layer_bg);
 			_renderer._layers.push(_layer_objects);
@@ -80,22 +86,29 @@ package  {
 				
 			}
 			
+			// Time
+			_start_time = (new Date()).getTime() + TIME_BEFORE_SONG;
+			_legit_start_time = 0;
 			update_dt();
 			
 			_stage.addChild(_player);
 			_player.init();
 			
 			_ingame_ui = new IngameUI(_stage);
+			
+			Resource.RESC_SFX_CROWD.play();
 		}
 		
+		public var _start_time:Number = NaN;
+		public var _legit_start_time:Number = NaN;
 		public var _last_time:Number = NaN;
 		public var _dt:Number = NaN;
 		public var _dt_scale:Number = NaN;
 		private function update_dt():void {
-			var cur_time:Number = (new Date()).getTime();
+			var cur_time:Number = ((new Date()).getTime() - _start_time - _legit_start_time);
 			_dt = cur_time - _last_time;
 			_dt_scale = _dt / 20;
-			_last_time = cur_time;
+			_last_time = cur_time ;
 		}
 		
 		private var _test_ct:Number = 0;
@@ -105,68 +118,65 @@ package  {
 		public function update():void {
 			update_dt();
 			if (isNaN(_dt)) return;
+
+			// Start the music if it has not been started yet
+			if (!_music_has_started && _last_time > 0) {
+				_legit_start_time = _last_time;
+				_song.music.play();
+				_music_has_started = true;
+			}
 			
 			_player.update(this);
-			
 			var tar_side:String = "";
 			var tar_vec:Vector3D = Vector3D.Z_AXIS.clone();
 			var particle_spawn_pos:Vector3D = tar_vec;
-			
+			var hit_result:EnemyResult = null;
+			// User input
 			if (KB.is_key_down(Keyboard.LEFT) && !_last_left) {
 				_player.push_tmp_anim(_player.ANIM_PUNCH_LEFT, 10);
-				//var enemyResult:EnemyResult = currentSong.markEnemy(currentTime, Enemy.SIDE_LEFT);
-				//enemyResult.type <-- the type
-				//enemyResult.pointValue <-- how many points the user gets, in case you wanted to have that literal number show up on the screen somewhere
 				
 				tar_side = BaseEnemy.SIDE_LEFT;
 				tar_vec = BaseEnemy.POS_LEFT_HIT;
 				particle_spawn_pos = new Vector3D(_player.x-100, _player.y - 140,0);
-				
+				hit_result = attack_enemy_on_side(particle_spawn_pos, Enemy.SIDE_LEFT);
+
 			} else if (KB.is_key_down(Keyboard.RIGHT) && !_last_right) {
 				_player.push_tmp_anim(_player.ANIM_PUNCH_RIGHT, 10);
 				
 				tar_side = BaseEnemy.SIDE_RIGHT;
 				tar_vec = BaseEnemy.POS_RIGHT_HIT;
 				particle_spawn_pos = new Vector3D(_player.x+100, _player.y - 140,0);
+				hit_result = attack_enemy_on_side(particle_spawn_pos, Enemy.SIDE_RIGHT);
 				
 			} else if (KB.is_key_down(Keyboard.UP) && !_last_top) {
 				_player.push_tmp_anim(_player.ANIM_PUNCH_TOP, 10);
 				tar_side = BaseEnemy.SIDE_TOP;
 				tar_vec = BaseEnemy.POS_TOP_HIT;
 				particle_spawn_pos = new Vector3D(_player.x, _player.y - 250 ,0);
+				hit_result = attack_enemy_on_side(particle_spawn_pos, Enemy.SIDE_UP);
 				
 			}
+			
+			if (tar_side != "") {
+				if (hit_result != null) {
+					Resource.RESC_SFX_HIT.play();
+				} else {
+					Resource.RESC_SFX_MISS.play();
+				}
+
+			}
+			
 			_last_left = KB.is_key_down(Keyboard.LEFT);
 			_last_right = KB.is_key_down(Keyboard.RIGHT);
 			_last_top = KB.is_key_down(Keyboard.UP);
 			
-			for each (var itr_enemy:BaseEnemy in _enemies) {
-				if (itr_enemy._side == tar_side && Util.vec_dist(tar_vec, new Vector3D(itr_enemy._x, itr_enemy._y, itr_enemy._z)) < 7) {
-					itr_enemy.force_remove();
-					for (var i:int = 0; i < 15; i++) {
-						var neu_dorito:UIParticle = (new RotatingGravityFadeoutUIParticle(
-							particle_spawn_pos.x, 
-							particle_spawn_pos.y, 
-							30, 
-							Resource.RESC_METAL_PARTICLE)
-						).set_velocity(Util.rand_range(-10, 10), Util.rand_range(-10, 1)).set_vr(Util.rand_range(-25, 25)).set_scale(Util.rand_range(0.2, 0.8));
-						_ui_particles.push(neu_dorito);
-						_stage.addChild(neu_dorito);
-					}
-					var neu_popup:UIParticle = new FlyUpFadeoutUIParticle(particle_spawn_pos.x, particle_spawn_pos.y - 40, 30, Resource.RESC_POPUP_EXCELLENT);
-					_ui_particles.push(neu_popup);
-					_stage.addChild(neu_popup);
-				}
-			}
-			
-			
-			_test_ct++;
-			if (_test_ct%30==0) {
-				_test_ct2++;
-				_enemies.push(new BaseEnemy(_renderer._context).init(_last_time, _last_time+4000, 
-					_test_ct2%3==2?BaseEnemy.SIDE_TOP:
-					(_test_ct2%3==1?BaseEnemy.SIDE_RIGHT:BaseEnemy.SIDE_LEFT)
-				));
+			// Generate new enemies
+			var newEnemies:Array = _song.popAllEnemiesBeforeMoment(_last_time + 4000);
+			for each (var enemy:Enemy in newEnemies) {
+				var side:String = enemy.sideAsBaseEnemySide();
+				var baseEnemy:BaseEnemy = new BaseEnemy(_renderer._context).init(_last_time, _last_time+4000, side);
+				enemy.baseEnemy = baseEnemy;
+				_enemies.push(baseEnemy);
 			}
 			
 			_layer_objects.length = 0;			
@@ -176,6 +186,7 @@ package  {
 				dec.update(this);
 			}
 			
+			var itr_enemy:BaseEnemy;
 			for (var i_enemy:int = _enemies.length-1; i_enemy >= 0; i_enemy--) {
 				itr_enemy = _enemies[i_enemy];
 				itr_enemy.update(this);
@@ -202,6 +213,39 @@ package  {
 			});
 			
 			_ingame_ui.update(this);
+		}
+
+		// Arguments:
+		//     particle_spawn_pos: A Vector3D object representing the coordinate to spawn particle effects from
+		//	   side: A Enemy.SIDE_* constant describing the side of the girl to attack an enemy on.
+		public function attack_enemy_on_side(particle_spawn_pos:Vector3D, side:String): EnemyResult {
+			var enemyResult:EnemyResult = _song.markEnemy(_last_time, side);
+			if (enemyResult) {
+				var baseEnemy:BaseEnemy = enemyResult.enemy.baseEnemy;
+				baseEnemy.force_remove();
+				spawn_death_effect(baseEnemy, particle_spawn_pos);
+			}
+			return enemyResult;
+		}
+
+		public function spawn_death_effect(enemy:BaseEnemy, particle_spawn_pos:Vector3D): void {
+			for (var i:int = 0; i < 15; i++) {
+				var neu_dorito:UIParticle = (new RotatingGravityFadeoutUIParticle(
+					particle_spawn_pos.x, 
+					particle_spawn_pos.y, 
+					30, 
+					Resource.RESC_METAL_PARTICLE)
+				).set_velocity(Util.rand_range(-10, 10), Util.rand_range(-10, 1)).set_vr(Util.rand_range(-25, 25)).set_scale(Util.rand_range(0.2, 0.8));
+				_ui_particles.push(neu_dorito);
+				_stage.addChild(neu_dorito);
+			}
+			var neu:UIParticle = new FadeoutUIParticle(particle_spawn_pos.x, particle_spawn_pos.y, 20, Resource.RESC_EFFECT_POW);
+			_ui_particles.push(neu);
+			_stage.addChild(neu);
+			
+			var neu_popup:UIParticle = new FlyUpFadeoutUIParticle(particle_spawn_pos.x, particle_spawn_pos.y - 40, 30, Resource.RESC_POPUP_EXCELLENT);
+			_ui_particles.push(neu_popup);
+			_stage.addChild(neu_popup);
 		}
 	}
 

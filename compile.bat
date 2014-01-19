@@ -1,1 +1,1 @@
-mxmlc -source-path=.\src .\src\Main.as -output .\Main.swf
+"C:\Program Files (x86)\FlashDevelop\Tools\fdbuild\fdbuild.exe" "C:\Users\Administrator\Programming\moemoerush\rhythmtest.as3proj" -ipc fbed002f-1453-4bd2-8258-90d055674d5f -version "4.6.0; 3.9" -compiler "C:\Program Files (x86)\FlashDevelop\Tools\flexsdk" -library "C:\Program Files (x86)\FlashDevelop\Library" -cp "C:\Flex\lukebayes-asunit-e2af845\as3"

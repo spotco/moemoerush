@@ -133,6 +133,20 @@ package  {
 		[Embed( source = "../resc/song/drop.osu", mimeType="application/octet-stream")]
 		private static var IMPORT_SONG_BEATMAP:Class;
 		public static var RESC_SONG_BEATMAP:String = new IMPORT_SONG_BEATMAP as String;
+		
+		//sfx
+		[Embed( source = "../resc/sfx/hit.mp3" )]
+		private static var IMPORT_SFX_HIT:Class;
+		public static var RESC_SFX_HIT:Sound = new IMPORT_SFX_HIT as Sound;
+		
+		[Embed( source = "../resc/sfx/crowd.mp3" )]
+		private static var IMPORT_SFX_CROWD:Class;
+		public static var RESC_SFX_CROWD:Sound = new IMPORT_SFX_CROWD as Sound;
+		
+		[Embed( source = "../resc/sfx/miss.mp3" )]
+		private static var IMPORT_SFX_MISS:Class;
+		public static var RESC_SFX_MISS:Sound = new IMPORT_SFX_MISS as Sound;
+		
 	}
 
 }

@@ -167,7 +167,7 @@ package testsrc {
             var timingPointThree:TimingPoint = new TimingPoint(8000, 100, 3);
             var song:Song = new Song("test", "test", 1, [], [timingPointOne, timingPointTwo, timingPointThree]);
 
-            assertEquals(song.getTimingPointForTime(0), null);
+            assertEquals(song.getTimingPointForTime(0), timingPointOne);
             assertEquals(song.getTimingPointForTime(5000), timingPointOne);
             assertEquals(song.getTimingPointForTime(5500), timingPointOne);
             assertEquals(song.getTimingPointForTime(6000), timingPointTwo);
