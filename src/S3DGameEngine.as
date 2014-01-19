@@ -153,10 +153,6 @@ package  {
 						_ui_particles.push(neu_dorito);
 						_stage.addChild(neu_dorito);
 					}
-					var neu:UIParticle = new FadeoutUIParticle(particle_spawn_pos.x, particle_spawn_pos.y, 20, Resource.RESC_EFFECT_POW);
-					_ui_particles.push(neu);
-					_stage.addChild(neu);
-					
 					var neu_popup:UIParticle = new FlyUpFadeoutUIParticle(particle_spawn_pos.x, particle_spawn_pos.y - 40, 30, Resource.RESC_POPUP_EXCELLENT);
 					_ui_particles.push(neu_popup);
 					_stage.addChild(neu_popup);

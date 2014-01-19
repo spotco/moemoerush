@@ -16,7 +16,6 @@ package {
 		
 		public function Main():void {
 			this.init();
-			trace("topkek");
 		}
 		
 		public function init():void {
