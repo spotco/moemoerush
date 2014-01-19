@@ -12,10 +12,10 @@ package misc {
 
             var array:Array = null;
             // I want to die
-            if (data.indexOf("\r")) {
-                array = data.split("\r\n");
-            } else {
+            if (data.indexOf("\r") == -1) {
                 array = data.split("\n");
+            } else {
+                array = data.split("\r\n");
 
             }
 
