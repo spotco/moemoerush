@@ -32,6 +32,31 @@ package  {
 		[Embed( source = "../resc/ui/healthbar_fill.png" )]
 		private static var IMPORT_HEALTHBAR_FILL:Class;
 		public static var RESC_HEALTHBAR_FILL:Bitmap = new IMPORT_HEALTHBAR_FILL as Bitmap;
+
+        // voice
+        [Embed( source = "../resc/voice/first_girl.mp3" )]
+        private static var IMPORT_FIRST_GIRL:Class;
+        public static var RESC_FIRST_GIRL:Sound = new IMPORT_FIRST_GIRL as Sound;
+
+        [Embed( source = "../resc/voice/girl_end.mp3" )]
+        private static var IMPORT_GIRL_END:Class;
+        public static var RESC_GIRL_END:Sound = new IMPORT_GIRL_END as Sound;
+
+        [Embed( source = "../resc/voice/iloveyoumommy.mp3" )]
+        private static var IMPORT_ILOVEYOUMOMMY:Class;
+        public static var RESC_ILOVEYOUMOMMY:Sound = new IMPORT_ILOVEYOUMOMMY as Sound;
+
+        [Embed( source = "../resc/voice/iloveyoumommy2.mp3" )]
+        private static var IMPORT_ILOVEYOUMOMMY_TWO:Class;
+        public static var RESC_ILOVEYOUMOMMY_TWO:Sound = new IMPORT_ILOVEYOUMOMMY_TWO as Sound;
+
+        [Embed( source = "../resc/voice/mayday.mp3" )]
+        private static var IMPORT_MAYDAY:Class;
+        public static var RESC_MAYDAY:Sound = new IMPORT_MAYDAY as Sound;
+
+        [Embed( source = "../resc/voice/sergeant.mp3" )]
+        private static var IMPORT_SERGEANT:Class;
+        public static var RESC_SERGEANT:Sound = new IMPORT_SERGEANT as Sound;
 		
 		//intro
 		[Embed( source = "../resc/intro/intro_0.jpg" )]

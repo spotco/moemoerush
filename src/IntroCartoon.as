@@ -42,7 +42,7 @@ package {
 			}
 			
 			//tmp
-			_i_frame = 9999;
+			// _i_frame = 9999;
 		}
 		
 		public function intro_cartoon_update(e:Event):void {
@@ -60,16 +60,18 @@ package {
 								
 						} else if (_i_frame == 1) {
 							Resource.RESC_SFX_CROWD.play(0,0,new SoundTransform(0.2));
-							Resource.RESC_SFX_HAI.play();
-							_anim_ct = 200;
+							// Resource.RESC_SFX_HAI.play();
+                            Resource.RESC_FIRST_GIRL.play();
+							_anim_ct = 400;
 							
 						} else if (_i_frame == 2) {
 							Resource.RESC_SFX_CROWD.play(0,0,new SoundTransform(0.5));
 							_anim_ct = 200;
 							
 						} else if (_i_frame == 3) {
-							Resource.RESC_SFX_WHATTHEHELL.play();
-							_anim_ct = 150;
+							// Resource.RESC_SFX_WHATTHEHELL.play();
+                            Resource.RESC_SERGEANT.play();
+							_anim_ct = 200;
 							
 						}
 						
