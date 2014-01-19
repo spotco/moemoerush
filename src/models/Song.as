@@ -6,6 +6,9 @@ package models {
     import Math;
 
     public class Song {
+        // TODO: Get this damn health code out of the song model
+        public static const MAX_HEALTH:int = 10;
+
         public var title:String;
         public var artist:String;
         public var difficulty:int; // Between 1 and 5
@@ -13,10 +16,12 @@ package models {
         public var enemies:Array;
         public var timingPoints:Array;
 
+        // In-game state fields:
         // TODO: Invariant checker for timeMargin.
         // The maximum time away from an Enemy time that an Enemy could qualify
         // for a marking
         public var timeMargin:int;
+        public var playerHealth:int;
 
         public function Song(title:String, artist:String, difficulty:int, enemies:Array, timingPoints:Array) {
             this.title = title;
@@ -24,6 +29,8 @@ package models {
             this.difficulty = difficulty;
             this.enemies = enemies;
             this.timingPoints = timingPoints;
+
+            this.playerHealth = MAX_HEALTH;
         }
 
         // Returns the first Enemy. Returns null if there are none.
@@ -118,6 +125,14 @@ package models {
             }
 
             return null;
+        }
+
+        public function damageHealth(): void {
+            this.playerHealth -= 1;
+        }
+
+        public function recoverHealth(): void {
+            this.playerHealth += 1;
         }
     }
 }

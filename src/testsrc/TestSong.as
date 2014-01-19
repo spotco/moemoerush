@@ -121,5 +121,16 @@ package testsrc {
             // A click where there is an enemy around that is too far away should return null
             assertEquals(song.markEnemy(7.9, Enemy.SIDE_LEFT), null);
         }
+
+        public function testHealth():void {
+            var song:Song = new Song("test", "test", 1, [], []);
+            assertEquals(song.playerHealth, Song.MAX_HEALTH);
+            song.damageHealth();
+            assertEquals(song.playerHealth, Song.MAX_HEALTH - 1);
+            song.damageHealth();
+            assertEquals(song.playerHealth, Song.MAX_HEALTH - 2);
+            song.recoverHealth();
+            assertEquals(song.playerHealth, Song.MAX_HEALTH - 1);
+        }
     }
 }
