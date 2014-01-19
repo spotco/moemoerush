@@ -1,5 +1,6 @@
 package  {
 	import flash.display.Bitmap;
+    import flash.utils.ByteArray;
 	import flash.media.Sound;
 	public class Resource {
 		
@@ -117,22 +118,11 @@ package  {
 		[Embed( source = "../resc/girl/punch_up_0.png" )]
 		private static var IMPORT_GIRL_PUNCH_UP_0:Class;
 		public static var RESC_GIRL_PUNCH_UP_0:Bitmap = new IMPORT_GIRL_PUNCH_UP_0 as Bitmap;
-
 	
 		//enemies
 		[Embed( source = "../resc/enemies/copter_0.png" )]
 		private static var IMPORT_COPTER_0:Class;
 		public static var RESC_COPTER_0:Bitmap = new IMPORT_COPTER_0 as Bitmap;	
-
-
-        // Song Data
-		[Embed( source = "../resc/song/drop.mp3" )]
-		private static var IMPORT_SONG_MP3:Class;
-		public static var RESC_SONG_MP3:Sound = new IMPORT_SONG_MP3 as Sound;
-
-		[Embed( source = "../resc/song/drop.osu", mimeType="application/octet-stream")]
-		private static var IMPORT_SONG_BEATMAP:Class;
-		public static var RESC_SONG_BEATMAP:String = new IMPORT_SONG_BEATMAP as String;
 		
 		//sfx
 		[Embed( source = "../resc/sfx/hit.mp3" )]
@@ -147,6 +137,17 @@ package  {
 		private static var IMPORT_SFX_MISS:Class;
 		public static var RESC_SFX_MISS:Sound = new IMPORT_SFX_MISS as Sound;
 		
+        // Song Data
+        // Songs we have available:
+        // * drop
+        // * scheol
+		[Embed( source = "../resc/song/scheol.mp3" )]
+		private static var IMPORT_SONG_MP3:Class;
+		public static var RESC_SONG_MP3:Sound = new IMPORT_SONG_MP3 as Sound;
+
+		[Embed( source = "../resc/song/scheol.osu", mimeType="application/octet-stream")]
+		private static var IMPORT_SONG_BEATMAP:Class;
+		public static var RESC_SONG_BEATMAP:String = (new IMPORT_SONG_BEATMAP as ByteArray).toString();
 	}
 
 }

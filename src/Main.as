@@ -8,6 +8,7 @@ package {
 	import flash.utils.*;
 	import flash.ui.Keyboard;
     import models.*;
+    import misc.*;
     import testsrc.StubModels;
 	
 	 [SWF(width="1000", height="500", frameRate="60", backgroundColor="#FFFFFF")]
@@ -21,8 +22,8 @@ package {
 		}
 		
 		public function init():void {
-            var stubModels:StubModels = new StubModels();
-            var song:Song = stubModels.song;
+            var song:Song = BeatMapParser.parseBeatmapFile(Resource.RESC_SONG_BEATMAP);
+            song.music = Resource.RESC_SONG_MP3;
 
             var self:Main = this;
             new KB(stage);
