@@ -4,6 +4,32 @@ package  {
 	import flash.media.Sound;
 	public class Resource {
 		
+		//ui
+		[Embed( source = "../resc/ui/healthbar_back.png" )]
+		private static var IMPORT_HEALTHBAR_BACK:Class;
+		public static var RESC_HEALTHBAR_BACK:Bitmap = new IMPORT_HEALTHBAR_BACK as Bitmap;
+		
+		[Embed( source = "../resc/ui/healthbar_fill.png" )]
+		private static var IMPORT_HEALTHBAR_FILL:Class;
+		public static var RESC_HEALTHBAR_FILL:Bitmap = new IMPORT_HEALTHBAR_FILL as Bitmap;
+		
+		//intro
+		[Embed( source = "../resc/intro/intro_0.jpg" )]
+		private static var IMPORT_INTRO_0:Class;
+		public static var RESC_INTRO_0:Bitmap = new IMPORT_INTRO_0 as Bitmap;
+		
+		[Embed( source = "../resc/intro/intro_1.jpg" )]
+		private static var IMPORT_INTRO_1:Class;
+		public static var RESC_INTRO_1:Bitmap = new IMPORT_INTRO_1 as Bitmap;
+		
+		[Embed( source = "../resc/intro/intro_2.jpg" )]
+		private static var IMPORT_INTRO_2:Class;
+		public static var RESC_INTRO_2:Bitmap = new IMPORT_INTRO_2 as Bitmap;
+		
+		[Embed( source = "../resc/intro/intro_3.jpg" )]
+		private static var IMPORT_INTRO_3:Class;
+		public static var RESC_INTRO_3:Bitmap = new IMPORT_INTRO_3 as Bitmap;
+		
 		//decorations
 		[Embed( source = "../resc/ground.png" )]
 		private static var IMPORT_GROUND:Class;
@@ -139,6 +165,18 @@ package  {
 		[Embed( source = "../resc/enemies/copter_0.png" )]
 		private static var IMPORT_COPTER_0:Class;
 		public static var RESC_COPTER_0:Bitmap = new IMPORT_COPTER_0 as Bitmap;	
+
+		[Embed( source = "../resc/enemies/jet_fighter_0.png" )]
+		private static var IMPORT_JET_FIGHTER_0:Class;
+		public static var RESC_JET_FIGHTER_0:Bitmap = new IMPORT_JET_FIGHTER_0 as Bitmap;	
+
+		[Embed( source = "../resc/enemies/nuke_0.png" )]
+		private static var IMPORT_NUKE_0:Class;
+		public static var RESC_NUKE_0:Bitmap = new IMPORT_NUKE_0 as Bitmap;	
+
+		[Embed( source = "../resc/enemies/parachute_guy_0.png" )]
+		private static var IMPORT_PARACHUTE_GUY_0:Class;
+		public static var RESC_PARACHUTE_GUY_0:Bitmap = new IMPORT_PARACHUTE_GUY_0 as Bitmap;	
 		
 		//sfx
 		[Embed( source = "../resc/sfx/hit.mp3" )]
@@ -160,6 +198,14 @@ package  {
 		[Embed( source = "../resc/sfx/explosion.mp3" )]
 		private static var IMPORT_SFX_EXPLOSION:Class;
 		public static var RESC_SFX_EXPLOSION:Sound = new IMPORT_SFX_EXPLOSION as Sound;
+		
+		[Embed( source = "../resc/sfx/whatthehell.mp3" )]
+		private static var IMPORT_SFX_WHATTHEHELL:Class;
+		public static var RESC_SFX_WHATTHEHELL:Sound = new IMPORT_SFX_WHATTHEHELL as Sound;
+		
+		[Embed( source = "../resc/sfx/hai.mp3" )]
+		private static var IMPORT_SFX_HAI:Class;
+		public static var RESC_SFX_HAI:Sound = new IMPORT_SFX_HAI as Sound;
 		
         // Song Data
         // Songs we have available:

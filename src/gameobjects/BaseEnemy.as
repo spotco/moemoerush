@@ -18,6 +18,12 @@ package gameobjects {
 		public static var POS_LEFT_HIT:Vector3D = new Vector3D(-2,5,0);
 		public static var POS_RIGHT_HIT:Vector3D = new Vector3D(2,5,0);
 		public static var POS_TOP_HIT:Vector3D = new Vector3D(0,9,0);
+
+        public static const TYPE_EXAMPLE_FOR_TEST_PURPOSES:String = "TYPE_EXAMPLE_FOR_TEST_PURPOSES";
+        public static const TYPE_HELICOPTER:String = "TYPE_HELICOPTER";
+        public static const TYPE_JET_FIGHTER:String = "TYPE_JET_FIGHTER";
+        public static const TYPE_PARACHUTE_GUY:String = "TYPE_PARACHUTE_GUY";
+        public static const TYPE_NUKE:String = "TYPE_NUKE";
 		
 		public var _spawn_time:Number;
 		public var _end_time:Number;
@@ -31,9 +37,28 @@ package gameobjects {
 		public var _enemy:Enemy;
 		public var _side:String;
 		
-		public function BaseEnemy(context:Context3D) {
-			super(context,Resource.RESC_COPTER_0);
+		public function BaseEnemy(context:Context3D, type:String) {
+            var bitmapResource:Bitmap = null;
+            if (type == TYPE_HELICOPTER) {
+                bitmapResource = Resource.RESC_COPTER_0;
+            } else if (type == TYPE_JET_FIGHTER) {
+                bitmapResource = Resource.RESC_JET_FIGHTER_0;
+            } else if (type == TYPE_NUKE) {
+                bitmapResource = Resource.RESC_NUKE_0;
+            } else if (type == TYPE_PARACHUTE_GUY) {
+                bitmapResource = Resource.RESC_PARACHUTE_GUY_0;
+            }
+            super(context, bitmapResource);
+
 		}
+
+        public function flip(): void {
+            update_vertex(0, S3DObj.I_ELE_U, 1);
+            update_vertex(1, S3DObj.I_ELE_U, 1);
+            update_vertex(2, S3DObj.I_ELE_U, 0);
+            update_vertex(3, S3DObj.I_ELE_U, 0);
+            upload_vertex_uv_buffers();
+        }
 		
 		public function init(cur_time:Number, end_time:Number, side:String):BaseEnemy {
 			this._scale = Util.rand_range(5,6);
@@ -54,6 +79,9 @@ package gameobjects {
 			this._side = side;
 			
 			this.set_position(_pos_start.x, _pos_start.y, _pos_start.z);
+            if(_pos_start.x < 0) {
+                flip();
+            }
 			this.set_anchor_point(0.5, 0.5);
 			
 			_spawn_time = cur_time;

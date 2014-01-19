@@ -17,23 +17,37 @@ package {
 		public var _renderer:S3DRenderer = new S3DRenderer();
 		public var _game_engine:S3DGameEngine = new S3DGameEngine();
 		
+		public static var _context:Context3D;
+		
 		public function Main():void {
-			this.init();
+			stage.addChild(this);
+			stage.stage3Ds[0].addEventListener( Event.CONTEXT3D_CREATE, function(e:Event):void {
+				_context = stage.stage3Ds[0].context3D;
+				_context.configureBackBuffer(1000, 500, 1);
+				
+				_context.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
+				_context.enableErrorChecking = true;
+				_context.setCulling(Context3DTriangleFace.BACK);
+				
+				init();
+			}); 
+			stage.stage3Ds[0].requestContext3D();
 		}
 		
 		public function init():void {
+			this.addChild(new IntroCartoon(this));
+		}
+		
+		public function begin_game():void {
             var song:Song = BeatMapParser.parseBeatmapFile(Resource.RESC_SONG_BEATMAP);
             song.music = Resource.RESC_SONG_MP3;
-
             var self:Main = this;
             new KB(stage);
-            _renderer.init(stage);
-            _renderer._on_init = function():void {
-                _game_engine.init(stage, _renderer, song);
-                var t:Timer = (new Timer(20));
-                t.addEventListener(TimerEvent.TIMER, update);
-                t.start();
-            };
+            _renderer.init(stage,_context);
+			_game_engine.init(stage, _renderer, song);
+            var t:Timer = (new Timer(20));
+            t.addEventListener(TimerEvent.TIMER, update);
+            t.start();
 		}
 		
 		public function update(e:TimerEvent):void {

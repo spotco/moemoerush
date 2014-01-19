@@ -101,6 +101,26 @@ package {
 			_comboText.defaultTextFormat = format;
 			_comboText.setTextFormat(format);
 			stage.addChild(_comboText);
+			
+			stage.addChild(_hpbar_back);
+			_hpbar_back.addChild(_hpbar_fill);
+			
+			_hpbar_back.x = Util.WID - Resource.RESC_HEALTHBAR_BACK.width;
+			_hpbar_back.y = Util.HEI - Resource.RESC_HEALTHBAR_BACK.height;
+			
+			_hpbar_back.graphics.beginBitmapFill(Resource.RESC_HEALTHBAR_BACK.bitmapData);
+			_hpbar_back.graphics.drawRect(0, 0, Resource.RESC_HEALTHBAR_BACK.width, Resource.RESC_HEALTHBAR_BACK.height);
+			_hpbar_back.graphics.endFill();
+			
+			set_hp_bar_pct(0.25);
+		}
+		
+		private var _hpbar_back:Sprite = new Sprite();
+		private var _hpbar_fill:Sprite = new Sprite();
+		public function set_hp_bar_pct(pct:Number):void {
+			_hpbar_fill.graphics.beginBitmapFill(Resource.RESC_HEALTHBAR_FILL.bitmapData);
+			_hpbar_fill.graphics.drawRect(0, 0, Resource.RESC_HEALTHBAR_FILL.width * pct, Resource.RESC_HEALTHBAR_FILL.height);
+			_hpbar_fill.graphics.endFill();
 		}
 		
 		public function updateScore(pointValue:int):void {
@@ -142,6 +162,7 @@ package {
 		}
 		
 		public function updateHealth(health:Number):void {
+			// Max possible value is stored at Song.MAX_HEALTH
 			
 		}
 		
