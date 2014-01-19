@@ -1,4 +1,5 @@
 package {
+	import models.Song;
 	import flash.display.*;
 	import flash.geom.*;
 	import flash.text.*;
@@ -103,14 +104,22 @@ package {
 			_hpbar_back.graphics.drawRect(0, 0, Resource.RESC_HEALTHBAR_BACK.width, Resource.RESC_HEALTHBAR_BACK.height);
 			_hpbar_back.graphics.endFill();
 			
-			set_hp_bar_pct(0.25);
+			_hpbar_back_tar_y = _hpbar_back.y;
+			set_hp_bar_pct(1);
 		}
 		
+		//0.9 -> 0.04
 		private var _hpbar_back:Sprite = new Sprite();
 		private var _hpbar_fill:Sprite = new Sprite();
+		private var _hpbar_back_tar_y:Number;
 		public function set_hp_bar_pct(pct:Number):void {
+			var real:Number = Resource.RESC_HEALTHBAR_FILL.width * (1-pct);
+			
+			
+			
+			_hpbar_fill.graphics.clear();
 			_hpbar_fill.graphics.beginBitmapFill(Resource.RESC_HEALTHBAR_FILL.bitmapData);
-			_hpbar_fill.graphics.drawRect(0, 0, Resource.RESC_HEALTHBAR_FILL.width * pct, Resource.RESC_HEALTHBAR_FILL.height);
+			_hpbar_fill.graphics.drawRect(real, 0, Resource.RESC_HEALTHBAR_FILL.width * 0.9 - real, Resource.RESC_HEALTHBAR_FILL.height);
 			_hpbar_fill.graphics.endFill();
 		}
 		
@@ -124,12 +133,20 @@ package {
 			_comboText.text = "×" + _currentCombo.toString();
 		}
 		
+		private var _last_hpval:Number = 0;
 		public function updateHealth(health:Number):void {
 			// Max possible value is stored at Song.MAX_HEALTH
+			if (_last_hpval != health*1.0 / Song.MAX_HEALTH) {
+				_hpbar_back.y -= 15;
+			}
+			_last_hpval = health*1.0 / Song.MAX_HEALTH;
+			this.set_hp_bar_pct(_last_hpval);
 			
 		}
 		
 		public function update(game:S3DGameEngine):void {
+			_hpbar_back.y = (_hpbar_back_tar_y - _hpbar_back.y)*0.5 + _hpbar_back.y;
+			
 			/*
 			var myColorTransform:ColorTransform = new ColorTransform();
 			_blueMultiplier += 0.01 * _blueMultInc;
