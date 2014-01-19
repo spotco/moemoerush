@@ -34,7 +34,9 @@ package gameobjects {
 		
 		public var ANIM_PUNCH_LEFT:Vector.<Bitmap> = new Vector.<Bitmap>();
 		public var ANIM_PUNCH_RIGHT:Vector.<Bitmap> = new Vector.<Bitmap>();
+		
 		public var ANIM_PUNCH_TOP:Vector.<Bitmap> = new Vector.<Bitmap>();
+		private var ANIM_PUNCH_TOP_ALT:Vector.<Bitmap> = new Vector.<Bitmap>();
 		
 		private function anim_init():void {
 			WALK_CYCLE.push(
@@ -54,15 +56,28 @@ package gameobjects {
 			ANIM_PUNCH_LEFT.push(Resource.RESC_GIRL_PUNCH_LEFT_0);
 			ANIM_PUNCH_RIGHT.push(Resource.RESC_GIRL_PUNCH_RIGHT_0);
 			ANIM_PUNCH_TOP.push(Resource.RESC_GIRL_PUNCH_UP_0);
+			ANIM_PUNCH_TOP_ALT.push(Resource.RESC_GIRL_PUNCH_UP_1);
 		}
 		
+		private var _punch_top_alternator:Number = 0;
 		public var _ct_tmp_anim:Number = 0;
 		public var _ct_total_tmp_anim:Number = 0;
 		public var _tmp_anim_frames:Vector.<Bitmap>;
 		public function push_tmp_anim(anim:Vector.<Bitmap>, duration:Number):void {
+			if (anim == ANIM_PUNCH_TOP) {
+				_punch_top_alternator++;
+				if (_punch_top_alternator%2==0) {
+					_tmp_anim_frames = ANIM_PUNCH_TOP_ALT;
+				} else {
+					_tmp_anim_frames = anim;
+				}
+				
+			} else {
+				_tmp_anim_frames = anim;
+			}
 			_ct_tmp_anim = duration;
 			_ct_total_tmp_anim = duration;
-			_tmp_anim_frames = anim;
+			
 		}
 		
 		private function anim_update(dt_scale:Number):void {

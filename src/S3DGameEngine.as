@@ -1,4 +1,5 @@
 package  {
+	import asunit.errors.AbstractError;
     // TODO: Ships on screen depends on BPM
 	import flash.geom.Vector3D;
 	import uiparticle.*
@@ -65,7 +66,7 @@ package  {
 			_ground._scale = 30;
 			_ground._rotation_x = -85;
 			_ground.set_anchor_point(0.5, 0.5);
-			_ground.extend_y(15);
+			_ground.extend_y(20);
 			_ground._shader = S3DObj.REPEAT_SHADER;
 			_layer_bg.push(_ground);
 			
@@ -186,6 +187,14 @@ package  {
 					
 				} else {
 					Resource.RESC_SFX_MISS.play();
+					var neu_popup:UIParticle = new FlyUpFadeoutUIParticle(
+						particle_spawn_pos.x, 
+						particle_spawn_pos.y - 40, 
+						30, 
+						Resource.RESC_POPUP_MISS
+					);
+					_ui_particles.push(neu_popup);
+					_stage.addChild(neu_popup);
 				}
 
 			}
@@ -247,13 +256,13 @@ package  {
 			if (enemyResult) {
 				var baseEnemy:BaseEnemy = enemyResult.enemy.baseEnemy;
 				baseEnemy.force_remove();
-				spawn_death_effect(baseEnemy, particle_spawn_pos);
+				spawn_death_effect(baseEnemy, particle_spawn_pos, enemyResult);
 			}
 			return enemyResult;
 		}
 
 		private static var STAR_COLORS:Array = [0xff8383,0xffc5c5,0xffc3a5,0xff6e90,0xff2256];
-		public function spawn_death_effect(enemy:BaseEnemy, particle_spawn_pos:Vector3D): void {
+		public function spawn_death_effect(enemy:BaseEnemy, particle_spawn_pos:Vector3D, enemyResult:EnemyResult): void {
 			for (var i:int = 0; i < 25; i++) {
 				var neu_dorito:UIParticle = (new RotatingGravityFadeoutUIParticle(
 					particle_spawn_pos.x, 
@@ -272,7 +281,16 @@ package  {
 			_ui_particles.push(neu);
 			_stage.addChild(neu);
 			
-			var neu_popup:UIParticle = new FlyUpFadeoutUIParticle(particle_spawn_pos.x, particle_spawn_pos.y - 40, 30, Resource.RESC_POPUP_EXCELLENT);
+			
+			
+			var neu_popup:UIParticle = new FlyUpFadeoutUIParticle(
+				particle_spawn_pos.x, 
+				particle_spawn_pos.y - 40, 
+				30, 
+				enemyResult.type == EnemyResult.TYPE_PERFECT ? Resource.RESC_POPUP_PERFECT :
+				 (enemyResult.type == EnemyResult.TYPE_GREAT ? Resource.RESC_POPUP_GREAT : 
+				  (enemyResult.type == EnemyResult.TYPE_OK ? Resource.RESC_POPUP_OK : Resource.RESC_POPUP_MISS))
+			);
 			_ui_particles.push(neu_popup);
 			_stage.addChild(neu_popup);
 		}

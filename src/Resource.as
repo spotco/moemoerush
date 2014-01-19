@@ -50,17 +50,21 @@ package  {
 		private static var IMPORT_STAR:Class;
 		public static var RESC_STAR:Bitmap = new IMPORT_STAR as Bitmap;
 		
-		[Embed( source = "../resc/effects/excellent.png" )]
-		private static var IMPORT_POPUP_EXCELLENT:Class;
-		public static var RESC_POPUP_EXCELLENT:Bitmap = new IMPORT_POPUP_EXCELLENT as Bitmap;	
+		[Embed( source = "../resc/effects/perfect.png" )]
+		private static var IMPORT_POPUP_PERFECT:Class;
+		public static var RESC_POPUP_PERFECT:Bitmap = new IMPORT_POPUP_PERFECT as Bitmap;	
 		
-		[Embed( source = "../resc/effects/good.png" )]
-		private static var IMPORT_POPUP_GOOD:Class;
-		public static var RESC_POPUP_GOOD:Bitmap = new IMPORT_POPUP_GOOD as Bitmap;
+		[Embed( source = "../resc/effects/great.png" )]
+		private static var IMPORT_POPUP_GREAT:Class;
+		public static var RESC_POPUP_GREAT:Bitmap = new IMPORT_POPUP_GREAT as Bitmap;
 		
-		[Embed( source = "../resc/effects/poor.png" )]
-		private static var IMPORT_POPUP_POOR:Class;
-		public static var RESC_POPUP_POOR:Bitmap = new IMPORT_POPUP_POOR as Bitmap;
+		[Embed( source = "../resc/effects/ok.png" )]
+		private static var IMPORT_POPUP_OK:Class;
+		public static var RESC_POPUP_OK:Bitmap = new IMPORT_POPUP_OK as Bitmap;
+		
+		[Embed( source = "../resc/effects/miss.png" )]
+		private static var IMPORT_POPUP_MISS:Class;
+		public static var RESC_POPUP_MISS:Bitmap = new IMPORT_POPUP_MISS as Bitmap;
 		
 		//girl anim frames
 		[Embed( source = "../resc/girl/run_0.png" )]
@@ -122,6 +126,10 @@ package  {
 		[Embed( source = "../resc/girl/punch_up_0.png" )]
 		private static var IMPORT_GIRL_PUNCH_UP_0:Class;
 		public static var RESC_GIRL_PUNCH_UP_0:Bitmap = new IMPORT_GIRL_PUNCH_UP_0 as Bitmap;
+		
+		[Embed( source = "../resc/girl/punch_up_1.png" )]
+		private static var IMPORT_GIRL_PUNCH_UP_1:Class;
+		public static var RESC_GIRL_PUNCH_UP_1:Bitmap = new IMPORT_GIRL_PUNCH_UP_1 as Bitmap;
 	
 		//enemies
 		[Embed( source = "../resc/enemies/copter_0.png" )]
