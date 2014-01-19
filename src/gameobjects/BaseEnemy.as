@@ -17,7 +17,7 @@ package gameobjects {
 		
 		public static var POS_LEFT_HIT:Vector3D = new Vector3D(-2,7,0);
 		public static var POS_RIGHT_HIT:Vector3D = new Vector3D(2,7,0);
-		public static var POS_TOP_HIT:Vector3D = new Vector3D(0,6,0);
+		public static var POS_TOP_HIT:Vector3D = new Vector3D(0,9,0);
 
 		public static const TYPE_EXAMPLE_FOR_TEST_PURPOSES:String = "TYPE_EXAMPLE_FOR_TEST_PURPOSES";
 		public static const TYPE_HELICOPTER:String = "TYPE_HELICOPTER";
