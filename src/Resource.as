@@ -141,6 +141,7 @@ package  {
         // Songs we have available:
         // * days-of-dash (Normal)
         // * drop (Hard)
+        // * my-pace-de-ikimashou (Normal)
         // * scheol (Insane)
         // * weed-circulation (Normal)
 		[Embed( source = "../resc/song/weed-circulation.mp3" )]
