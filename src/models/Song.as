@@ -84,16 +84,19 @@ package models {
             return results;
         }
 
-        // Creates and returns an EnemyResult and associates it with the Enemy nearest in time. Enemies that have already been marked are not considered.
-        // If there is no enemy near enough in time to be considered a reasonable association, returns null.
+        // Creates and returns an EnemyResult and associates it with the Enemy
+        // nearest in time. Enemies that have already been marked are not
+        // considered.  If there is no enemy near enough in time to be
+        // considered a reasonable association, returns null.
+        //
         // Arguments:
-        //     time: The moment in time that the press occurred.
+        //     time: The moment in time that the press occurred in Milliseconds.
         //     enemySide: The direction of enemy to attempt to mark. See Enemy.SIDE_*
         public function markEnemy(time:Number, enemySide:int): EnemyResult {
             var applicableTimingPoint:TimingPoint = getTimingPointForTime(time);
 
-            // One quarter note - in seconds
-            var timeMargin:Number = applicableTimingPoint.getBPMAsMillisecondsPerBeat() / 1000;
+            // One quarter note - in milliseconds
+            var timeMargin:Number = applicableTimingPoint.getBPMAsMillisecondsPerBeat();
 
             // Find the two enemies on either side of the press time
             var frontEnemy:Enemy = null;
@@ -128,7 +131,6 @@ package models {
 
             if (markedEnemy) {
                 var timeDifference:Number = Math.abs(markedEnemy.time - time);
-                // TODO: Have more than just perfect.
                 var differenceRatio:Number = ( timeDifference / timeMargin);
                 var resultType:int = -1;
 
