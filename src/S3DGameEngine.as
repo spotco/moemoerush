@@ -282,6 +282,11 @@ package  {
 			_layer_objects.sort(function(a:S3DObj, b:S3DObj):Number {
 				return a._z - b._z;
 			});
+
+			// Update Interface Elements
+			_ingame_ui.updateScore(_song.points);
+			_ingame_ui.updateComboMultiplier(_song.combo);
+			_ingame_ui.updateHealth(_song.playerHealth);
 			
 			_ingame_ui.update(this);
 		}
