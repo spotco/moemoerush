@@ -53,9 +53,6 @@ package gameobjects {
 			this.set_position(_pos_start.x, _pos_start.y, _pos_start.z);
 			this.set_anchor_point(0.5, 0.5);
 			
-			this._parametric_start = _pos_start.x;
-			this._parametric_end = _pos_end.x;
-			
 			_spawn_time = cur_time;
 			_end_time = end_time;
 		
@@ -67,7 +64,7 @@ package gameobjects {
 			
 			var time_pct:Number = (game._last_time - this._spawn_time) / (this._end_time - this._spawn_time);
 			
-			if (time_pct >= 1.5) {
+			if (time_pct >= 1.15) {
 				_should_remove = true;
 			}
 			

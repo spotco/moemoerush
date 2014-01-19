@@ -20,9 +20,21 @@ package  {
 		private static var IMPORT_TREE:Class;
 		public static var RESC_TREE:Bitmap = new IMPORT_TREE as Bitmap;
 		
-		[Embed( source = "../resc/building/building_1_l.png" )]
-		private static var IMPORT_BUILDING_1_L:Class;
-		public static var RESC_BUILING_1_L:Bitmap = new IMPORT_BUILDING_1_L as Bitmap;
+		[Embed( source = "../resc/building/building_0.png" )]
+		private static var IMPORT_BUILDING_0:Class;
+		public static var RESC_BUILING_0:Bitmap = new IMPORT_BUILDING_0 as Bitmap;
+		
+		[Embed( source = "../resc/building/building_1.png" )]
+		private static var IMPORT_BUILDING_1:Class;
+		public static var RESC_BUILING_1:Bitmap = new IMPORT_BUILDING_1 as Bitmap;
+		
+		[Embed( source = "../resc/building/building_2.png" )]
+		private static var IMPORT_BUILDING_2:Class;
+		public static var RESC_BUILING_2:Bitmap = new IMPORT_BUILDING_2 as Bitmap;
+		
+		[Embed( source = "../resc/building/lamppost.png" )]
+		private static var IMPORT_LAMPPOST:Class;
+		public static var RESC_LAMPPOST:Bitmap = new IMPORT_LAMPPOST as Bitmap;
 		
 		//effects
 		[Embed( source = "../resc/effects/pow.png" )]

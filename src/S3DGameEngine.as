@@ -22,6 +22,8 @@ package  {
 		
 		private var _ui_particles:Vector.<UIParticle> = new Vector.<UIParticle>();
 		
+		private var _ingame_ui:IngameUI;
+		
 		public function init(stage:Stage, renderer:S3DRenderer):void {
 			_renderer = renderer;
 			_stage = stage;
@@ -61,19 +63,29 @@ package  {
 			_layer_bg.push(_ground);
 			
 			var side_i:int = 0;
-			for (var i:Number = 0; i < 2; i += 0.049) {
-				var cur:TestDecoration = new TestDecoration(renderer._context, Resource.RESC_BUILING_1_L);
+			for (var i:Number = -0.2; i < 2; i += 0.049) {
+				var cur:TestDecoration = new TestDecoration(renderer._context, Resource.RESC_LAMPPOST);
 				cur._t = i;
 				cur._x = side_i % 2 == 0? -9:9;
+				if (side_i%2 != 0) {
+					cur.update_vertex(0, S3DObj.I_ELE_U, 1);
+					cur.update_vertex(1, S3DObj.I_ELE_U, 1);
+					cur.update_vertex(2, S3DObj.I_ELE_U, 0);
+					cur.update_vertex(3, S3DObj.I_ELE_U, 0);
+					cur.upload_vertex_uv_buffers();
+				}
 				side_i++;
 				_decorations.push(cur);
 				_layer_objects.push(cur);
+				
 			}
 			
 			update_dt();
 			
 			_stage.addChild(_player);
 			_player.init();
+			
+			_ingame_ui = new IngameUI(_stage);
 		}
 		
 		public var _last_time:Number = NaN;
@@ -192,6 +204,8 @@ package  {
 			_layer_objects.sort(function(a:S3DObj, b:S3DObj):Number {
 				return a._z - b._z;
 			});
+			
+			_ingame_ui.update(this);
 		}
 	}
 
