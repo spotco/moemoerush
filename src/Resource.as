@@ -45,6 +45,10 @@ package  {
 		private static var IMPORT_METAL_PARTICLE:Class;
 		public static var RESC_METAL_PARTICLE:Bitmap = new IMPORT_METAL_PARTICLE as Bitmap;
 		
+		[Embed( source = "../resc/particle/star.png" )]
+		private static var IMPORT_STAR:Class;
+		public static var RESC_STAR:Bitmap = new IMPORT_STAR as Bitmap;
+		
 		[Embed( source = "../resc/effects/excellent.png" )]
 		private static var IMPORT_POPUP_EXCELLENT:Class;
 		public static var RESC_POPUP_EXCELLENT:Bitmap = new IMPORT_POPUP_EXCELLENT as Bitmap;	
@@ -138,6 +142,10 @@ package  {
 		[Embed( source = "../resc/sfx/hit.mp3" )]
 		private static var IMPORT_SFX_HIT:Class;
 		public static var RESC_SFX_HIT:Sound = new IMPORT_SFX_HIT as Sound;
+		
+		[Embed( source = "../resc/sfx/hit_ok.mp3" )]
+		private static var IMPORT_SFX_HIT_OK:Class;
+		public static var RESC_SFX_HIT_OK:Sound = new IMPORT_SFX_HIT_OK as Sound;
 		
 		[Embed( source = "../resc/sfx/crowd.mp3" )]
 		private static var IMPORT_SFX_CROWD:Class;

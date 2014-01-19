@@ -159,7 +159,15 @@ package  {
 			
 			if (tar_side != "") {
 				if (hit_result != null) {
-					Resource.RESC_SFX_HIT.play();
+					if (hit_result.type == EnemyResult.TYPE_GREAT || hit_result.type == EnemyResult.TYPE_PERFECT) {
+						Resource.RESC_SFX_HIT.play();
+					} else if (hit_result.type == EnemyResult.TYPE_OK) {
+						Resource.RESC_SFX_HIT_OK.play();
+					} else {
+						Resource.RESC_SFX_MISS.play();
+					}
+					trace(hit_result.type);
+					
 				} else {
 					Resource.RESC_SFX_MISS.play();
 				}
@@ -228,14 +236,19 @@ package  {
 			return enemyResult;
 		}
 
+		private static var STAR_COLORS:Array = [0xff8383,0xffc5c5,0xffc3a5,0xff6e90,0xff2256];
 		public function spawn_death_effect(enemy:BaseEnemy, particle_spawn_pos:Vector3D): void {
-			for (var i:int = 0; i < 15; i++) {
+			for (var i:int = 0; i < 25; i++) {
 				var neu_dorito:UIParticle = (new RotatingGravityFadeoutUIParticle(
 					particle_spawn_pos.x, 
 					particle_spawn_pos.y, 
 					30, 
-					Resource.RESC_METAL_PARTICLE)
-				).set_velocity(Util.rand_range(-10, 10), Util.rand_range(-10, 1)).set_vr(Util.rand_range(-25, 25)).set_scale(Util.rand_range(0.2, 0.8));
+					Resource.RESC_STAR)
+				).set_velocity(Util.rand_range(-10, 10), Util.rand_range(-10, 1))
+				.set_vr(Util.rand_range(-25, 25))
+				.set_scale(Util.rand_range(0.2, 0.8))
+				.set_color(STAR_COLORS[Math.floor(Math.random()*STAR_COLORS.length)]);
+				
 				_ui_particles.push(neu_dorito);
 				_stage.addChild(neu_dorito);
 			}

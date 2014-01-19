@@ -1,5 +1,8 @@
 package uiparticle {
+	import flash.geom.ColorTransform;
+	import asunit.errors.AbstractError;
 	import flash.display.Bitmap;
+	
 	/**
 	 * @author spotco
 	 */
@@ -28,6 +31,13 @@ package uiparticle {
 		public function set_scale(s:Number):RotatingGravityFadeoutUIParticle {
 			this.scaleX = s;
 			this.scaleY = s;
+			return this;
+		}
+		
+		public function set_color(c:uint):RotatingGravityFadeoutUIParticle {
+			var my_color:ColorTransform = new ColorTransform();
+			my_color.color = c;
+			this.transform.colorTransform = my_color;
 			return this;
 		}
 		

@@ -154,9 +154,9 @@ package models {
                 var differenceRatio:Number = ( timeDifference / timeMargin);
                 var resultType:String = null;
 
-                if (differenceRatio <= 0.33333) {
+                if (differenceRatio <= 0.3) {
                     resultType = EnemyResult.TYPE_PERFECT;
-                } else if (differenceRatio <= 0.66666) {
+                } else if (differenceRatio <= 0.5) {
                     resultType = EnemyResult.TYPE_GREAT;
                 } else {
                     resultType = EnemyResult.TYPE_OK;
