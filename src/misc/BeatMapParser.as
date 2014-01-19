@@ -65,9 +65,10 @@ package misc {
 
           tp.time = parts[0];
           if (parts[1] < 0) {
-            tp.bpm = initBPM;
+            tp.bpm = initBPM / (parts[1] / -100.0); // -100 -> 1x bpm, -50 -> 2x bpm, -200 -> 0.5x bpm
           } else {
             initBPM = parts[1];
+            tp.bpm = initBPM;
           }
           tp.beatsPerMeasure = parts[2];
 
@@ -81,7 +82,7 @@ package misc {
     private static function parseHitObjects(array:Array):Array {
       var hitObjectsArray:Array = new Array();
 
-      var currentId = 0;
+      var currentId:int = 0;
 
       for (var i:int = 0, len:int = array.length; i < len; i++) {
         if (array[i].indexOf(",") != -1) {
@@ -94,7 +95,7 @@ package misc {
 
           enemy.time = parts[2];
 
-          var comboNum = parts[3];
+          var comboNum:int = parts[3];
           if (comboNum == 5 || comboNum == 6) {
             currentId++;
           }
