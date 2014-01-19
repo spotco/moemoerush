@@ -43,18 +43,17 @@ package models {
 
         // TODO: better patterns for side assignments
         public function assignSides(enemies:Array): void {
-            Util.seedRandom(39);
+            // Util.seedRandom(39);
             for (var i:int = 0; i < enemies.length; i++) {
-                var sideId:int = ((Util.random() * 4) as int) % 4;
-                if (enemies[i].side < 0) {
+                // var sideId:int = ((Util.random() * 4) as int) % 4;
+                var sideId:int = i % 3;
+                if (enemies[i].side == null) {
                     if (sideId == 0) {
                         enemies[i].side = Enemy.SIDE_LEFT;
                     } else if (sideId == 1) {
                         enemies[i].side = Enemy.SIDE_RIGHT;
                     } else if (sideId == 2) {
                         enemies[i].side = Enemy.SIDE_UP;
-                    } else {
-                        enemies[i].side = Enemy.SIDE_DOWN;
                     }
                 }
             }

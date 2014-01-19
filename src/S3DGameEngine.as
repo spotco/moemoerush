@@ -4,8 +4,10 @@ package  {
 	import flash.display.Stage;
 	import gameobjects.*;
 	import flash.ui.Keyboard;
+    import models.*;
 	
 	public class S3DGameEngine {
+		public const TIME_BEFORE_SONG:int = 2000;
 		
 		public var _renderer:S3DRenderer;
 		public var _stage:Stage;
@@ -19,14 +21,18 @@ package  {
 		
 		private var _decorations:Vector.<TestDecoration> = new Vector.<TestDecoration>();
 		private var _enemies:Vector.<BaseEnemy> = new Vector.<BaseEnemy>();
-		
+
+		private var _music_has_started:Boolean = false;
+
+		private var _song:Song;
 		private var _ui_particles:Vector.<UIParticle> = new Vector.<UIParticle>();
 		
 		private var _ingame_ui:IngameUI;
 		
-		public function init(stage:Stage, renderer:S3DRenderer):void {
+		public function init(stage:Stage, renderer:S3DRenderer, song:Song):void {
 			_renderer = renderer;
 			_stage = stage;
+			_song = song;
 			
 			_renderer._layers.push(_layer_bg);
 			_renderer._layers.push(_layer_objects);
@@ -80,6 +86,9 @@ package  {
 				
 			}
 			
+			// Time
+			_start_time = (new Date()).getTime() + TIME_BEFORE_SONG;
+			_legit_start_time = 0;
 			update_dt();
 			
 			_stage.addChild(_player);
@@ -88,14 +97,16 @@ package  {
 			_ingame_ui = new IngameUI(_stage);
 		}
 		
+		public var _start_time:Number = NaN;
+		public var _legit_start_time:Number = NaN;
 		public var _last_time:Number = NaN;
 		public var _dt:Number = NaN;
 		public var _dt_scale:Number = NaN;
 		private function update_dt():void {
-			var cur_time:Number = (new Date()).getTime();
+			var cur_time:Number = ((new Date()).getTime() - _start_time - _legit_start_time);
 			_dt = cur_time - _last_time;
 			_dt_scale = _dt / 20;
-			_last_time = cur_time;
+			_last_time = cur_time ;
 		}
 		
 		private var _test_ct:Number = 0;
@@ -105,13 +116,21 @@ package  {
 		public function update():void {
 			update_dt();
 			if (isNaN(_dt)) return;
+
+			// Start the music if it has not been started yet
+			trace(_last_time);
+			if (!_music_has_started && _last_time > 0) {
+				_legit_start_time = _last_time;
+				_song.music.play();
+				_music_has_started = true;
+			}
 			
 			_player.update(this);
-			
 			var tar_side:String = "";
 			var tar_vec:Vector3D = Vector3D.Z_AXIS.clone();
 			var particle_spawn_pos:Vector3D = tar_vec;
-			
+
+			// User input
 			if (KB.is_key_down(Keyboard.LEFT) && !_last_left) {
 				_player.push_tmp_anim(_player.ANIM_PUNCH_LEFT, 10);
 				//var enemyResult:EnemyResult = currentSong.markEnemy(currentTime, Enemy.SIDE_LEFT);
@@ -163,14 +182,14 @@ package  {
 				}
 			}
 			
-			
-			_test_ct++;
-			if (_test_ct%30==0) {
-				_test_ct2++;
-				_enemies.push(new BaseEnemy(_renderer._context).init(_last_time, _last_time+4000, 
-					_test_ct2%3==2?BaseEnemy.SIDE_TOP:
-					(_test_ct2%3==1?BaseEnemy.SIDE_RIGHT:BaseEnemy.SIDE_LEFT)
-				));
+			// Generate new enemies
+			var newEnemies:Array = _song.popAllEnemiesBeforeMoment(_last_time + 4000);
+			for each (var enemy:Enemy in newEnemies) {
+				trace("enemy.time: " + enemy.time);
+				trace("_last_time: " + _last_time);
+				var side:String = enemy.sideAsBaseEnemySide();
+				_enemies.push(new BaseEnemy(_renderer._context).init(_last_time, _last_time+4000, side));
+				trace("\\(*.*)/");
 			}
 			
 			_layer_objects.length = 0;			

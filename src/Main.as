@@ -7,6 +7,8 @@ package {
 	import flash.geom.*;
 	import flash.utils.*;
 	import flash.ui.Keyboard;
+    import models.*;
+    import testsrc.StubModels;
 	
 	 [SWF(width="1000", height="500", frameRate="60", backgroundColor="#FFFFFF")]
 	public class Main extends Sprite {
@@ -20,15 +22,18 @@ package {
 		}
 		
 		public function init():void {
-			var self:Main = this;
-			new KB(stage);
-			_renderer.init(stage);
-			_renderer._on_init = function():void {
-				_game_engine.init(stage, _renderer);
-				var t:Timer = (new Timer(20));
-				t.addEventListener(TimerEvent.TIMER, update);
-				t.start();
-			};
+            var stubModels:StubModels = new StubModels();
+            var song:Song = stubModels.song;
+
+            var self:Main = this;
+            new KB(stage);
+            _renderer.init(stage);
+            _renderer._on_init = function():void {
+                _game_engine.init(stage, _renderer, song);
+                var t:Timer = (new Timer(20));
+                t.addEventListener(TimerEvent.TIMER, update);
+                t.start();
+            };
 		}
 		
 		public function update(e:TimerEvent):void {
