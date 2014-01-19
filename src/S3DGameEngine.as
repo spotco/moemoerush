@@ -12,7 +12,7 @@ package  {
     import flash.media.SoundChannel;
 	
 	public class S3DGameEngine {
-		public const TIME_BEFORE_SONG:int = 2000;
+		public const TIME_BEFORE_SONG:int = 4000;
 		public const ENEMY_PREPARE_BEAT_COUNT:int = 8; // How many beats early will enemies show up. More is easier.
 		
         public var _channel:SoundChannel;
