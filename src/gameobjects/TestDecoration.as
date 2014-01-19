@@ -10,6 +10,7 @@ package gameobjects {
 	public class TestDecoration extends S3DObj{
 		
 		public var _t:Number = 0;
+		public var _building_mode:Boolean = false;
 		
 		//(-8, -3, 2)->( -8, 9, -140)
 		//(-8, 12t-3, -142t+2)
@@ -20,7 +21,13 @@ package gameobjects {
 		}
 		
 		public function update(game:S3DGameEngine):void {
-			this.set_position( _x, 12 * _t - 3, -142 * _t + 2);
+			if (_building_mode) {
+				this.set_position( _x, 7.5 * _t-9, -140 * _t + 2);
+				
+			} else {
+				this.set_position( _x, 12 * _t - 3, -142 * _t + 2);
+				
+			}
 			_t -= 0.007 * game._dt_scale;
 			if (_t < -0.2) _t = 2 - (Math.abs(_t) - 0.2);
 		}

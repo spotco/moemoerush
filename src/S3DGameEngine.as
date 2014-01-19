@@ -84,6 +84,22 @@ package  {
 				_decorations.push(cur);
 				_layer_objects.push(cur);
 				
+				cur = new TestDecoration(renderer._context, 
+					[Resource.RESC_BUILING_0,Resource.RESC_BUILING_1,Resource.RESC_BUILING_2][Math.floor(Math.random()*3)] );
+				cur._t = i;
+				if (side_i%2 != 0) {
+					cur.update_vertex(0, S3DObj.I_ELE_U, 1);
+					cur.update_vertex(1, S3DObj.I_ELE_U, 1);
+					cur.update_vertex(2, S3DObj.I_ELE_U, 0);
+					cur.update_vertex(3, S3DObj.I_ELE_U, 0);
+					cur.upload_vertex_uv_buffers();
+				}
+				cur._scale = Util.rand_range(20,30);
+				cur._building_mode = true;
+				cur._x = (side_i % 2 == 0? -1:1)*Util.rand_range(25,45);
+				_decorations.push(cur);
+				_layer_objects.push(cur);
+				
 			}
 			
 			// Time
@@ -166,7 +182,6 @@ package  {
 					} else {
 						Resource.RESC_SFX_MISS.play();
 					}
-					trace(hit_result.type);
 					
 				} else {
 					Resource.RESC_SFX_MISS.play();
