@@ -214,6 +214,16 @@ package  {
                 // Little animations and bubblies and stuff that pop up
                 if (tar_side != "") {
                     if (hit_result != null) {
+                        if (Math.random() > 0.8) {
+                            var rand:Number = Math.random();
+                            if (rand < 0.3333) {
+                                Resource.RESC_ILOVEYOUMOMMY_TWO.play()
+                            } else if (rand < 0.6666) {
+                                Resource.RESC_ILOVEYOUMOMMY.play()
+                            } else {
+                                Resource.RESC_MAYDAY.play()
+                            }
+                        }
 						
 						var ttest:UIParticle = new FlyupTextParticle(Util.WID-65, Util.HEI*0.83, ""+Math.floor(((.07 * _song.combo + 1) * hit_result.pointValue)), 50);
                         _ui_particles.push(ttest);
