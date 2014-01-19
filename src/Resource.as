@@ -4,6 +4,23 @@ package  {
 	import flash.media.Sound;
 	public class Resource {
 		
+		//intro
+		[Embed( source = "../resc/intro/intro_0.png" )]
+		private static var IMPORT_INTRO_0:Class;
+		public static var RESC_INTRO_0:Bitmap = new IMPORT_INTRO_0 as Bitmap;
+		
+		[Embed( source = "../resc/intro/intro_1.png" )]
+		private static var IMPORT_INTRO_1:Class;
+		public static var RESC_INTRO_1:Bitmap = new IMPORT_INTRO_1 as Bitmap;
+		
+		[Embed( source = "../resc/intro/intro_2.png" )]
+		private static var IMPORT_INTRO_2:Class;
+		public static var RESC_INTRO_2:Bitmap = new IMPORT_INTRO_2 as Bitmap;
+		
+		[Embed( source = "../resc/intro/intro_3.png" )]
+		private static var IMPORT_INTRO_3:Class;
+		public static var RESC_INTRO_3:Bitmap = new IMPORT_INTRO_3 as Bitmap;
+		
 		//decorations
 		[Embed( source = "../resc/ground.png" )]
 		private static var IMPORT_GROUND:Class;
