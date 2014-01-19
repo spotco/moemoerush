@@ -37,6 +37,26 @@ package models {
             this.savedEnemies = timingPoints.concat();
 
             this.playerHealth = MAX_HEALTH;
+
+            assignSides(this.enemies);
+            testInvariants();
+        }
+
+        // TODO: better patterns for side assignments
+        public function assignSides(enemies:Array): void {
+            for (var i:int = 0; i < enemies.length; i++) {
+                if (enemies[i].side < 0) {
+                    if (i % 4 == 0) {
+                        enemies[i].side = Enemy.SIDE_LEFT;
+                    } else if (i % 4 == 1) {
+                        enemies[i].side = Enemy.SIDE_RIGHT;
+                    } else if (i % 4 == 2) {
+                        enemies[i].side = Enemy.SIDE_UP;
+                    } else {
+                        enemies[i].side = Enemy.SIDE_DOWN;
+                    }
+                }
+            }
         }
 
         // Returns the first Enemy. Returns null if there are none.
@@ -92,7 +112,7 @@ package models {
         // Arguments:
         //     time: The moment in time that the press occurred in Milliseconds.
         //     enemySide: The direction of enemy to attempt to mark. See Enemy.SIDE_*
-        public function markEnemy(time:Number, enemySide:int): EnemyResult {
+        public function markEnemy(time:Number, enemySide:String): EnemyResult {
             var applicableTimingPoint:TimingPoint = getTimingPointForTime(time);
 
             // One quarter note - in milliseconds
@@ -132,7 +152,7 @@ package models {
             if (markedEnemy) {
                 var timeDifference:Number = Math.abs(markedEnemy.time - time);
                 var differenceRatio:Number = ( timeDifference / timeMargin);
-                var resultType:int = -1;
+                var resultType:String = null;
 
                 if (differenceRatio <= 0.33333) {
                     resultType = EnemyResult.TYPE_PERFECT;
@@ -174,6 +194,16 @@ package models {
                 }
             }
             return mostRecentTimingPoint;
+        }
+
+        public function testInvariants(): void {
+            for (var i:int = 0; i < enemies.length; i++) {
+                Util.assert(enemies[i].side != -1);
+            }
+
+            for (i = 0; i < timingPoints.length; i++) {
+                Util.assert(timingPoints[i].bpm > 0);
+            }
         }
     }
 }
