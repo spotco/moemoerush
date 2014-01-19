@@ -7,7 +7,7 @@ package uiparticle {
 	 */
 	public class FadeoutUIParticle extends UIParticle {
 		
-		private var _ct:Number;
+		private var _ct:Number, _ct_max:Number;
 		
 		public function FadeoutUIParticle(x:Number, y:Number, duration:Number, tex:Bitmap) {
 			
@@ -25,9 +25,11 @@ package uiparticle {
 			this.y = y;
 			
 			_ct = duration;
+			_ct_max = duration;
 		}
 		public override function update(game:S3DGameEngine):void{
 			_ct -= game._dt_scale;
+			this.alpha = _ct/_ct_max;
 		}
 		public override function should_remove():Boolean{ 
 			return _ct <= 0; 

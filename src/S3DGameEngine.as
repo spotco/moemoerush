@@ -131,9 +131,23 @@ package  {
 			for each (var itr_enemy:BaseEnemy in _enemies) {
 				if (itr_enemy._side == tar_side && Util.vec_dist(tar_vec, new Vector3D(itr_enemy._x, itr_enemy._y, itr_enemy._z)) < 7) {
 					itr_enemy.force_remove();
-					var neu:UIParticle = new FadeoutUIParticle(particle_spawn_pos.x, particle_spawn_pos.y, 10, Resource.RESC_EFFECT_POW);
+					for (var i:int = 0; i < 15; i++) {
+						var neu_dorito:UIParticle = (new RotatingGravityFadeoutUIParticle(
+							particle_spawn_pos.x, 
+							particle_spawn_pos.y, 
+							30, 
+							Resource.RESC_METAL_PARTICLE)
+						).set_velocity(Util.rand_range(-10, 10), Util.rand_range(-10, 1)).set_vr(Util.rand_range(-25, 25)).set_scale(Util.rand_range(0.2, 0.8));
+						_ui_particles.push(neu_dorito);
+						_stage.addChild(neu_dorito);
+					}
+					var neu:UIParticle = new FadeoutUIParticle(particle_spawn_pos.x, particle_spawn_pos.y, 20, Resource.RESC_EFFECT_POW);
 					_ui_particles.push(neu);
 					_stage.addChild(neu);
+					
+					var neu_popup:UIParticle = new FlyUpFadeoutUIParticle(particle_spawn_pos.x, particle_spawn_pos.y - 40, 30, Resource.RESC_POPUP_EXCELLENT);
+					_ui_particles.push(neu_popup);
+					_stage.addChild(neu_popup);
 				}
 			}
 			

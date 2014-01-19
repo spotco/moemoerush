@@ -29,6 +29,22 @@ package  {
 		private static var IMPORT_EFFECT_POW:Class;
 		public static var RESC_EFFECT_POW:Bitmap = new IMPORT_EFFECT_POW as Bitmap;
 		
+		[Embed( source = "../resc/particle/metal_particle.png" )]
+		private static var IMPORT_METAL_PARTICLE:Class;
+		public static var RESC_METAL_PARTICLE:Bitmap = new IMPORT_METAL_PARTICLE as Bitmap;
+		
+		[Embed( source = "../resc/effects/excellent.png" )]
+		private static var IMPORT_POPUP_EXCELLENT:Class;
+		public static var RESC_POPUP_EXCELLENT:Bitmap = new IMPORT_POPUP_EXCELLENT as Bitmap;	
+		
+		[Embed( source = "../resc/effects/good.png" )]
+		private static var IMPORT_POPUP_GOOD:Class;
+		public static var RESC_POPUP_GOOD:Bitmap = new IMPORT_POPUP_GOOD as Bitmap;
+		
+		[Embed( source = "../resc/effects/poor.png" )]
+		private static var IMPORT_POPUP_POOR:Class;
+		public static var RESC_POPUP_POOR:Bitmap = new IMPORT_POPUP_POOR as Bitmap;
+		
 		//girl anim frames
 		[Embed( source = "../resc/girl/run_0.png" )]
 		private static var IMPORT_GIRL_RUN_0:Class;
@@ -89,7 +105,7 @@ package  {
 		[Embed( source = "../resc/girl/punch_up_0.png" )]
 		private static var IMPORT_GIRL_PUNCH_UP_0:Class;
 		public static var RESC_GIRL_PUNCH_UP_0:Bitmap = new IMPORT_GIRL_PUNCH_UP_0 as Bitmap;
-		
+
 	
 		//enemies
 		[Embed( source = "../resc/enemies/copter_0.png" )]
