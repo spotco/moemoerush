@@ -29,6 +29,7 @@ package gameobjects {
 		
 		private var WALK_CYCLE:Vector.<Bitmap> = new Vector.<Bitmap>();
 		private static var WALK_CYCLE_SPEED:Number = 4;
+		private static var walk_cycle_speed_corrected:Number = 4;
 		private var _i_walk_cycle:Number = 0;
 		private var _ct_walk_cycle:Number = WALK_CYCLE_SPEED;
 		
@@ -103,6 +104,7 @@ package gameobjects {
 			} else {
 				_ct_walk_cycle -= dt_scale;
 				if (_ct_walk_cycle <= 0) {
+					// _ct_walk_cycle = walk_cycle_speed_corrected + (_ct_walk_cycle);
 					_ct_walk_cycle = WALK_CYCLE_SPEED + (_ct_walk_cycle);
 					_i_walk_cycle=(_i_walk_cycle+1)%(WALK_CYCLE.length);
 					
@@ -112,6 +114,18 @@ package gameobjects {
 				
 			}
 		}
+
+		public function feed_temp(time_remaining_to_beat:int): void {
+			// k nevermind this isn't going to happen
+			// Assuming beats should happen on 0 lolhardcodedvalues
+			// var frames_remaining_to_edge:int = (_i_walk_cycle == 0 ? 12 : (_i_walk_cycle % 12));
+			// walk_cycle_speed_corrected = (time_remaining_to_beat / (1.0 / frames_remaining_to_edge)) / 1000;
+			// trace("time_remaining_to_beat: " + time_remaining_to_beat);
+			// trace("frames_remaining_to_edge: " + frames_remaining_to_edge);
+			// trace("walk_cycle_speed_corrected: " + walk_cycle_speed_corrected);
+			// trace("\n");
+		}
+
 		
 		public function update(game:S3DGameEngine):void {
 			anim_update(game._dt_scale);

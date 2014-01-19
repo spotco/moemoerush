@@ -1,16 +1,16 @@
 package  {
 	import asunit.errors.AbstractError;
-    // TODO: Ships on screen depends on BPM
+	// TODO: Ships on screen depends on BPM
 	import flash.geom.Vector3D;
 	import uiparticle.*
 	import flash.display.Stage;
 	import gameobjects.*;
 	import flash.ui.Keyboard;
-    import models.*;
+	import models.*;
 	
 	public class S3DGameEngine {
 		public const TIME_BEFORE_SONG:int = 2000;
-        public const ENEMY_PREPARE_BEAT_COUNT:int = 8; // How many beats early will enemies show up. More is easier.
+		public const ENEMY_PREPARE_BEAT_COUNT:int = 8; // How many beats early will enemies show up. More is easier.
 		
 		public var _renderer:S3DRenderer;
 		public var _stage:Stage;
@@ -28,8 +28,11 @@ package  {
 		private var _music_has_started:Boolean = false;
 
 		public var _song:Song;
-        private var _timingPoint:TimingPoint;
+		private var _timingPoint:TimingPoint;
 		public var _ui_particles:Vector.<UIParticle> = new Vector.<UIParticle>();
+		public var _small_combo_achieved:Boolean = false;
+		public var _medium_combo_achieved:Boolean = false;
+		public var _big_combo_achieved:Boolean = false;
 		
 		private var _ingame_ui:IngameUI;
 		
@@ -146,15 +149,17 @@ package  {
 				_music_has_started = true;
 			}
 
-            // Update stored TimingPoint
-            if (_timingPoint == null) {
-                _timingPoint = _song.peekAtFirstTimingPoint();
-            }
-            if (_song.peekAtFirstTimingPoint() && _song.peekAtFirstTimingPoint().time < _last_time) {
-                _timingPoint = _song.popFirstTimingPoint();
-            }
+			// Update stored TimingPoint
+			if (_timingPoint == null) {
+				_timingPoint = _song.peekAtFirstTimingPoint();
+			}
+			if (_song.peekAtFirstTimingPoint() && _song.peekAtFirstTimingPoint().time < _last_time) {
+				_timingPoint = _song.popFirstTimingPoint();
+			}
 			
 			_player.update(this);
+			var width_multiplier:int = 4;
+			_player.feed_temp(_timingPoint.bpm * width_multiplier - ((_last_time + _timingPoint.bpm * 4500) - _timingPoint.time) % (_timingPoint.bpm * width_multiplier));
 			var tar_side:String = "";
 			var tar_vec:Vector3D = Vector3D.Z_AXIS.clone();
 			var particle_spawn_pos:Vector3D = tar_vec;
@@ -182,9 +187,9 @@ package  {
 				tar_vec = BaseEnemy.POS_TOP_HIT;
 				particle_spawn_pos = new Vector3D(_player.x, _player.y - 250 ,0);
 				hit_result = attack_enemy_on_side(particle_spawn_pos, Enemy.SIDE_UP);
-				
 			}
 			
+			// Little animations and bubblies and stuff that pop up
 			if (tar_side != "") {
 				if (hit_result != null) {
 					if (hit_result.type == EnemyResult.TYPE_GREAT || hit_result.type == EnemyResult.TYPE_PERFECT) {
@@ -208,6 +213,23 @@ package  {
 				}
 
 			}
+
+			// TODO: Play sound effects based on combos
+			// Lol innefficient don't give a shits
+			if (_song.combo < 10) {
+				_small_combo_achieved = false;
+				_medium_combo_achieved = false;
+				_big_combo_achieved = false;
+			} else if (_song.combo == 10 && !_small_combo_achieved) {
+				trace("10 combo");
+				_small_combo_achieved = true;
+			} else if (_song.combo == 25 && !_medium_combo_achieved) {
+				_medium_combo_achieved = true;
+				trace("25 combo");
+			} else if (_song.combo == 50  && !_big_combo_achieved) {
+				trace("50 combo");
+				_big_combo_achieved = true;
+			}
 			
 			_last_left = KB.is_key_down(Keyboard.LEFT);
 			_last_right = KB.is_key_down(Keyboard.RIGHT);
@@ -215,13 +237,13 @@ package  {
 
 			
 			// Generate new enemies
-            var enemyPrepareTime:int = ENEMY_PREPARE_BEAT_COUNT * _timingPoint.bpm;
+			var enemyPrepareTime:int = ENEMY_PREPARE_BEAT_COUNT * _timingPoint.bpm;
 			var newEnemies:Array = _song.popAllEnemiesBeforeMoment(_last_time + enemyPrepareTime);
 			for each (var enemy:Enemy in newEnemies) {
 				var side:String = enemy.sideAsBaseEnemySide();
 				var baseEnemy:BaseEnemy = new BaseEnemy(_renderer._context).init(_last_time, _last_time + enemyPrepareTime, side);
 				enemy.baseEnemy = baseEnemy;
-                baseEnemy._enemy = enemy;
+				baseEnemy._enemy = enemy;
 				_enemies.push(baseEnemy);
 			}
 			
@@ -232,6 +254,7 @@ package  {
 				dec.update(this);
 			}
 			
+			// Clean enemies that are actually dead
 			var itr_enemy:BaseEnemy;
 			for (var i_enemy:int = _enemies.length-1; i_enemy >= 0; i_enemy--) {
 				itr_enemy = _enemies[i_enemy];
@@ -244,6 +267,7 @@ package  {
 				}
 			}
 			
+			// Clean particle effects that aren't visible anymore
 			for (var i_particle:int = _ui_particles.length-1; i_particle >= 0; i_particle--) {
 				var itr_particle:UIParticle = _ui_particles[i_particle];
 				itr_particle.update(this);
@@ -254,6 +278,7 @@ package  {
 				}
 			}
 			
+			// Reorder objects by z-index
 			_layer_objects.sort(function(a:S3DObj, b:S3DObj):Number {
 				return a._z - b._z;
 			});
@@ -262,7 +287,7 @@ package  {
 		}
 
 		// Arguments:
-		//     particle_spawn_pos: A Vector3D object representing the coordinate to spawn particle effects from
+		//	 particle_spawn_pos: A Vector3D object representing the coordinate to spawn particle effects from
 		//	   side: A Enemy.SIDE_* constant describing the side of the girl to attack an enemy on.
 		public function attack_enemy_on_side(particle_spawn_pos:Vector3D, side:String): EnemyResult {
 			var enemyResult:EnemyResult = _song.markEnemy(_last_time, side);
