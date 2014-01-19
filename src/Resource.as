@@ -157,6 +157,10 @@ package  {
 		private static var IMPORT_SFX_MISS:Class;
 		public static var RESC_SFX_MISS:Sound = new IMPORT_SFX_MISS as Sound;
 		
+		[Embed( source = "../resc/sfx/explosion.mp3" )]
+		private static var IMPORT_SFX_EXPLOSION:Class;
+		public static var RESC_SFX_EXPLOSION:Sound = new IMPORT_SFX_EXPLOSION as Sound;
+		
         // Song Data
         // Songs we have available:
         // * days-of-dash (Normal)

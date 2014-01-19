@@ -1,5 +1,6 @@
 package gameobjects {
 	import com.adobe.utils.*;
+	import uiparticle.*;
 	import flash.display.*;
 	import flash.display3D.*;
 	import flash.events.*;
@@ -67,9 +68,15 @@ package gameobjects {
 			
 			var time_pct:Number = (game._last_time - this._spawn_time) / (this._end_time - this._spawn_time);
 			
-		   if (time_pct >= 1.05) {
+		   if (time_pct >= 1.02) {
 				_should_remove = true;
 				game._song.markEnemyMiss(this._enemy);
+				game._player.push_tmp_anim(game._player.ANIM_HIT, 30);
+				Resource.RESC_SFX_EXPLOSION.play();
+				
+				var neu:UIParticle = new FadeoutUIParticle(game._player.x, game._player.y-126, 20, Resource.RESC_EFFECT_POW);
+				game._ui_particles.push(neu);
+				game._stage.addChild(neu);
 			}
 			
 			this._x = time_pct * (_pos_end.x-_pos_start.x) + _pos_start.x;

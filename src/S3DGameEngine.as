@@ -17,7 +17,7 @@ package  {
 		
 		public var _ground:S3DObj, _ground_fill:S3DObj, _sky_fill:S3DObj;
 		
-		private var _player:PlayerGirl = new PlayerGirl();
+		public var _player:PlayerGirl = new PlayerGirl();
 		
 		public var _layer_bg:Vector.<S3DObj> = new Vector.<S3DObj>();
 		public var _layer_objects:Vector.<S3DObj> = new Vector.<S3DObj>();
@@ -29,7 +29,7 @@ package  {
 
 		public var _song:Song;
         private var _timingPoint:TimingPoint;
-		private var _ui_particles:Vector.<UIParticle> = new Vector.<UIParticle>();
+		public var _ui_particles:Vector.<UIParticle> = new Vector.<UIParticle>();
 		
 		private var _ingame_ui:IngameUI;
 		
@@ -290,11 +290,6 @@ package  {
 				_ui_particles.push(neu_dorito);
 				_stage.addChild(neu_dorito);
 			}
-			var neu:UIParticle = new FadeoutUIParticle(particle_spawn_pos.x, particle_spawn_pos.y, 20, Resource.RESC_EFFECT_POW);
-			_ui_particles.push(neu);
-			_stage.addChild(neu);
-			
-			
 			
 			var neu_popup:UIParticle = new FlyUpFadeoutUIParticle(
 				particle_spawn_pos.x, 
