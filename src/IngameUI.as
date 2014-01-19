@@ -29,6 +29,15 @@ package {
 		public function IngameUI(stage:Stage) {
 			/*
 			var hpBackground:Sprite = new Sprite();
+			hpBackground.addChild(RESC_HEALTHBAR_BACKGROUND);
+			stage.addChild(hpBackground);
+			
+			var scoreBackground:Sprite = new Sprite();
+			scoreBackground.addChild(RESC_SCORE_BACKGROUND);
+			stage.addChild(scoreBackground);
+			 */
+			/*
+			var hpBackground:Sprite = new Sprite();
 			var hpBackgroundWidth:Number = 500;
 			var hpBackgroundHeight:Number = 45;
 			var hpBackgroundTopY:Number = 455;
@@ -65,7 +74,7 @@ package {
 			stage.addChild(_scoreGradient);
 			 */
 			
-			_scoreText.text = "0000";
+			_scoreText.text = "00000000";
 			_scoreText.x = 20;
 			_scoreText.y = 500 - 37;
 			_scoreText.width = 260;
@@ -81,12 +90,12 @@ package {
 			var radius:Number = 50;			
 			_comboText.text = "×1";
 			_comboText.antiAliasType = "advanced";
-			_comboText.autoSize = TextFieldAutoSize.CENTER;
 			_comboText.width = radius;
 			_comboText.height = radius;
 			_comboText.x = COMBO_CENTER_X - _comboText.width / 2;
 			_comboText.y = COMBO_CENTER_Y - _comboText.height / 2;
 			
+			format.size = 40;
 			format.align = "center";
 			format.color = 0xFFFFFF;
 			_comboText.defaultTextFormat = format;
@@ -96,15 +105,35 @@ package {
 		
 		public function updateScore(pointValue:int):void {
 			_currentScore += pointValue * _currentCombo;
-			_scoreText.text = _currentScore.toString();
+			
+			var score:String = "00000000" + _currentScore;
+    		score = score.substr(score.length - 8); //Make sure 8 digits are always displayed
+	
+			_scoreText.text = score;
 		}
 		
 		public function updateComboMultiplier(comboMultiplier:int):void {
 			_currentCombo = comboMultiplier;
 			_comboText.text = "×" + _currentCombo.toString();
 			
-			_comboText.alpha = 0;
-			TweenLite.to(_comboText, 0.3, {alpha:1});
+			var ghostComboText:TextField = new TextField();
+			ghostComboText.x = _comboText.x;
+			ghostComboText.y = _comboText.y - 100;
+			ghostComboText.width = _comboText.width;
+			ghostComboText.height = _comboText.height;
+			ghostComboText.antiAliasType = "advanced";
+			ghostComboText.text = _comboText.text;
+			ghostComboText.alpha = 0;
+			
+			var format:TextFormat = new TextFormat();
+			format.size = 60;
+			format.align = "center";
+			format.color = 0xFFFFFF;
+			ghostComboText.defaultTextFormat = format;
+			ghostComboText.setTextFormat(format);
+			_comboText.parent.addChild(ghostComboText);
+			
+			TweenLite.to(ghostComboText, 0.3, {alpha:1, y:_comboText.y, onComplete:this.removeChild, onCompleteParams:[ghostComboText]});
 		}
 		
 		public function resetComboMultiplier():void {
