@@ -15,7 +15,7 @@ package  {
 		[Embed(source='../resc/Vanilla.ttf', embedAsCFF="false", fontName='Game', fontFamily="Game", mimeType='application/x-font')]
 		public static var IMPORT_FONT:Class;
 		
-		public static function render_text(tar:Graphics, text:String, x:Number, y:Number, fontsize:Number = 12, color:uint = 0xFFFFFF) {
+		public static function render_text(tar:Graphics, text:String, x:Number, y:Number, fontsize:Number = 12, color:uint = 0xFFFFFF):void {
 			tf.autoSize = TextFieldAutoSize.LEFT;
 			tf.textColor = color;
 			tf.embedFonts = true;
