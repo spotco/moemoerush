@@ -66,7 +66,7 @@ package  {
 				_layer_objects.push(cur);
 			}
 			
-			
+			update_dt();
 			
 			_stage.addChild(_player);
 			_player.init();
@@ -75,13 +75,17 @@ package  {
 		public var _last_time:Number = NaN;
 		public var _dt:Number = NaN;
 		public var _dt_scale:Number = NaN;
-		public function update():void {
+		private function update_dt():void {
 			var cur_time:Number = (new Date()).getTime();
 			_dt = cur_time - _last_time;
 			_dt_scale = _dt / 20;
 			_last_time = cur_time;
+		}
+		
+		private var _test_ct:Number = 0;
+		public function update():void {
+			update_dt();
 			if (isNaN(_dt)) return;
-			
 			
 			_player.update(this);
 			if (KB.is_key_down(Keyboard.LEFT)) {
@@ -95,12 +99,21 @@ package  {
 				
 			}
 			
+			_test_ct++;
+			if (_test_ct%30==0) {
+				_enemies.push(new BaseEnemy(_renderer._context).init(_last_time, _last_time+4000, _test_ct%60==0?BaseEnemy.SIDE_LEFT:BaseEnemy.SIDE_RIGHT));
+			}
 			
 			_layer_objects.length = 0;			
 			_ground.move_texture_uv(0.03, _dt_scale);
 			for each (var dec:TestDecoration in _decorations) {
 				_layer_objects.push(dec);
 				dec.update(this);
+			}
+			
+			for each (var enemy:BaseEnemy in _enemies) {
+				_layer_objects.push(enemy);
+				enemy.update(this);
 			}
 			
 			_layer_objects.sort(function(a:S3DObj, b:S3DObj):Number {
