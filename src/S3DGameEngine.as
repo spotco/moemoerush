@@ -4,16 +4,21 @@ package  {
 	import flash.geom.Vector3D;
 	import uiparticle.*
 	import flash.display.Stage;
+	import flash.display.Sprite;
+	import flash.geom.*;
 	import gameobjects.*;
 	import flash.ui.Keyboard;
 	import models.*;
+    import flash.media.SoundChannel;
 	
 	public class S3DGameEngine {
 		public const TIME_BEFORE_SONG:int = 2000;
 		public const ENEMY_PREPARE_BEAT_COUNT:int = 8; // How many beats early will enemies show up. More is easier.
 		
+        public var _channel:SoundChannel;
 		public var _renderer:S3DRenderer;
 		public var _stage:Stage;
+        public var _main:Main;
 		
 		public var _ground:S3DObj, _ground_fill:S3DObj, _sky_fill:S3DObj;
 		
@@ -36,10 +41,11 @@ package  {
 		
 		private var _ingame_ui:IngameUI;
 		
-		public function init(stage:Stage, renderer:S3DRenderer, song:Song):void {
+		public function init(stage:Stage, main:Main, renderer:S3DRenderer, song:Song):void {
 			_renderer = renderer;
 			_stage = stage;
 			_song = song;
+            _main = main;
 			
 			_renderer._layers.push(_layer_bg);
 			_renderer._layers.push(_layer_objects);
@@ -140,156 +146,179 @@ package  {
 		
 		public function update():void {
 			update_dt();
-			if (isNaN(_dt)) return;
+            if (!ending) {
+                if (isNaN(_dt)) return;
 
-			// Start the music if it has not been started yet
-			if (!_music_has_started && _last_time > 0) {
-				_legit_start_time = _last_time;
-				_song.music.play();
-				_music_has_started = true;
-			}
+                // Start the music if it has not been started yet
+                if (!_music_has_started && _last_time > 0) {
+                    _legit_start_time = _last_time;
+                    _channel = _song.music.play();
+                    _music_has_started = true;
+                }
 
-			// Update stored TimingPoint
-			if (_timingPoint == null) {
-				_timingPoint = _song.peekAtFirstTimingPoint();
-			}
-			if (_song.peekAtFirstTimingPoint() && _song.peekAtFirstTimingPoint().time < _last_time) {
-				_timingPoint = _song.popFirstTimingPoint();
-			}
-			
-			_player.update(this);
-			var width_multiplier:int = 4;
-			_player.feed_temp(_timingPoint.bpm * width_multiplier - ((_last_time + _timingPoint.bpm * 4500) - _timingPoint.time) % (_timingPoint.bpm * width_multiplier));
-			var tar_side:String = "";
-			var tar_vec:Vector3D = Vector3D.Z_AXIS.clone();
-			var particle_spawn_pos:Vector3D = tar_vec;
-			var hit_result:EnemyResult = null;
-			// User input
-			if (KB.is_key_down(Keyboard.LEFT) && !_last_left) {
-				_player.push_tmp_anim(_player.ANIM_PUNCH_LEFT, 10);
-				
-				tar_side = BaseEnemy.SIDE_LEFT;
-				tar_vec = BaseEnemy.POS_LEFT_HIT;
-				particle_spawn_pos = new Vector3D(_player.x-100, _player.y - 140,0);
-				hit_result = attack_enemy_on_side(particle_spawn_pos, Enemy.SIDE_LEFT);
+                // End the game if we are 3 seconds after the last Enemy
+                if ((_song.savedEnemies[_song.savedEnemies.length - 1].time + 1000) < _last_time) {
+                    initialize_ending_sequence();
+                }
 
-			} else if (KB.is_key_down(Keyboard.RIGHT) && !_last_right) {
-				_player.push_tmp_anim(_player.ANIM_PUNCH_RIGHT, 10);
-				
-				tar_side = BaseEnemy.SIDE_RIGHT;
-				tar_vec = BaseEnemy.POS_RIGHT_HIT;
-				particle_spawn_pos = new Vector3D(_player.x+100, _player.y - 140,0);
-				hit_result = attack_enemy_on_side(particle_spawn_pos, Enemy.SIDE_RIGHT);
-				
-			} else if (KB.is_key_down(Keyboard.UP) && !_last_top) {
-				_player.push_tmp_anim(_player.ANIM_PUNCH_TOP, 10);
-				tar_side = BaseEnemy.SIDE_TOP;
-				tar_vec = BaseEnemy.POS_TOP_HIT;
-				particle_spawn_pos = new Vector3D(_player.x, _player.y - 250 ,0);
-				hit_result = attack_enemy_on_side(particle_spawn_pos, Enemy.SIDE_UP);
-			}
-			
-			// Little animations and bubblies and stuff that pop up
-			if (tar_side != "") {
-				if (hit_result != null) {
-					if (hit_result.type == EnemyResult.TYPE_GREAT || hit_result.type == EnemyResult.TYPE_PERFECT) {
-						Resource.RESC_SFX_HIT.play();
-					} else if (hit_result.type == EnemyResult.TYPE_OK) {
-						Resource.RESC_SFX_HIT_OK.play();
-					} else {
-						Resource.RESC_SFX_MISS.play();
-					}
-					
-				} else {
-					Resource.RESC_SFX_MISS.play();
-					var neu_popup:UIParticle = new FlyUpFadeoutUIParticle(
-						particle_spawn_pos.x, 
-						particle_spawn_pos.y - 40, 
-						30, 
-						Resource.RESC_POPUP_MISS
-					);
-					_ui_particles.push(neu_popup);
-					_stage.addChild(neu_popup);
-				}
+                // Update stored TimingPoint
+                if (_timingPoint == null) {
+                    _timingPoint = _song.peekAtFirstTimingPoint();
+                }
+                if (_song.peekAtFirstTimingPoint() && _song.peekAtFirstTimingPoint().time < _last_time) {
+                    _timingPoint = _song.popFirstTimingPoint();
+                }
+                
+                _player.update(this);
+                var width_multiplier:int = 4;
+                _player.feed_temp(_timingPoint.bpm * width_multiplier - ((_last_time + _timingPoint.bpm * 4500) - _timingPoint.time) % (_timingPoint.bpm * width_multiplier));
+                var tar_side:String = "";
+                var tar_vec:Vector3D = Vector3D.Z_AXIS.clone();
+                var particle_spawn_pos:Vector3D = tar_vec;
+                var hit_result:EnemyResult = null;
+                // User input
+                if (KB.is_key_down(Keyboard.LEFT) && !_last_left) {
+                    _player.push_tmp_anim(_player.ANIM_PUNCH_LEFT, 10);
+                    
+                    tar_side = BaseEnemy.SIDE_LEFT;
+                    tar_vec = BaseEnemy.POS_LEFT_HIT;
+                    particle_spawn_pos = new Vector3D(_player.x-100, _player.y - 140,0);
+                    hit_result = attack_enemy_on_side(particle_spawn_pos, Enemy.SIDE_LEFT);
 
-			}
+                } else if (KB.is_key_down(Keyboard.RIGHT) && !_last_right) {
+                    _player.push_tmp_anim(_player.ANIM_PUNCH_RIGHT, 10);
+                    
+                    tar_side = BaseEnemy.SIDE_RIGHT;
+                    tar_vec = BaseEnemy.POS_RIGHT_HIT;
+                    particle_spawn_pos = new Vector3D(_player.x+100, _player.y - 140,0);
+                    hit_result = attack_enemy_on_side(particle_spawn_pos, Enemy.SIDE_RIGHT);
+                    
+                } else if (KB.is_key_down(Keyboard.UP) && !_last_top) {
+                    _player.push_tmp_anim(_player.ANIM_PUNCH_TOP, 10);
+                    tar_side = BaseEnemy.SIDE_TOP;
+                    tar_vec = BaseEnemy.POS_TOP_HIT;
+                    particle_spawn_pos = new Vector3D(_player.x, _player.y - 250 ,0);
+                    hit_result = attack_enemy_on_side(particle_spawn_pos, Enemy.SIDE_UP);
+                }
+                
+                // Little animations and bubblies and stuff that pop up
+                if (tar_side != "") {
+                    if (hit_result != null) {
+                        if (hit_result.type == EnemyResult.TYPE_GREAT || hit_result.type == EnemyResult.TYPE_PERFECT) {
+                            Resource.RESC_SFX_HIT.play();
+                        } else if (hit_result.type == EnemyResult.TYPE_OK) {
+                            Resource.RESC_SFX_HIT_OK.play();
+                        } else {
+                            Resource.RESC_SFX_MISS.play();
+                        }
+                        
+                    } else {
+                        Resource.RESC_SFX_MISS.play();
+                        var neu_popup:UIParticle = new FlyUpFadeoutUIParticle(
+                            particle_spawn_pos.x, 
+                            particle_spawn_pos.y - 40, 
+                            30, 
+                            Resource.RESC_POPUP_MISS
+                        );
+                        _ui_particles.push(neu_popup);
+                        _stage.addChild(neu_popup);
+                    }
 
-			// TODO: Play sound effects based on combos
-			// Lol innefficient don't give a shits
-			if (_song.combo < 10) {
-				_small_combo_achieved = false;
-				_medium_combo_achieved = false;
-				_big_combo_achieved = false;
-			} else if (_song.combo == 10 && !_small_combo_achieved) {
-				trace("10 combo");
-				_small_combo_achieved = true;
-			} else if (_song.combo == 25 && !_medium_combo_achieved) {
-				_medium_combo_achieved = true;
-				trace("25 combo");
-			} else if (_song.combo == 50  && !_big_combo_achieved) {
-				trace("50 combo");
-				_big_combo_achieved = true;
-			}
-			
-			_last_left = KB.is_key_down(Keyboard.LEFT);
-			_last_right = KB.is_key_down(Keyboard.RIGHT);
-			_last_top = KB.is_key_down(Keyboard.UP);
+                }
 
-			
-			// Generate new enemies
-			var enemyPrepareTime:int = ENEMY_PREPARE_BEAT_COUNT * _timingPoint.bpm;
-			var newEnemies:Array = _song.popAllEnemiesBeforeMoment(_last_time + enemyPrepareTime);
-			for each (var enemy:Enemy in newEnemies) {
-				var side:String = enemy.sideAsBaseEnemySide();
-				var baseEnemy:BaseEnemy = new BaseEnemy(_renderer._context, enemy.typeAsBaseEnemyType()).init(_last_time, _last_time + enemyPrepareTime, side);
-				enemy.baseEnemy = baseEnemy;
-				baseEnemy._enemy = enemy;
-				_enemies.push(baseEnemy);
-			}
-			
-			_layer_objects.length = 0;			
-			_ground.move_texture_uv(0.03, _dt_scale);
-			for each (var dec:TestDecoration in _decorations) {
-				_layer_objects.push(dec);
-				dec.update(this);
-			}
-			
-			// Clean enemies that are actually dead
-			var itr_enemy:BaseEnemy;
-			for (var i_enemy:int = _enemies.length-1; i_enemy >= 0; i_enemy--) {
-				itr_enemy = _enemies[i_enemy];
-				itr_enemy.update(this);
-				if (itr_enemy.should_remove()) {
-					itr_enemy.do_remove();
-					_enemies.splice(i_enemy, 1);
-				} else {
-					_layer_objects.push(itr_enemy);
-				}
-			}
-			
-			// Clean particle effects that aren't visible anymore
-			for (var i_particle:int = _ui_particles.length-1; i_particle >= 0; i_particle--) {
-				var itr_particle:UIParticle = _ui_particles[i_particle];
-				itr_particle.update(this);
-				if (itr_particle.should_remove()) {
-					itr_particle.do_remove();
-					_ui_particles.splice(i_particle, 1);
-					_stage.removeChild(itr_particle);
-				}
-			}
-			
-			// Reorder objects by z-index
-			_layer_objects.sort(function(a:S3DObj, b:S3DObj):Number {
-				return a._z - b._z;
-			});
+                // TODO: Play sound effects based on combos
+                // Lol innefficient don't give a shits
+                if (_song.combo < 10) {
+                    _small_combo_achieved = false;
+                    _medium_combo_achieved = false;
+                    _big_combo_achieved = false;
+                } else if (_song.combo == 10 && !_small_combo_achieved) {
+                    trace("10 combo");
+                    _small_combo_achieved = true;
+                } else if (_song.combo == 25 && !_medium_combo_achieved) {
+                    _medium_combo_achieved = true;
+                    trace("25 combo");
+                } else if (_song.combo == 50  && !_big_combo_achieved) {
+                    trace("50 combo");
+                    _big_combo_achieved = true;
+                }
+                
+                _last_left = KB.is_key_down(Keyboard.LEFT);
+                _last_right = KB.is_key_down(Keyboard.RIGHT);
+                _last_top = KB.is_key_down(Keyboard.UP);
 
-			// Update Interface Elements
-			_ingame_ui.updateScore(_song.points);
-			_ingame_ui.updateComboMultiplier(_song.combo);
-			_ingame_ui.updateHealth(_song.playerHealth);
-			
-			_ingame_ui.update(this);
-		}
+                
+                // Generate new enemies
+                var enemyPrepareTime:int = ENEMY_PREPARE_BEAT_COUNT * _timingPoint.bpm;
+                var newEnemies:Array = _song.popAllEnemiesBeforeMoment(_last_time + enemyPrepareTime);
+                for each (var enemy:Enemy in newEnemies) {
+                    var side:String = enemy.sideAsBaseEnemySide();
+                    var baseEnemy:BaseEnemy = new BaseEnemy(_renderer._context, enemy.typeAsBaseEnemyType()).init(_last_time, _last_time + enemyPrepareTime, side);
+                    enemy.baseEnemy = baseEnemy;
+                    baseEnemy._enemy = enemy;
+                    _enemies.push(baseEnemy);
+                }
+                
+                _layer_objects.length = 0;			
+                _ground.move_texture_uv(0.03, _dt_scale);
+                for each (var dec:TestDecoration in _decorations) {
+                    _layer_objects.push(dec);
+                    dec.update(this);
+                }
+                
+                // Clean enemies that are actually dead
+                var itr_enemy:BaseEnemy;
+                for (var i_enemy:int = _enemies.length-1; i_enemy >= 0; i_enemy--) {
+                    itr_enemy = _enemies[i_enemy];
+                    itr_enemy.update(this);
+                    if (itr_enemy.should_remove()) {
+                        itr_enemy.do_remove();
+                        _enemies.splice(i_enemy, 1);
+                    } else {
+                        _layer_objects.push(itr_enemy);
+                    }
+                }
+                
+                // Clean particle effects that aren't visible anymore
+                for (var i_particle:int = _ui_particles.length-1; i_particle >= 0; i_particle--) {
+                    var itr_particle:UIParticle = _ui_particles[i_particle];
+                    itr_particle.update(this);
+                    if (itr_particle.should_remove()) {
+                        itr_particle.do_remove();
+                        _ui_particles.splice(i_particle, 1);
+                        _stage.removeChild(itr_particle);
+                    }
+                }
+                
+                // Reorder objects by z-index
+                _layer_objects.sort(function(a:S3DObj, b:S3DObj):Number {
+                    return a._z - b._z;
+                });
+
+                // Update Interface Elements
+                _ingame_ui.updateScore(_song.points);
+                _ingame_ui.updateComboMultiplier(_song.combo);
+                _ingame_ui.updateHealth(_song.playerHealth);
+
+                if (_song.playerHealth == 0) {
+                    initialize_losing_sequence();
+                }
+                
+                _ingame_ui.update(this);
+            } else {
+                if (fadeBox.alpha < 1) {
+                    fadeBox.alpha += 0.1;
+                }
+                if (_last_time > fadeout_moment) {
+                    _stage.removeChild(fadeBox)
+                    if (won) {
+                        end_game();
+                    } else {
+                        lose_game();
+                    }
+                }
+            }
+        }
 
 		// Arguments:
 		//	 particle_spawn_pos: A Vector3D object representing the coordinate to spawn particle effects from
@@ -332,6 +361,58 @@ package  {
 			_ui_particles.push(neu_popup);
 			_stage.addChild(neu_popup);
 		}
+
+        public var ending:Boolean = false;
+        public var fadeout_moment:int;
+        public var fadeBox:Sprite;
+
+        public function initialize_ending_sequence(): void {
+            trace("ending initialize now");
+            // Call end_game after animations or whatever you thought you were gonna do
+            fadeout_moment = _last_time + 1000;
+            fadeBox = new Sprite();
+            _channel.stop();
+            fadeBox.graphics.beginFill(0x000000, 1);
+            fadeBox.graphics.lineStyle(1, 0x000000);
+            fadeBox.graphics.drawRect(0, 0, 1000, 500);
+            fadeBox.graphics.endFill();
+            fadeBox.alpha = 0
+            _stage.addChild(fadeBox);
+            ending = true;
+            won = true;
+        }
+
+        public function initialize_losing_sequence(): void {
+            trace("ending initialize now");
+            // Call end_game after animations or whatever you thought you were gonna do
+            fadeout_moment = _last_time + 1000;
+            fadeBox = new Sprite();
+            _channel.stop();
+            fadeBox.graphics.beginFill(0x000000, 1);
+            fadeBox.graphics.lineStyle(1, 0x000000);
+            fadeBox.graphics.drawRect(0, 0, 1000, 500);
+            fadeBox.graphics.endFill();
+            fadeBox.alpha = 0
+            _stage.addChild(fadeBox);
+            ending = true;
+            won = false;
+        }
+
+        public var won:Boolean = false;
+
+        public function end_game(): void {
+            trace("ending now");
+            _renderer._context.clear();
+            _player.parent.removeChild(_player);
+            _main.end_game()
+        }
+
+        public function lose_game(): void {
+            trace("ending now");
+            _renderer._context.clear();
+            _player.parent.removeChild(_player);
+            _main.lose_game()
+        }
 	}
 
 }

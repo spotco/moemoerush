@@ -18,6 +18,7 @@ package {
 		public var _game_engine:S3DGameEngine = new S3DGameEngine();
 		
 		public static var _context:Context3D;
+        public var game_timer:Timer;
 		
 		public function Main():void {
 			stage.addChild(this);
@@ -44,11 +45,21 @@ package {
             var self:Main = this;
             new KB(stage);
             _renderer.init(stage,_context);
-			_game_engine.init(stage, _renderer, song);
-            var t:Timer = (new Timer(20));
-            t.addEventListener(TimerEvent.TIMER, update);
-            t.start();
+			_game_engine.init(stage, this, _renderer, song);
+            game_timer = (new Timer(20));
+            game_timer.addEventListener(TimerEvent.TIMER, update);
+            game_timer.start();
 		}
+
+        public function end_game(): void {
+            this.addChild(new EndCard(this));
+            game_timer.stop();
+        }
+
+        public function lose_game(): void {
+            this.addChild(new EndCard(this));
+            game_timer.stop();
+        }
 		
 		public function update(e:TimerEvent):void {
 			_game_engine.update();
