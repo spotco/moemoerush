@@ -14,9 +14,14 @@ package models {
 
         public var type:int;
         public var pointValue:int;
+        public var enemy:Enemy;
 
-        public function EnemyResult(type: int) {
+        // Arguments:
+        //     type: One of the ENEMY_RESULT.TYPE_* values.
+        //     enemy: A reference to the original Enemy Object that was marked
+        public function EnemyResult(type: int, enemy:Enemy) {
             this.type = type;
+            this.enemy = enemy;
             if (this.type == TYPE_PERFECT) {
                 this.pointValue = POINT_VALUE_PERFECT;
             } else if (this.type == TYPE_GREAT) {

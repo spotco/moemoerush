@@ -25,7 +25,6 @@ package {
 			_renderer.init(stage);
 			_renderer._on_init = function():void {
 				_game_engine.init(stage, _renderer);
-				_renderer._logic_update = _game_engine.update;
 				var t:Timer = (new Timer(20));
 				t.addEventListener(TimerEvent.TIMER, update);
 				t.start();
@@ -33,6 +32,7 @@ package {
 		}
 		
 		public function update(e:TimerEvent):void {
+			_game_engine.update();
 			_renderer.update();
 		}
 		

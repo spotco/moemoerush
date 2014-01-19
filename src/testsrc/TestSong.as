@@ -87,5 +87,39 @@ package testsrc {
             assertEquals(song.enemies.length, 0);
         }
 
+        public function testMarkEnemy():void {
+            var enemyOne:Enemy = new Enemy(5, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
+            var enemyTwo:Enemy = new Enemy(6, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
+            var enemyThree:Enemy = new Enemy(8, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
+            var enemyFour:Enemy = new Enemy(10, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
+
+            enemyOne.side = Enemy.SIDE_UP;
+            enemyTwo.side = Enemy.SIDE_RIGHT;
+            enemyThree.side = Enemy.SIDE_RIGHT;
+            enemyFour.side = Enemy.SIDE_LEFT;
+
+            var song:Song = new Song("test", "test", 1, [enemyOne, enemyTwo, enemyThree, enemyFour], []);
+            song.timeMargin = 2;
+ 
+            // A click to a side with no enemies ever should return nul
+            assertEquals(song.markEnemy(1, Enemy.SIDE_DOWN), null);
+
+            // A successful click, and then a click to the same time that has nothing else around itc
+            var enemyResult:EnemyResult = song.markEnemy(5, Enemy.SIDE_UP);
+            assertEquals(enemyResult, enemyOne.enemyResult);
+            assertEquals(enemyResult.enemy, enemyOne);
+            assertEquals(song.markEnemy(5, Enemy.SIDE_UP), null);
+
+            // Two clicks should mutate the structure and get two different enemies.
+            enemyResult = song.markEnemy(6.5, Enemy.SIDE_RIGHT);
+            assertEquals(enemyResult, enemyTwo.enemyResult);
+            assertEquals(enemyResult.enemy, enemyTwo);
+            enemyResult = song.markEnemy(6.5, Enemy.SIDE_RIGHT);
+            assertEquals(enemyResult, enemyThree.enemyResult);
+            assertEquals(enemyResult.enemy, enemyThree);
+
+            // A click where there is an enemy around that is too far away should return null
+            assertEquals(song.markEnemy(7.9, Enemy.SIDE_LEFT), null);
+        }
     }
 }

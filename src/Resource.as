@@ -48,6 +48,13 @@ package  {
 		[Embed( source = "../resc/girl/punch_up_0.png" )]
 		private static var IMPORT_GIRL_PUNCH_UP_0:Class;
 		public static var RESC_GIRL_PUNCH_UP_0:Bitmap = new IMPORT_GIRL_PUNCH_UP_0 as Bitmap;
+		
+	
+		//enemies
+		[Embed( source = "../resc/enemies/copter_0.png" )]
+		private static var IMPORT_COPTER_0:Class;
+		public static var RESC_COPTER_0:Bitmap = new IMPORT_COPTER_0 as Bitmap;	
+
 
         // Song Data
 		[Embed( source = "../resc/song/drop.mp3" )]
