@@ -102,7 +102,6 @@ package gameobjects {
 				}
 				
 			} else {
-				trace("in band _ct_walk_cycle: " + _ct_walk_cycle);
 				_ct_walk_cycle -= dt_scale;
 				if (_ct_walk_cycle <= 0) {
 					// _ct_walk_cycle = walk_cycle_speed_corrected + (_ct_walk_cycle);

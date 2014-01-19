@@ -25,6 +25,7 @@ package models {
         // In-game state fields:
         public var playerHealth:int;
         public var combo:int;
+        public var points:int;
 
         public function Song(title:String, artist:String, difficulty:int, enemies:Array, timingPoints:Array) {
             this.title = title;
@@ -175,6 +176,7 @@ package models {
 
                 var enemyResult:EnemyResult = new EnemyResult(resultType, markedEnemy);
                 markedEnemy.enemyResult = enemyResult;
+                points += ((.07 * combo + 1) * enemyResult.pointValue);
                 return enemyResult;
             }
 
