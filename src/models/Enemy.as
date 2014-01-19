@@ -13,6 +13,7 @@ package models {
 
         public var time:int;
         public var type:String;
+        public var comboId:int;
         public var side:String;
 
         // This field should only have a reference once the enemy is marked
