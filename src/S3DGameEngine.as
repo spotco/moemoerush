@@ -95,7 +95,7 @@ package  {
 					cur.update_vertex(3, S3DObj.I_ELE_U, 0);
 					cur.upload_vertex_uv_buffers();
 				}
-				cur._scale = Util.rand_range(20,30);
+				cur._scale = Util.rand_range(17,25);
 				cur._building_mode = true;
 				cur._x = (side_i % 2 == 0? -1:1)*Util.rand_range(25,45);
 				_decorations.push(cur);
