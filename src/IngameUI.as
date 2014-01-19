@@ -142,28 +142,6 @@ package {
 		
 		public function update(game:S3DGameEngine):void {
 			_hpbar_back.y = (_hpbar_back_tar_y - _hpbar_back.y)*0.5 + _hpbar_back.y;
-			
-			/*
-			var myColorTransform:ColorTransform = new ColorTransform();
-			_blueMultiplier += 0.01 * _blueMultInc;
-			if (_blueMultiplier > BLUE_MAX) {
-				_blueMultiplier = BLUE_MAX;
-				_blueMultInc *= -1;
-			} else if (_blueMultiplier < BLUE_MIN) {
-				_blueMultiplier = BLUE_MIN;
-				_blueMultInc *= -1;
-			}
-			myColorTransform.blueMultiplier = _blueMultiplier;
-			_scoreGradient.transform.colorTransform = myColorTransform;
-			*/
-			/*
-			if (_displayScore < _currentScore) {
-				_displayScore ++;
-			} else {
-				_displayScore = _currentScore;
-			}
-			_scoreText.text = _displayScore.toString();
-			 */
 		}
 		
 	}
