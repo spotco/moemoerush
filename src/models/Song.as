@@ -2,7 +2,6 @@ package models {
 
     // TODO: Remove because this is only for debugging
     import flash.media.Sound;
-    import asunit.textui.ResultPrinter;
     import Util;
     import Math;
 
@@ -44,13 +43,15 @@ package models {
 
         // TODO: better patterns for side assignments
         public function assignSides(enemies:Array): void {
+            Util.seedRandom(39);
             for (var i:int = 0; i < enemies.length; i++) {
+                var sideId:int = ((Util.random() * 4) as int) % 4;
                 if (enemies[i].side < 0) {
-                    if (i % 4 == 0) {
+                    if (sideId == 0) {
                         enemies[i].side = Enemy.SIDE_LEFT;
-                    } else if (i % 4 == 1) {
+                    } else if (sideId == 1) {
                         enemies[i].side = Enemy.SIDE_RIGHT;
-                    } else if (i % 4 == 2) {
+                    } else if (sideId == 2) {
                         enemies[i].side = Enemy.SIDE_UP;
                     } else {
                         enemies[i].side = Enemy.SIDE_DOWN;
