@@ -31,6 +31,11 @@ package {
 		public var _context:Context3D;
 		public var _shader:Program3D;
 		
+		public function dispose():void {
+			_vertex_uv_buffer.dispose();
+			_index_buffer.dispose();
+		}
+		
 		private static var TEXTURE_CACHE:Dictionary = new Dictionary();
 		
 		public function S3DObj(context:Context3D, texbmp:Bitmap):void {
@@ -41,10 +46,12 @@ package {
 			_vertex_uv_buffer = context.createVertexBuffer(4, 5);
 			_index_buffer = context.createIndexBuffer(6);
 			
-			if (TEXTURE_CACHE[texbmp.toString()] == null) TEXTURE_CACHE[texbmp.toString()] = context.createTexture(texbmp.width, texbmp.height, "bgra", false);
+			if (TEXTURE_CACHE[texbmp.toString()] == null) {
+				TEXTURE_CACHE[texbmp.toString()] = context.createTexture(texbmp.width, texbmp.height, "bgra", false);
+				(TEXTURE_CACHE[texbmp.toString()] as Texture).uploadFromBitmapData(texbmp.bitmapData);
+			}
 			
 			_texture = TEXTURE_CACHE[texbmp.toString()];
-			_texture.uploadFromBitmapData(texbmp.bitmapData);
 			
 			_vertex_uv_buffer.uploadFromVector(_vertex_data, 0, 4);
 			

@@ -3,6 +3,7 @@ package  {
 	import flash.media.Sound;
 	public class Resource {
 		
+		//decorations
 		[Embed( source = "../resc/ground.png" )]
 		private static var IMPORT_GROUND:Class;
 		public static var RESC_GROUND:Bitmap = new IMPORT_GROUND as Bitmap;
@@ -19,6 +20,14 @@ package  {
 		private static var IMPORT_TREE:Class;
 		public static var RESC_TREE:Bitmap = new IMPORT_TREE as Bitmap;
 		
+		[Embed( source = "../resc/building/building_1_l.png" )]
+		private static var IMPORT_BUILDING_1_L:Class;
+		public static var RESC_BUILING_1_L:Bitmap = new IMPORT_BUILDING_1_L as Bitmap;
+		
+		//effects
+		[Embed( source = "../resc/effects/pow.png" )]
+		private static var IMPORT_EFFECT_POW:Class;
+		public static var RESC_EFFECT_POW:Bitmap = new IMPORT_EFFECT_POW as Bitmap;
 		
 		//girl anim frames
 		[Embed( source = "../resc/girl/run_0.png" )]
@@ -36,6 +45,38 @@ package  {
 		[Embed( source = "../resc/girl/run_3.png" )]
 		private static var IMPORT_GIRL_RUN_3:Class;
 		public static var RESC_GIRL_RUN_3:Bitmap = new IMPORT_GIRL_RUN_3 as Bitmap;
+
+        [Embed( source= "../resc/girl/run_4.png" )]
+        private static var IMPORT_GIRL_RUN_4:Class;
+        public static var RESC_GIRL_RUN_4:Bitmap = new IMPORT_GIRL_RUN_4 as Bitmap;
+
+        [Embed( source= "../resc/girl/run_5.png" )]
+        private static var IMPORT_GIRL_RUN_5:Class;
+        public static var RESC_GIRL_RUN_5:Bitmap = new IMPORT_GIRL_RUN_5 as Bitmap;
+
+        [Embed( source= "../resc/girl/run_6.png" )]
+        private static var IMPORT_GIRL_RUN_6:Class;
+        public static var RESC_GIRL_RUN_6:Bitmap = new IMPORT_GIRL_RUN_6 as Bitmap;
+
+        [Embed( source= "../resc/girl/run_7.png" )]
+        private static var IMPORT_GIRL_RUN_7:Class;
+        public static var RESC_GIRL_RUN_7:Bitmap = new IMPORT_GIRL_RUN_7 as Bitmap;
+
+        [Embed( source= "../resc/girl/run_8.png" )]
+        private static var IMPORT_GIRL_RUN_8:Class;
+        public static var RESC_GIRL_RUN_8:Bitmap = new IMPORT_GIRL_RUN_8 as Bitmap;
+
+        [Embed( source= "../resc/girl/run_9.png" )]
+        private static var IMPORT_GIRL_RUN_9:Class;
+        public static var RESC_GIRL_RUN_9:Bitmap = new IMPORT_GIRL_RUN_9 as Bitmap;
+
+        [Embed( source= "../resc/girl/run_10.png" )]
+        private static var IMPORT_GIRL_RUN_10:Class;
+        public static var RESC_GIRL_RUN10:Bitmap = new IMPORT_GIRL_RUN_10 as Bitmap;
+
+        [Embed( source= "../resc/girl/run_11.png" )]
+        private static var IMPORT_GIRL_RUN_11:Class;
+        public static var RESC_GIRL_RUN11:Bitmap = new IMPORT_GIRL_RUN_11 as Bitmap;
 		
 		[Embed( source = "../resc/girl/punch_left_0.png" )]
 		private static var IMPORT_GIRL_PUNCH_LEFT_0:Class;

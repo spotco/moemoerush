@@ -55,10 +55,10 @@ package misc {
     }
 
     private static function parseTimingPoints(array:Array):Array {
-      var timingPointsArray = new Array();
+      var timingPointsArray:Array = new Array();
       var initBPM:Number = 0;
 
-      for (var i:int = 0, len = array.length; i < len; i++) {
+      for (var i:int = 0, len:int = array.length; i < len; i++) {
         if (array[i].indexOf(",") != -1) {
           var parts:Array = array[i].split(",");
           var tp:TimingPoint = new TimingPoint(0, 0.0, 0);
@@ -79,9 +79,9 @@ package misc {
     }
 
     private static function parseHitObjects(array:Array):Array {
-      var hitObjectsArray = new Array();
+      var hitObjectsArray:Array = new Array();
 
-      for (var i:int = 0, len = array.length; i < len; i++) {
+      for (var i:int = 0, len:int = array.length; i < len; i++) {
         if (array[i].indexOf(",") != -1) {
           var parts:Array = array[i].split(",");
           var enemy:Enemy = new Enemy(0, 0);

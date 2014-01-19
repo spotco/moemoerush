@@ -22,7 +22,6 @@ package testsrc {
             var enemyOk:EnemyResult = new EnemyResult(EnemyResult.TYPE_OK, enemy);
             var enemyMiss:EnemyResult = new EnemyResult(EnemyResult.TYPE_MISS, enemy);
 
-
             assertEquals(enemyPerfect.type, EnemyResult.TYPE_PERFECT);
             assertEquals(enemyGreat.type, EnemyResult.TYPE_GREAT);
             assertEquals(enemyOk.type, EnemyResult.TYPE_OK);

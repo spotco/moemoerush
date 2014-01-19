@@ -20,7 +20,7 @@ package models {
         // This field should only have a reference once the enemy is marked
         public var enemyResult:EnemyResult;
 
-        public function Enemy(time:int, type:int = 0) {
+        public function Enemy(time:int, type:int = -1) {
             this.time = time;
             this.type = type;
         }

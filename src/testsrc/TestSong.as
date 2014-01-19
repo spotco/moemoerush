@@ -88,6 +88,9 @@ package testsrc {
         }
 
         public function testMarkEnemy():void {
+            // Carefully constructed so that timeMargin will be 2 seconds
+            var timingPoint:TimingPoint = new TimingPoint(0, 30, 4);
+
             var enemyOne:Enemy = new Enemy(5, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
             var enemyTwo:Enemy = new Enemy(6, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
             var enemyThree:Enemy = new Enemy(8, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
@@ -98,8 +101,7 @@ package testsrc {
             enemyThree.side = Enemy.SIDE_RIGHT;
             enemyFour.side = Enemy.SIDE_LEFT;
 
-            var song:Song = new Song("test", "test", 1, [enemyOne, enemyTwo, enemyThree, enemyFour], []);
-            song.timeMargin = 2;
+            var song:Song = new Song("test", "test", 1, [enemyOne, enemyTwo, enemyThree, enemyFour], [timingPoint]);
  
             // A click to a side with no enemies ever should return nul
             assertEquals(song.markEnemy(1, Enemy.SIDE_DOWN), null);
@@ -120,6 +122,58 @@ package testsrc {
 
             // A click where there is an enemy around that is too far away should return null
             assertEquals(song.markEnemy(7.9, Enemy.SIDE_LEFT), null);
+        }
+
+        public function testMarkEnemyScoring():void {
+            // Carefully constructed so that timeMargin will be 2 seconds
+            var timingPoint:TimingPoint = new TimingPoint(0, 30, 4);
+
+            var enemyOne:Enemy = new Enemy(5, Enemy.TYPE_EXAMPLE_FOR_TEST_PURPOSES);
+
+            enemyOne.side = Enemy.SIDE_UP;
+            var song:Song = new Song("test", "test", 1, [enemyOne], [timingPoint]);
+            assertEquals(song.markEnemy(5, Enemy.SIDE_UP).type, EnemyResult.TYPE_PERFECT);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(5.5, Enemy.SIDE_UP).type, EnemyResult.TYPE_PERFECT);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(6.2, Enemy.SIDE_UP).type, EnemyResult.TYPE_GREAT);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(6.4, Enemy.SIDE_UP).type, EnemyResult.TYPE_OK);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(7, Enemy.SIDE_UP).type, EnemyResult.TYPE_OK);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(4.5, Enemy.SIDE_UP).type, EnemyResult.TYPE_PERFECT);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(3.8, Enemy.SIDE_UP).type, EnemyResult.TYPE_GREAT);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(3.6, Enemy.SIDE_UP).type, EnemyResult.TYPE_OK);
+            enemyOne.enemyResult = null;
+            assertEquals(song.markEnemy(3, Enemy.SIDE_UP).type, EnemyResult.TYPE_OK);
+        }
+
+        public function testHealth():void {
+            var song:Song = new Song("test", "test", 1, [], []);
+            assertEquals(song.playerHealth, Song.MAX_HEALTH);
+            song.damageHealth();
+            assertEquals(song.playerHealth, Song.MAX_HEALTH - 1);
+            song.damageHealth();
+            assertEquals(song.playerHealth, Song.MAX_HEALTH - 2);
+            song.recoverHealth();
+            assertEquals(song.playerHealth, Song.MAX_HEALTH - 1);
+        }
+
+        public function testGetTimingPointForTime():void  {
+            var timingPointOne:TimingPoint = new TimingPoint(5, 100, 3);
+            var timingPointTwo:TimingPoint = new TimingPoint(6, 100, 3);
+            var timingPointThree:TimingPoint = new TimingPoint(8, 100, 3);
+            var song:Song = new Song("test", "test", 1, [], [timingPointOne, timingPointTwo, timingPointThree]);
+
+            assertEquals(song.getTimingPointForTime(0), null);
+            assertEquals(song.getTimingPointForTime(5), timingPointOne);
+            assertEquals(song.getTimingPointForTime(5.5), timingPointOne);
+            assertEquals(song.getTimingPointForTime(6), timingPointTwo);
+            assertEquals(song.getTimingPointForTime(8), timingPointThree);
+            assertEquals(song.getTimingPointForTime(900), timingPointThree);
         }
     }
 }

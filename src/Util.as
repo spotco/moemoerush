@@ -1,4 +1,5 @@
 package  {
+	import flash.geom.Vector3D;
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
 	
@@ -6,6 +7,10 @@ package  {
 		
 		public static var WID:Number = 1000;
 		public static var HEI:Number = 500;
+		
+		public static function vec_dist(a:Vector3D, b:Vector3D):Number {
+			return Math.sqrt(Math.pow(b.x-a.x, 2) + Math.pow(b.y-a.y, 2) + Math.pow(b.z-a.z, 2));
+		}
 		
 		public static function round_dec(numIn:Number, decimalPlaces:int):Number {
 			var nExp:int = Math.pow(10,decimalPlaces) ;
