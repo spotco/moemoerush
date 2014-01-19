@@ -71,7 +71,7 @@ package {
 						} else if (_i_frame == 3) {
 							// Resource.RESC_SFX_WHATTHEHELL.play();
                             Resource.RESC_SERGEANT.play();
-							_anim_ct = 200;
+							_anim_ct = 170;
 							
 						}
 						

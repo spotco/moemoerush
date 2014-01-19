@@ -13,6 +13,8 @@ package {
             _main = main;
             trace("end card added");
 			this.addChild(Resource.RESC_END_CARD);
+            Resource.RESC_GIRL_END.play();
+
             this.height = 500;
             this.scaleX = this.scaleY;
         }
