@@ -1,6 +1,5 @@
 package models {
     public class EnemyResult {
-
         // Effectively an ENUM to represent each possible type
         public static const TYPE_PERFECT:int = 3;
         public static const TYPE_GREAT:int = 2;

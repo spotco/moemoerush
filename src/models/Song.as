@@ -11,16 +11,15 @@ package models {
 
         public var title:String;
         public var artist:String;
-        public var difficulty:int; // Between 1 and 5
+        public var difficulty:int; // Between 1 and 10?? ahaha
+
+        public var savedTimingPoints:Array;
+        public var savedEnemies:Array;
 
         public var enemies:Array;
         public var timingPoints:Array;
 
         // In-game state fields:
-        // TODO: Invariant checker for timeMargin.
-        // The maximum time away from an Enemy time that an Enemy could qualify
-        // for a marking
-        public var timeMargin:int;
         public var playerHealth:int;
 
         public function Song(title:String, artist:String, difficulty:int, enemies:Array, timingPoints:Array) {
@@ -29,6 +28,10 @@ package models {
             this.difficulty = difficulty;
             this.enemies = enemies;
             this.timingPoints = timingPoints;
+
+            // Shallow copies
+            this.savedTimingPoints = timingPoints.concat();
+            this.savedEnemies = timingPoints.concat();
 
             this.playerHealth = MAX_HEALTH;
         }
@@ -84,7 +87,11 @@ package models {
         //     time: The moment in time that the press occurred.
         //     enemySide: The direction of enemy to attempt to mark. See Enemy.SIDE_*
         public function markEnemy(time:int, enemySide:int): EnemyResult {
-            Util.assert(timeMargin != 0);
+            var applicableTimingPoint:TimingPoint = getTimingPointForTime(time);
+
+            // One quarter note - in seconds
+            var timeMargin:Number = applicableTimingPoint.getBPMAsMillisecondsPerBeat / 1000;
+
             // Find the two enemies on either side of the press time
             var frontEnemy:Enemy = null;
             var backEnemy:Enemy = null;
@@ -102,6 +109,7 @@ package models {
                 }
             }
 
+
             if (frontEnemy && backEnemy) {
                 if (Math.abs(frontEnemy.time - time) < Math.abs(backEnemy.time - time)) {
                     markedEnemy = frontEnemy;
@@ -118,6 +126,8 @@ package models {
 
             if (markedEnemy) {
                 var timeDifference:int = Math.abs(markedEnemy.time - time);
+                ResultPrinter.printer.println(applicableTimingPoint);
+                var millisecondsPerBeat:Number = applicableTimingPoint.getBPMAsMillisecondsPerBeat();
                 // TODO: Have more than just perfect.
                 var enemyResult:EnemyResult = new EnemyResult(EnemyResult.TYPE_PERFECT, markedEnemy);
                 markedEnemy.enemyResult = enemyResult;
@@ -133,6 +143,24 @@ package models {
 
         public function recoverHealth(): void {
             this.playerHealth += 1;
+        }
+
+        /************************************************************************************
+         * Really just used as internal utility, public because it makes it easier to test. *
+         ************************************************************************************/
+
+        // Given a time, returns the timing point who's values affect this time.
+        // Returns null if there are no timing points that apply to the given time.
+        public function getTimingPointForTime(time:int): TimingPoint {
+            var mostRecentTimingPoint:TimingPoint = null;
+            for (var i:int = 0; i < timingPoints.length; i++) {
+                if (timingPoints[i].time <= time) {
+                    mostRecentTimingPoint = timingPoints[i];
+                } else {
+                    break;
+                }
+            }
+            return mostRecentTimingPoint;
         }
     }
 }
