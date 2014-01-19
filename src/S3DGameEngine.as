@@ -167,7 +167,7 @@ package  {
                 }
 
                 // End the game if we are 3 seconds after the last Enemy
-                if ((_song.savedEnemies[_song.savedEnemies.length - 1].time + 1000) < _last_time) {
+                if ((_song.savedEnemies[_song.savedEnemies.length - 1].time + 3000) < _last_time) {
                     initialize_ending_sequence();
                 }
 
