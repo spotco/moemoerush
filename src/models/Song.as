@@ -42,6 +42,7 @@ package models {
             this.combo = 0;
 
             assignSides(this.enemies);
+            assignTypes(this.enemies);
             testInvariants();
         }
 
@@ -54,7 +55,7 @@ package models {
             }
             Util.seedRandom(seedValue);
 
-            for (var i:int = 0; i < enemies.length; i++) {
+            for (i = 0; i < enemies.length; i++) {
                 var sideId:int = Math.floor(Math.abs(Util.random() * 3));
                 if (enemies[i].side == null) {
                     if (sideId == 0) {
@@ -63,6 +64,31 @@ package models {
                         enemies[i].side = Enemy.SIDE_RIGHT;
                     } else if (sideId == 2) {
                         enemies[i].side = Enemy.SIDE_UP;
+                    }
+                }
+            }
+        }
+
+        // TODO: better patterns for type assignments
+        public function assignTypes(enemies:Array): void {
+            var seedValue:int = 0;
+            for (var i:int = 0; i < title.length; i++) {
+                seedValue = seedValue + (enemies.length * title.charCodeAt(i) * 7);
+                seedValue = seedValue + (timingPoints.length * title.charCodeAt(i) + 11);
+            }
+            Util.seedRandom(seedValue);
+
+            for (i = 0; i < enemies.length; i++) {
+                var sideId:int = Math.floor(Math.abs(Util.random() * 4));
+                if (enemies[i].type == null) {
+                    if (sideId == 0) {
+                        enemies[i].type = Enemy.TYPE_HELICOPTER;
+                    } else if (sideId == 1) {
+                        enemies[i].type = Enemy.TYPE_JET_FIGHTER;
+                    } else if (sideId == 2) {
+                        enemies[i].type = Enemy.TYPE_PARACHUTE_GUY;
+                    } else if (sideId == 3) {
+                        enemies[i].type = Enemy.TYPE_NUKE;
                     }
                 }
             }

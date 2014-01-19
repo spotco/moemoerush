@@ -139,6 +139,18 @@ package  {
 		[Embed( source = "../resc/enemies/copter_0.png" )]
 		private static var IMPORT_COPTER_0:Class;
 		public static var RESC_COPTER_0:Bitmap = new IMPORT_COPTER_0 as Bitmap;	
+
+		[Embed( source = "../resc/enemies/jet_fighter_0.png" )]
+		private static var IMPORT_JET_FIGHTER_0:Class;
+		public static var RESC_JET_FIGHTER_0:Bitmap = new IMPORT_JET_FIGHTER_0 as Bitmap;	
+
+		[Embed( source = "../resc/enemies/nuke_0.png" )]
+		private static var IMPORT_NUKE_0:Class;
+		public static var RESC_NUKE_0:Bitmap = new IMPORT_NUKE_0 as Bitmap;	
+
+		[Embed( source = "../resc/enemies/parachute_guy_0.png" )]
+		private static var IMPORT_PARACHUTE_GUY_0:Class;
+		public static var RESC_PARACHUTE_GUY_0:Bitmap = new IMPORT_PARACHUTE_GUY_0 as Bitmap;	
 		
 		//sfx
 		[Embed( source = "../resc/sfx/hit.mp3" )]
