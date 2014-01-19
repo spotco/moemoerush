@@ -406,6 +406,7 @@ package  {
 			//while (_stage.numChildren > 0) _stage.removeChildAt(0);
 			_ingame_ui.clear();
 			for each (var p : UIParticle in _ui_particles) if (p.parent != null) p.parent.removeChild(p);
+			_ui_particles.length = 0;
 			
             // Call end_game after animations or whatever you thought you were gonna do
             fadeout_moment = _last_time + 1000;
@@ -427,6 +428,7 @@ package  {
 			//while (_stage.numChildren > 0) _stage.removeChildAt(0);
 			_ingame_ui.clear();
 			for each (var p : UIParticle in _ui_particles) if (p.parent != null) p.parent.removeChild(p);
+			_ui_particles.length = 0;
 			
             // Call end_game after animations or whatever you thought you were gonna do
             fadeout_moment = _last_time + 1000;
