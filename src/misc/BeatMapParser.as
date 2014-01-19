@@ -10,7 +10,14 @@ package misc {
             var rawTimingPointsArray:Array = new Array();  // contains every line in [TimingPoints] section
             var rawHitObjectsArray:Array = new Array();    // contains every line in [HitObjects] section
 
-            var array:Array = data.split("\r\n");
+            var array:Array = null;
+            // I want to die
+            if (data.indexOf("\r")) {
+                array = data.split("\r\n");
+            } else {
+                array = data.split("\n");
+
+            }
 
             var iteratingTimingPoints:Boolean = false;
             var iteratingHitObjects:Boolean = false;
