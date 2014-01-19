@@ -1,4 +1,5 @@
 package  {
+    // TODO: Ships on screen depends on BPM
 	import flash.geom.Vector3D;
 	import uiparticle.*
 	import flash.display.Stage;
@@ -125,6 +126,8 @@ package  {
 				_song.music.play();
 				_music_has_started = true;
 			}
+            // TODO: remove debug
+            trace(_last_time);
 			
 			_player.update(this);
 			var tar_side:String = "";

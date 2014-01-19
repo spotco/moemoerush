@@ -139,13 +139,14 @@ package  {
 		
         // Song Data
         // Songs we have available:
-        // * drop
-        // * scheol
-		[Embed( source = "../resc/song/scheol.mp3" )]
+        // * days-of-dash (Insane)
+        // * drop (Hard)
+        // * scheol (Insane)
+		[Embed( source = "../resc/song/days-of-dash.mp3" )]
 		private static var IMPORT_SONG_MP3:Class;
 		public static var RESC_SONG_MP3:Sound = new IMPORT_SONG_MP3 as Sound;
 
-		[Embed( source = "../resc/song/scheol.osu", mimeType="application/octet-stream")]
+		[Embed( source = "../resc/song/days-of-dash.osu", mimeType="application/octet-stream")]
 		private static var IMPORT_SONG_BEATMAP:Class;
 		public static var RESC_SONG_BEATMAP:String = (new IMPORT_SONG_BEATMAP as ByteArray).toString();
 	}
