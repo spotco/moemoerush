@@ -60,6 +60,7 @@ package gameobjects {
 		}
 		
 		private var _should_remove:Boolean = false;
+		
 		public function update(game:S3DGameEngine):void {
 			
 			var time_pct:Number = (game._last_time - this._spawn_time) / (this._end_time - this._spawn_time);
