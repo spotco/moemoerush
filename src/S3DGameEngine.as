@@ -25,24 +25,24 @@ package  {
 			_renderer._layers.push(_layer_bg);
 			_renderer._layers.push(_layer_objects);
 			
-			_renderer._camera.set_position(0, 0, 10);
+			_renderer._camera.set_position(0, 7, 10);
 			_renderer._camera._look_at_target.x = 0;
-			_renderer._camera._look_at_target.y = 0;
+			_renderer._camera._look_at_target.y = 7;
 			_renderer._camera._look_at_target.z = 0;
 			
 			_sky_fill = new S3DObj(_renderer._context, Resource.RESC_SKY);
-			_sky_fill.set_position(0, 14.5, -201);
+			_sky_fill.set_position(0, -60, -261);
 			_sky_fill.set_anchor_point(0.5, 0);
-			_sky_fill._scale = 125;
-			_sky_fill.update_vertex(0, S3DObj.I_ELE_X, -2);
-			_sky_fill.update_vertex(1, S3DObj.I_ELE_X, -2);
-			_sky_fill.update_vertex(2, S3DObj.I_ELE_X, 2);
-			_sky_fill.update_vertex(3, S3DObj.I_ELE_X, 2);
+			_sky_fill._scale = 290;
+			_sky_fill.update_vertex(0, S3DObj.I_ELE_X, -1.2);
+			_sky_fill.update_vertex(1, S3DObj.I_ELE_X, -1.2);
+			_sky_fill.update_vertex(2, S3DObj.I_ELE_X, 1.2);
+			_sky_fill.update_vertex(3, S3DObj.I_ELE_X, 1.2);
 			_sky_fill.upload_vertex_uv_buffers();
 			_layer_bg.push(_sky_fill);
 			
 			_ground_fill = new S3DObj(renderer._context, Resource.RESC_GROUND_FILL);
-			_ground_fill.set_position(0, 14.5, -200);
+			_ground_fill.set_position(0, 15, -200);
 			_ground_fill.set_anchor_point(0.5, 1);
 			_ground_fill._scale = 600;
 			_layer_bg.push(_ground_fill);
@@ -58,7 +58,7 @@ package  {
 			
 			var side_i:int = 0;
 			for (var i:Number = 0; i < 2; i += 0.049) {
-				var cur:TestDecoration = new TestDecoration(renderer._context, Resource.RESC_TREE);
+				var cur:TestDecoration = new TestDecoration(renderer._context, Resource.RESC_BUILING_1_L);
 				cur._t = i;
 				cur._x = side_i % 2 == 0? -9:9;
 				side_i++;
@@ -72,6 +72,15 @@ package  {
 			_player.init();
 		}
 		
+		private var _unused_enemy_pool:Vector.<BaseEnemy> = new Vector.<BaseEnemy>();
+		public function enemy_pool_get():BaseEnemy {
+			if (_unused_enemy_pool.length == 0) _unused_enemy_pool.push(new BaseEnemy(_renderer._context));
+			return _unused_enemy_pool.pop();
+		}
+		public function enemy_pool_put(t:BaseEnemy):void {
+			//TODO
+		}
+		
 		public var _last_time:Number = NaN;
 		public var _dt:Number = NaN;
 		public var _dt_scale:Number = NaN;
@@ -83,25 +92,35 @@ package  {
 		}
 		
 		private var _test_ct:Number = 0;
+		private var _test_ct2:Number = 0;
+		private var _last_left:Boolean = false, _last_right:Boolean = false, _last_top:Boolean = false;
+		
 		public function update():void {
 			update_dt();
 			if (isNaN(_dt)) return;
 			
 			_player.update(this);
-			if (KB.is_key_down(Keyboard.LEFT)) {
-				_player.push_tmp_anim(_player.ANIM_PUNCH_LEFT, 3);
+			if (KB.is_key_down(Keyboard.LEFT) && !_last_left) {
+				_player.push_tmp_anim(_player.ANIM_PUNCH_LEFT, 10);
 				
-			} else if (KB.is_key_down(Keyboard.RIGHT)) {
-				_player.push_tmp_anim(_player.ANIM_PUNCH_RIGHT, 3);
+			} else if (KB.is_key_down(Keyboard.RIGHT) && !_last_right) {
+				_player.push_tmp_anim(_player.ANIM_PUNCH_RIGHT, 10);
 				
-			} else if (KB.is_key_down(Keyboard.UP)) {
-				_player.push_tmp_anim(_player.ANIM_PUNCH_TOP, 3);
+			} else if (KB.is_key_down(Keyboard.UP) && !_last_top) {
+				_player.push_tmp_anim(_player.ANIM_PUNCH_TOP, 10);
 				
 			}
+			_last_left = KB.is_key_down(Keyboard.LEFT);
+			_last_right = KB.is_key_down(Keyboard.RIGHT);
+			_last_top = KB.is_key_down(Keyboard.UP)
 			
 			_test_ct++;
 			if (_test_ct%30==0) {
-				_enemies.push(new BaseEnemy(_renderer._context).init(_last_time, _last_time+4000, _test_ct%60==0?BaseEnemy.SIDE_LEFT:BaseEnemy.SIDE_RIGHT));
+				_test_ct2++;
+				_enemies.push(new BaseEnemy(_renderer._context).init(_last_time, _last_time+4000, 
+					_test_ct2%3==2?BaseEnemy.SIDE_TOP:
+					(_test_ct2%3==1?BaseEnemy.SIDE_RIGHT:BaseEnemy.SIDE_LEFT)
+				));
 			}
 			
 			_layer_objects.length = 0;			

@@ -26,12 +26,6 @@ package gameobjects {
 		public var _pos_start:Vector3D;
 		public var _pos_end:Vector3D;
 		
-		//TL-FAR is (-130, 60, -120)
-		//BL-FAR is (-130, 40, -120)
-		
-		//L-FIST is (-4, 0, 0)
-		//R-FIST is (4, 0, 0)
-		//UP-FIST is (0, 3, 0)
 		public function BaseEnemy(context:Context3D) {
 			super(context,Resource.RESC_COPTER_0);
 		}
@@ -48,7 +42,7 @@ package gameobjects {
 				this._pos_end = POS_RIGHT_HIT.clone();
 				
 			} else if (side == SIDE_TOP) {
-				this._pos_start = new Vector3D(Util.rand_range(80, 130),Util.rand_range(40, 60),-120);
+				this._pos_start = new Vector3D(Util.rand_range(-50, 50),Util.rand_range(50, 66),-120);
 				this._pos_end = POS_TOP_HIT.clone();
 				
 			}

@@ -3,6 +3,7 @@ package  {
 	import flash.media.Sound;
 	public class Resource {
 		
+		//decorations
 		[Embed( source = "../resc/ground.png" )]
 		private static var IMPORT_GROUND:Class;
 		public static var RESC_GROUND:Bitmap = new IMPORT_GROUND as Bitmap;
@@ -19,6 +20,14 @@ package  {
 		private static var IMPORT_TREE:Class;
 		public static var RESC_TREE:Bitmap = new IMPORT_TREE as Bitmap;
 		
+		[Embed( source = "../resc/building/building_1_l.png" )]
+		private static var IMPORT_BUILDING_1_L:Class;
+		public static var RESC_BUILING_1_L:Bitmap = new IMPORT_BUILDING_1_L as Bitmap;
+		
+		//effects
+		[Embed( source = "../resc/effects/pow.png" )]
+		private static var IMPORT_EFFECT_POW:Class;
+		public static var RESC_EFFECT_POW:Bitmap = new IMPORT_EFFECT_POW as Bitmap;
 		
 		//girl anim frames
 		[Embed( source = "../resc/girl/run_0.png" )]
