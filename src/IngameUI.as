@@ -113,24 +113,17 @@ package {
 		}
 		
 		public function updateScore(pointValue:int):void {
-			_currentScore += pointValue * _currentCombo;
+			_currentScore = pointValue;
 			_scoreText.text = _currentScore.toString();
 		}
 		
 		public function updateComboMultiplier(comboMultiplier:int):void {
 			_currentCombo = comboMultiplier;
 			_comboText.text = "×" + _currentCombo.toString();
-			
-			_comboText.alpha = 0;
-			TweenLite.to(_comboText, 0.3, {alpha:1});
-		}
-		
-		public function resetComboMultiplier():void {
-			_currentCombo = 1;
-			_comboText.text = "×" + _currentCombo.toString();
 		}
 		
 		public function updateHealth(health:Number):void {
+			// Max possible value is stored at Song.MAX_HEALTH
 			
 		}
 		
