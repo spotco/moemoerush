@@ -42,6 +42,10 @@ package  {
         private static var IMPORT_GIRL_END:Class;
         public static var RESC_GIRL_END:Sound = new IMPORT_GIRL_END as Sound;
 
+		[Embed( source = "../resc/voice/itai.mp3" )]
+		private static var IMPORT_ITAI:Class;
+		public static var RESC_ITAI:Sound = new IMPORT_ITAI as Sound;
+
         [Embed( source = "../resc/voice/iloveyoumommy.mp3" )]
         private static var IMPORT_ILOVEYOUMOMMY:Class;
         public static var RESC_ILOVEYOUMOMMY:Sound = new IMPORT_ILOVEYOUMOMMY as Sound;
