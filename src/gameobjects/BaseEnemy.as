@@ -6,6 +6,7 @@ package gameobjects {
 	import flash.display3D.textures.*;
 	import flash.geom.*;
 	import flash.utils.*;
+	import models.*;
 
 	public class BaseEnemy extends S3DObj {
 		
@@ -26,6 +27,7 @@ package gameobjects {
 		public var _pos_start:Vector3D;
 		public var _pos_end:Vector3D;
 		
+		public var _enemy:Enemy;
 		public var _side:String;
 		
 		public function BaseEnemy(context:Context3D) {
@@ -65,8 +67,9 @@ package gameobjects {
 			
 			var time_pct:Number = (game._last_time - this._spawn_time) / (this._end_time - this._spawn_time);
 			
-            if (time_pct >= 1.15) {
+		   if (time_pct >= 1.05) {
 				_should_remove = true;
+				game._song.markEnemyMiss(this._enemy);
 			}
 			
 			this._x = time_pct * (_pos_end.x-_pos_start.x) + _pos_start.x;

@@ -23,6 +23,7 @@ package models {
 
         // In-game state fields:
         public var playerHealth:int;
+        public var combo:int;
 
         public function Song(title:String, artist:String, difficulty:int, enemies:Array, timingPoints:Array) {
             this.title = title;
@@ -161,10 +162,13 @@ package models {
 
                 if (differenceRatio <= 0.3) {
                     resultType = EnemyResult.TYPE_PERFECT;
+                    combo += 1;
                 } else if (differenceRatio <= 0.5) {
                     resultType = EnemyResult.TYPE_GREAT;
+                    combo += 1;
                 } else {
                     resultType = EnemyResult.TYPE_OK;
+                    combo = 0;
                 }
 
                 var enemyResult:EnemyResult = new EnemyResult(resultType, markedEnemy);
@@ -178,6 +182,7 @@ package models {
         public function markEnemyMiss(enemy:Enemy): EnemyResult {
             var enemyResult:EnemyResult = new EnemyResult(EnemyResult.TYPE_MISS, enemy);
             enemy.enemyResult = enemyResult;
+            combo = 0;
             return enemyResult;
         }
 

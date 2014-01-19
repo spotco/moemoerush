@@ -221,6 +221,7 @@ package  {
 				var side:String = enemy.sideAsBaseEnemySide();
 				var baseEnemy:BaseEnemy = new BaseEnemy(_renderer._context).init(_last_time, _last_time + enemyPrepareTime, side);
 				enemy.baseEnemy = baseEnemy;
+                baseEnemy._enemy = enemy;
 				_enemies.push(baseEnemy);
 			}
 			
