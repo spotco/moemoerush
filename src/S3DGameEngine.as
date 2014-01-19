@@ -192,6 +192,11 @@ package  {
 			// Little animations and bubblies and stuff that pop up
 			if (tar_side != "") {
 				if (hit_result != null) {
+					
+					var ttest:UIParticle = new FlyupTextParticle(Util.WID*0.225, Util.HEI-50, ""+Math.floor(((.07 * _song.combo + 1) * hit_result.pointValue)), 50);
+					_ui_particles.push(ttest);
+					_stage.addChild(ttest);
+					
 					if (hit_result.type == EnemyResult.TYPE_GREAT || hit_result.type == EnemyResult.TYPE_PERFECT) {
 						Resource.RESC_SFX_HIT.play();
 					} else if (hit_result.type == EnemyResult.TYPE_OK) {
