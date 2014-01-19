@@ -96,12 +96,14 @@ package {
 			stage.addChild(_hpbar_back);
 			_hpbar_back.addChild(_hpbar_fill);
 			
+			_hpbar_back.x = Util.WID - Resource.RESC_HEALTHBAR_BACK.width;
+			_hpbar_back.y = Util.HEI - Resource.RESC_HEALTHBAR_BACK.height;
 			
 			_hpbar_back.graphics.beginBitmapFill(Resource.RESC_HEALTHBAR_BACK.bitmapData);
 			_hpbar_back.graphics.drawRect(0, 0, Resource.RESC_HEALTHBAR_BACK.width, Resource.RESC_HEALTHBAR_BACK.height);
 			_hpbar_back.graphics.endFill();
 			
-			set_hp_bar_pct(0.5);
+			set_hp_bar_pct(0.25);
 		}
 		
 		private var _hpbar_back:Sprite = new Sprite();
