@@ -33,7 +33,7 @@ package models {
 
             // Shallow copies
             this.savedTimingPoints = timingPoints.concat();
-            this.savedEnemies = timingPoints.concat();
+            this.savedEnemies = enemies.concat();
 
             this.playerHealth = MAX_HEALTH;
 
@@ -123,13 +123,13 @@ package models {
             var backEnemy:Enemy = null;
             var markedEnemy:Enemy = null;
 
-            for (var i:int = 0; i < enemies.length; i++) {
-                if (enemies[i].side == enemySide && !enemies[i].hasBeenMarked()
-                    && Math.abs(enemies[i].time - time) <= timeMargin) {
-                    if (enemies[i].time < time) {
-                        frontEnemy = enemies[i];
-                    } else if (enemies[i].time >= time) {
-                        backEnemy = enemies[i];
+            for (var i:int = 0; i < savedEnemies.length; i++) {
+                if (savedEnemies[i].side == enemySide && !savedEnemies[i].hasBeenMarked()
+                    && Math.abs(savedEnemies[i].time - time) <= timeMargin) {
+                    if (savedEnemies[i].time < time) {
+                        frontEnemy = savedEnemies[i];
+                    } else if (savedEnemies[i].time >= time) {
+                        backEnemy = savedEnemies[i];
                         break;
                     }
                 }
@@ -183,13 +183,16 @@ package models {
          ************************************************************************************/
 
         // Given a time, returns the timing point who's values affect this time.
-        // Returns null if there are no timing points that apply to the given time.
+        // Returns null if there are no timing points at all.
         public function getTimingPointForTime(time:int): TimingPoint {
             var mostRecentTimingPoint:TimingPoint = null;
             for (var i:int = 0; i < timingPoints.length; i++) {
                 if (timingPoints[i].time <= time) {
                     mostRecentTimingPoint = timingPoints[i];
                 } else {
+                    if (!mostRecentTimingPoint) {
+                        mostRecentTimingPoint = timingPoints[i];
+                    }
                     break;
                 }
             }
