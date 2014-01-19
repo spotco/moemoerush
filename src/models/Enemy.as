@@ -40,10 +40,13 @@ package models {
                 return BaseEnemy.SIDE_TOP;
             } else if (side == SIDE_RIGHT) {
                 return BaseEnemy.SIDE_RIGHT;
-            } else {
+            } else if (side == SIDE_DOWN) {
                 Util.assert(false, "lol there is no side down in Base Enemy, so an Enemy with side down can't convert");
-                return null;
+            } else if (side == null) {
+                Util.assert(false, "Enemy has a null side, can't convert");
             }
+            Util.assert(false, "I dunno wat is wrong with this enemy's side");
+            return null;
         }
     }
 }

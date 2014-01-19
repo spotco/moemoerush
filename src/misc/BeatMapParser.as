@@ -1,112 +1,105 @@
 package misc {
-  import asunit.textui.ResultPrinter; //TODO: remove
-  import flash.utils.*;
-  import models.*;
- 
-  public class BeatMapParser {
-    public static function parseBeatmapFile(data:String): Song {
-      var song:Song = new Song("", "", 0, [], []);
+    import asunit.textui.ResultPrinter; //TODO: remove
+    import flash.utils.*;
+    import models.*;
 
-      var map:Dictionary = new Dictionary();         // contains every line in data with key:value format
-      var rawTimingPointsArray:Array = new Array();  // contains every line in [TimingPoints] section
-      var rawHitObjectsArray:Array = new Array();    // contains every line in [HitObjects] section
+    public class BeatMapParser {
+        public static function parseBeatmapFile(data:String): Song {
 
-      var array:Array = data.split("\n");
+            var map:Dictionary = new Dictionary();         // contains every line in data with key:value format
+            var rawTimingPointsArray:Array = new Array();  // contains every line in [TimingPoints] section
+            var rawHitObjectsArray:Array = new Array();    // contains every line in [HitObjects] section
 
-      var iteratingTimingPoints:Boolean = false;
-      var iteratingHitObjects:Boolean = false;
+            var array:Array = data.split("\r\n");
 
-      for (var i:int = 0, len:int = array.length; i < len; i++) {
-        var str:String = array[i];
+            var iteratingTimingPoints:Boolean = false;
+            var iteratingHitObjects:Boolean = false;
 
-        var index:int = str.indexOf(":");
-        if (index != -1 && !iteratingTimingPoints && !iteratingHitObjects) {
-          map[str.substring(0, index)] = str.substring(index + 1, str.length);
-         } else {
-          if (iteratingTimingPoints) {
-            if (str == "") {
-              iteratingTimingPoints = false;
-              continue;
+            for (var i:int = 0, len:int = array.length; i < len; i++) {
+                var str:String = array[i];
+
+                var index:int = str.indexOf(":");
+                // If there is no :, then it means we are reading a section header
+                if (index != -1 && !iteratingTimingPoints && !iteratingHitObjects) {
+                    map[str.substring(0, index)] = str.substring(index + 1, str.length);
+                } else {
+                    if (iteratingTimingPoints) {
+                        if (str == "") {
+                            iteratingTimingPoints = false;
+                            continue;
+                        }
+                        rawTimingPointsArray.push(str);
+                    } else if (iteratingHitObjects) {
+                        if (str == "") {
+                            iteratingHitObjects = false;
+                            continue;
+                        }
+                        rawHitObjectsArray.push(str);
+                    }
+                    if (str == "[TimingPoints]") {
+                        iteratingTimingPoints = true;
+                    } else if (str == "[HitObjects]") {
+                        iteratingHitObjects = true;
+                    }
+                }
             }
-            rawTimingPointsArray.push(str);
-          } else if (iteratingHitObjects) {
-            if (str == "") {
-              iteratingHitObjects = false;
-              continue;
+
+            var song:Song = new Song(map["Title"], map["Artist"], map["OverallDifficulty"],
+                                     parseHitObjects(rawHitObjectsArray),
+                                     parseTimingPoints(rawTimingPointsArray));
+            return song;
+        }
+
+        private static function parseTimingPoints(array:Array):Array {
+            var timingPointsArray:Array = new Array();
+            var initBPM:Number = 0;
+
+            for (var i:int = 0, len:int = array.length; i < len; i++) {
+                if (array[i].indexOf(",") != -1) {
+                    var parts:Array = array[i].split(",");
+                    var tp:TimingPoint = new TimingPoint(0, 0.0, 0);
+
+                    tp.time = parts[0];
+                    if (parts[1] < 0) {
+                        tp.bpm = initBPM / (parts[1] / -100.0); // -100 -> 1x bpm, -50 -> 2x bpm, -200 -> 0.5x bpm
+                    } else {
+                        initBPM = parts[1];
+                        tp.bpm = initBPM;
+                    }
+                    tp.beatsPerMeasure = parts[2];
+
+                    timingPointsArray.push(tp);
+                }
             }
-            rawHitObjectsArray.push(str);
-          }
-
-          if (str == "[TimingPoints]") {
-            iteratingTimingPoints = true;
-          } else if (str == "[HitObjects]") {
-            iteratingHitObjects = true;
-          }
+            return timingPointsArray;
         }
-      }
 
-      song.title = map["Title"];
-      song.artist = map["Artist"];
-      song.difficulty = map["OverallDifficulty"];
-      song.enemies = parseHitObjects(rawHitObjectsArray);
-      song.timingPoints = parseTimingPoints(rawTimingPointsArray);
+        private static function parseHitObjects(array:Array):Array {
+            var hitObjectsArray:Array = new Array();
 
-      return song;
-    }
+            var currentId:int = 0;
 
-    private static function parseTimingPoints(array:Array):Array {
-      var timingPointsArray:Array = new Array();
-      var initBPM:Number = 0;
+            for (var i:int = 0, len:int = array.length; i < len; i++) {
+                if (array[i].indexOf(",") != -1) {
+                    var parts:Array = array[i].split(",");
+                    if (parts.length == 7) {
+                        continue;
+                    }
 
-      for (var i:int = 0, len:int = array.length; i < len; i++) {
-        if (array[i].indexOf(",") != -1) {
-          var parts:Array = array[i].split(",");
-          var tp:TimingPoint = new TimingPoint(0, 0.0, 0);
+                    var enemy:Enemy = new Enemy(0);
 
-          tp.time = parts[0];
-          if (parts[1] < 0) {
-            tp.bpm = initBPM / (parts[1] / -100.0); // -100 -> 1x bpm, -50 -> 2x bpm, -200 -> 0.5x bpm
-          } else {
-            initBPM = parts[1];
-            tp.bpm = initBPM;
-          }
-          tp.beatsPerMeasure = parts[2];
+                    enemy.time = parts[2];
 
-          timingPointsArray.push(tp);
+                    var comboNum:int = parts[3];
+                    if (comboNum == 5 || comboNum == 6) {
+                        currentId++;
+                    }
+                    enemy.comboId = currentId;
+
+                    hitObjectsArray.push(enemy);
+                 }
+            }
+            return hitObjectsArray;
         }
-      }
-
-      return timingPointsArray;
     }
-
-    private static function parseHitObjects(array:Array):Array {
-      var hitObjectsArray:Array = new Array();
-
-      var currentId:int = 0;
-
-      for (var i:int = 0, len:int = array.length; i < len; i++) {
-        if (array[i].indexOf(",") != -1) {
-          var parts:Array = array[i].split(",");
-          if (parts.length == 7) {
-            continue;
-          }
-
-          var enemy:Enemy = new Enemy(0);
-
-          enemy.time = parts[2];
-
-          var comboNum:int = parts[3];
-          if (comboNum == 5 || comboNum == 6) {
-            currentId++;
-          }
-          enemy.comboId = currentId;
-
-          hitObjectsArray.push(enemy);
-        }
-      }
-
-      return hitObjectsArray;
-    }
-
-  }
 }
