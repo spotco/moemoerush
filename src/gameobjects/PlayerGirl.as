@@ -37,6 +37,7 @@ package gameobjects {
 		
 		public var ANIM_PUNCH_TOP:Vector.<Bitmap> = new Vector.<Bitmap>();
 		private var ANIM_PUNCH_TOP_ALT:Vector.<Bitmap> = new Vector.<Bitmap>();
+		public var ANIM_HIT:Vector.<Bitmap> = new Vector.<Bitmap>();
 		
 		private function anim_init():void {
 			WALK_CYCLE.push(
@@ -57,6 +58,7 @@ package gameobjects {
 			ANIM_PUNCH_RIGHT.push(Resource.RESC_GIRL_PUNCH_RIGHT_0);
 			ANIM_PUNCH_TOP.push(Resource.RESC_GIRL_PUNCH_UP_0);
 			ANIM_PUNCH_TOP_ALT.push(Resource.RESC_GIRL_PUNCH_UP_1);
+			ANIM_HIT.push(Resource.RESC_GIRL_HIT_0);
 		}
 		
 		private var _punch_top_alternator:Number = 0;

@@ -27,7 +27,7 @@ package  {
 
 		private var _music_has_started:Boolean = false;
 
-		private var _song:Song;
+		public var _song:Song;
         private var _timingPoint:TimingPoint;
 		private var _ui_particles:Vector.<UIParticle> = new Vector.<UIParticle>();
 		

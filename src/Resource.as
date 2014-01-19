@@ -130,6 +130,10 @@ package  {
 		[Embed( source = "../resc/girl/punch_up_1.png" )]
 		private static var IMPORT_GIRL_PUNCH_UP_1:Class;
 		public static var RESC_GIRL_PUNCH_UP_1:Bitmap = new IMPORT_GIRL_PUNCH_UP_1 as Bitmap;
+		
+		[Embed( source = "../resc/girl/hit.png" )]
+		private static var IMPORT_GIRL_HIT_0:Class;
+		public static var RESC_GIRL_HIT_0:Bitmap = new IMPORT_GIRL_HIT_0 as Bitmap;
 	
 		//enemies
 		[Embed( source = "../resc/enemies/copter_0.png" )]
