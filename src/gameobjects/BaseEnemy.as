@@ -72,6 +72,7 @@ package gameobjects {
 				_should_remove = true;
 				game._song.markEnemyMiss(this._enemy);
 				game._player.push_tmp_anim(game._player.ANIM_HIT, 30);
+                game._song.damageHealth();
 				Resource.RESC_SFX_EXPLOSION.play();
 				
 				var neu:UIParticle = new FadeoutUIParticle(game._player.x, game._player.y-126, 20, Resource.RESC_EFFECT_POW);
