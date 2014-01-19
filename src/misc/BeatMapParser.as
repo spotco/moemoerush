@@ -81,12 +81,24 @@ package misc {
     private static function parseHitObjects(array:Array):Array {
       var hitObjectsArray:Array = new Array();
 
+      var currentId = 0;
+
       for (var i:int = 0, len:int = array.length; i < len; i++) {
         if (array[i].indexOf(",") != -1) {
           var parts:Array = array[i].split(",");
-          var enemy:Enemy = new Enemy(0, 0);
+          if (parts.length == 7) {
+            continue;
+          }
+
+          var enemy:Enemy = new Enemy(0);
 
           enemy.time = parts[2];
+
+          var comboNum = parts[3];
+          if (comboNum == 5 || comboNum == 6) {
+            currentId++;
+          }
+          enemy.comboId = currentId;
 
           hitObjectsArray.push(enemy);
         }
