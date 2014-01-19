@@ -99,7 +99,7 @@ package  {
 				_layer_objects.push(cur);
 				
 				cur = new TestDecoration(renderer._context, 
-					[Resource.RESC_BUILING_0,Resource.RESC_BUILING_1,Resource.RESC_BUILING_2][Math.floor(Math.random()*3)] );
+					[Resource.RESC_BUILING_0,Resource.RESC_BUILING_1,Resource.RESC_BUILING_2,Resource.RESC_BUILING_3][Math.floor(Math.random()*4)] );
 				cur._t = i;
 				if (side_i%2 != 0) {
 					cur.update_vertex(0, S3DObj.I_ELE_U, 1);
@@ -111,6 +111,23 @@ package  {
 				cur._scale = Util.rand_range(17,25);
 				cur._building_mode = true;
 				cur._x = (side_i % 2 == 0? -1:1)*Util.rand_range(25,45);
+				_decorations.push(cur);
+				_layer_objects.push(cur);
+				
+				
+				cur = new TestDecoration(renderer._context, 
+					[Resource.RESC_BUILING_0,Resource.RESC_BUILING_1,Resource.RESC_BUILING_2,Resource.RESC_BUILING_3][Math.floor(Math.random()*4)] );
+				cur._t = i+Util.rand_range(0.1, 0.2);
+				if (side_i%2 != 0) {
+					cur.update_vertex(0, S3DObj.I_ELE_U, 1);
+					cur.update_vertex(1, S3DObj.I_ELE_U, 1);
+					cur.update_vertex(2, S3DObj.I_ELE_U, 0);
+					cur.update_vertex(3, S3DObj.I_ELE_U, 0);
+					cur.upload_vertex_uv_buffers();
+				}
+				cur._scale = Util.rand_range(22,30);
+				cur._building_mode = true;
+				cur._x = (side_i % 2 == 0? -1:1)*Util.rand_range(35,55);
 				_decorations.push(cur);
 				_layer_objects.push(cur);
 			}

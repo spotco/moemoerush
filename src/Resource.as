@@ -113,6 +113,10 @@ package  {
 		private static var IMPORT_BUILDING_2:Class;
 		public static var RESC_BUILING_2:Bitmap = new IMPORT_BUILDING_2 as Bitmap;
 		
+		[Embed( source = "../resc/building/building_3.png" )]
+		private static var IMPORT_BUILDING_3:Class;
+		public static var RESC_BUILING_3:Bitmap = new IMPORT_BUILDING_3 as Bitmap;
+		
 		[Embed( source = "../resc/building/lamppost.png" )]
 		private static var IMPORT_LAMPPOST:Class;
 		public static var RESC_LAMPPOST:Bitmap = new IMPORT_LAMPPOST as Bitmap;

@@ -42,7 +42,7 @@ package {
 			}
 			
 			//tmp
-			// _i_frame = 9999;
+			//_i_frame = 9999;
 		}
 		
 		public function intro_cartoon_update(e:Event):void {
