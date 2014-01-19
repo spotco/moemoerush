@@ -14,6 +14,7 @@ package testsrc
           addTest(new TestSong("testPeekAtFirstTimingPoint"));
           addTest(new TestSong("testPopFirstTimingPoint"));
           addTest(new TestSong("testPopAllEnemiesBeforeMoment"));
+          addTest(new TestSong("testMarkEnemy"));
           addTest(new TestModels("testEnemyResultConstructor"));
           addTest(new TestModels("testEnemyConstructor"));
           addTest(new TestModels("testTimingPointConstructor"));
