@@ -10,6 +10,7 @@ package  {
 	
 	public class S3DGameEngine {
 		public const TIME_BEFORE_SONG:int = 2000;
+        public const ENEMY_PREPARE_BEAT_COUNT:int = 8; // How many beats early will enemies show up. More is easier.
 		
 		public var _renderer:S3DRenderer;
 		public var _stage:Stage;
@@ -27,6 +28,7 @@ package  {
 		private var _music_has_started:Boolean = false;
 
 		private var _song:Song;
+        private var _timingPoint:TimingPoint;
 		private var _ui_particles:Vector.<UIParticle> = new Vector.<UIParticle>();
 		
 		private var _ingame_ui:IngameUI;
@@ -143,6 +145,14 @@ package  {
 				_song.music.play();
 				_music_has_started = true;
 			}
+
+            // Update stored TimingPoint
+            if (_timingPoint == null) {
+                _timingPoint = _song.peekAtFirstTimingPoint();
+            }
+            if (_song.peekAtFirstTimingPoint() && _song.peekAtFirstTimingPoint().time < _last_time) {
+                _timingPoint = _song.popFirstTimingPoint();
+            }
 			
 			_player.update(this);
 			var tar_side:String = "";
@@ -202,12 +212,14 @@ package  {
 			_last_left = KB.is_key_down(Keyboard.LEFT);
 			_last_right = KB.is_key_down(Keyboard.RIGHT);
 			_last_top = KB.is_key_down(Keyboard.UP);
+
 			
 			// Generate new enemies
-			var newEnemies:Array = _song.popAllEnemiesBeforeMoment(_last_time + 4000);
+            var enemyPrepareTime:int = ENEMY_PREPARE_BEAT_COUNT * _timingPoint.bpm;
+			var newEnemies:Array = _song.popAllEnemiesBeforeMoment(_last_time + enemyPrepareTime);
 			for each (var enemy:Enemy in newEnemies) {
 				var side:String = enemy.sideAsBaseEnemySide();
-				var baseEnemy:BaseEnemy = new BaseEnemy(_renderer._context).init(_last_time, _last_time+4000, side);
+				var baseEnemy:BaseEnemy = new BaseEnemy(_renderer._context).init(_last_time, _last_time + enemyPrepareTime, side);
 				enemy.baseEnemy = baseEnemy;
 				_enemies.push(baseEnemy);
 			}
