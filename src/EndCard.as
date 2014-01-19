@@ -11,6 +11,7 @@ package {
 		
 		public function EndCard(main:Main) {
             _main = main;
+			
             trace("end card added");
 			this.addChild(Resource.RESC_END_CARD);
             this.height = 500;

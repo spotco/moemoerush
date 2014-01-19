@@ -28,6 +28,13 @@ package {
 		private var COMBO_CENTER_X:Number = 50;
 		private var COMBO_CENTER_Y:Number = 350;
 		
+		public function clear():void {
+			if (_comboText.parent != null) _comboText.parent.removeChild(_comboText);
+			if (_scoreText.parent != null) _scoreText.parent.removeChild(_scoreText);
+			if (_hpbar_back.parent != null) _hpbar_back.parent.removeChild(_hpbar_back);
+			if (Resource.RESC_COMBOTOAST.parent != null) Resource.RESC_COMBOTOAST.parent.removeChild(Resource.RESC_COMBOTOAST); 
+		}
+		
 		public function IngameUI(stage:Stage) {
 			_scoreText.text = "00000000";
 			_scoreText.x = Util.WID * 0.73;

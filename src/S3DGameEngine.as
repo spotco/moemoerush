@@ -383,6 +383,11 @@ package  {
 
         public function initialize_ending_sequence(): void {
             trace("ending initialize now");
+			
+			//while (_stage.numChildren > 0) _stage.removeChildAt(0);
+			_ingame_ui.clear();
+			for each (var p : UIParticle in _ui_particles) if (p.parent != null) p.parent.removeChild(p);
+			
             // Call end_game after animations or whatever you thought you were gonna do
             fadeout_moment = _last_time + 1000;
             fadeBox = new Sprite();
@@ -399,6 +404,11 @@ package  {
 
         public function initialize_losing_sequence(): void {
             trace("ending initialize now");
+			
+			//while (_stage.numChildren > 0) _stage.removeChildAt(0);
+			_ingame_ui.clear();
+			for each (var p : UIParticle in _ui_particles) if (p.parent != null) p.parent.removeChild(p);
+			
             // Call end_game after animations or whatever you thought you were gonna do
             fadeout_moment = _last_time + 1000;
             fadeBox = new Sprite();
@@ -418,14 +428,14 @@ package  {
         public function end_game(): void {
             trace("ending now");
             _renderer._context.clear();
-            _player.parent.removeChild(_player);
+            if (_player.parent != null)_player.parent.removeChild(_player);
             _main.end_game()
         }
 
         public function lose_game(): void {
             trace("ending now");
             _renderer._context.clear();
-            _player.parent.removeChild(_player);
+			if (_player.parent != null)_player.parent.removeChild(_player);
             _main.lose_game()
         }
 	}
