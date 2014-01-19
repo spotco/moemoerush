@@ -22,7 +22,6 @@ package gameobjects {
 		public static const TYPE_EXAMPLE_FOR_TEST_PURPOSES:String = "TYPE_EXAMPLE_FOR_TEST_PURPOSES";
 		public static const TYPE_HELICOPTER:String = "TYPE_HELICOPTER";
 		public static const TYPE_JET_FIGHTER:String = "TYPE_JET_FIGHTER";
-		public static const TYPE_PARACHUTE_GUY:String = "TYPE_PARACHUTE_GUY";
 		public static const TYPE_NUKE:String = "TYPE_NUKE";
 		
 		public var _spawn_time:Number;
@@ -45,8 +44,6 @@ package gameobjects {
 				bitmapResource = Resource.RESC_JET_FIGHTER_0;
 			} else if (type == TYPE_NUKE) {
 				bitmapResource = Resource.RESC_NUKE_0;
-			} else if (type == TYPE_PARACHUTE_GUY) {
-				bitmapResource = Resource.RESC_PARACHUTE_GUY_0;
 			}
 			super(context, bitmapResource);
 

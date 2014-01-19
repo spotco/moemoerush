@@ -7,7 +7,6 @@ package models {
         public static const TYPE_EXAMPLE_FOR_TEST_PURPOSES:String = "TYPE_EXAMPLE_FOR_TEST_PURPOSES";
         public static const TYPE_HELICOPTER:String = "TYPE_HELICOPTER";
         public static const TYPE_JET_FIGHTER:String = "TYPE_JET_FIGHTER";
-        public static const TYPE_PARACHUTE_GUY:String = "TYPE_PARACHUTE_GUY";
         public static const TYPE_NUKE:String = "TYPE_NUKE";
 
         public static const SIDE_UP:String = "SIDE_UP";
@@ -59,8 +58,6 @@ package models {
                 return BaseEnemy.TYPE_JET_FIGHTER;
             } else if (type == TYPE_NUKE) {
                 return BaseEnemy.TYPE_NUKE;
-            } else if (type == TYPE_PARACHUTE_GUY) {
-                return BaseEnemy.TYPE_PARACHUTE_GUY;
             } else if (type == null) {
                 Util.assert(false, "Enemy has a null type, can't convert");
             }

@@ -79,15 +79,13 @@ package models {
             Util.seedRandom(seedValue);
 
             for (i = 0; i < enemies.length; i++) {
-                var sideId:int = Math.floor(Math.abs(Util.random() * 4));
+                var sideId:int = Math.floor(Math.abs(Util.random() * 3));
                 if (enemies[i].type == null) {
                     if (sideId == 0) {
                         enemies[i].type = Enemy.TYPE_HELICOPTER;
                     } else if (sideId == 1) {
                         enemies[i].type = Enemy.TYPE_JET_FIGHTER;
                     } else if (sideId == 2) {
-                        enemies[i].type = Enemy.TYPE_PARACHUTE_GUY;
-                    } else if (sideId == 3) {
                         enemies[i].type = Enemy.TYPE_NUKE;
                     }
                 }

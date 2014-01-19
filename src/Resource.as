@@ -49,6 +49,11 @@ package  {
 		[Embed( source = "../resc/intro/intro_3.jpg" )]
 		private static var IMPORT_INTRO_3:Class;
 		public static var RESC_INTRO_3:Bitmap = new IMPORT_INTRO_3 as Bitmap;
+
+        //endcard
+		[Embed( source = "../resc/endcard/endcard.jpg" )]
+		private static var IMPORT_END_CARD:Class;
+		public static var RESC_END_CARD:Bitmap = new IMPORT_END_CARD as Bitmap;
 		
 		//decorations
 		[Embed( source = "../resc/ground.png" )]
