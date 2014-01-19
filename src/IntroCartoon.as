@@ -40,6 +40,9 @@ package {
 			for (var i:int = 0; i < this.numChildren; i++) {
 				this.getChildAt(i).alpha = 0;		
 			}
+			
+			//tmp
+			_i_frame = 9999;
 		}
 		
 		public function intro_cartoon_update(e:Event):void {

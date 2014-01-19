@@ -4,6 +4,15 @@ package  {
 	import flash.media.Sound;
 	public class Resource {
 		
+		//ui
+		[Embed( source = "../resc/ui/healthbar_back.png" )]
+		private static var IMPORT_HEALTHBAR_BACK:Class;
+		public static var RESC_HEALTHBAR_BACK:Bitmap = new IMPORT_HEALTHBAR_BACK as Bitmap;
+		
+		[Embed( source = "../resc/ui/healthbar_fill.png" )]
+		private static var IMPORT_HEALTHBAR_FILL:Class;
+		public static var RESC_HEALTHBAR_FILL:Bitmap = new IMPORT_HEALTHBAR_FILL as Bitmap;
+		
 		//intro
 		[Embed( source = "../resc/intro/intro_0.jpg" )]
 		private static var IMPORT_INTRO_0:Class;
