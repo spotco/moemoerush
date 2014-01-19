@@ -72,11 +72,11 @@ package  {
 
         [Embed( source= "../resc/girl/run_10.png" )]
         private static var IMPORT_GIRL_RUN_10:Class;
-        public static var RESC_GIRL_RUN10:Bitmap = new IMPORT_GIRL_RUN_10 as Bitmap;
+        public static var RESC_GIRL_RUN_10:Bitmap = new IMPORT_GIRL_RUN_10 as Bitmap;
 
         [Embed( source= "../resc/girl/run_11.png" )]
         private static var IMPORT_GIRL_RUN_11:Class;
-        public static var RESC_GIRL_RUN11:Bitmap = new IMPORT_GIRL_RUN_11 as Bitmap;
+        public static var RESC_GIRL_RUN_11:Bitmap = new IMPORT_GIRL_RUN_11 as Bitmap;
 		
 		[Embed( source = "../resc/girl/punch_left_0.png" )]
 		private static var IMPORT_GIRL_PUNCH_LEFT_0:Class;

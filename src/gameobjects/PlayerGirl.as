@@ -37,7 +37,20 @@ package gameobjects {
 		public var ANIM_PUNCH_TOP:Vector.<Bitmap> = new Vector.<Bitmap>();
 		
 		private function anim_init():void {
-			WALK_CYCLE.push(Resource.RESC_GIRL_RUN_0,Resource.RESC_GIRL_RUN_1,Resource.RESC_GIRL_RUN_2,Resource.RESC_GIRL_RUN_3);
+			WALK_CYCLE.push(
+				Resource.RESC_GIRL_RUN_0,
+				Resource.RESC_GIRL_RUN_1,
+				Resource.RESC_GIRL_RUN_2,
+				Resource.RESC_GIRL_RUN_3,
+				Resource.RESC_GIRL_RUN_4,
+				Resource.RESC_GIRL_RUN_5,
+				Resource.RESC_GIRL_RUN_6,
+				Resource.RESC_GIRL_RUN_7,
+				Resource.RESC_GIRL_RUN_8,
+				Resource.RESC_GIRL_RUN_9,
+				Resource.RESC_GIRL_RUN_10,
+				Resource.RESC_GIRL_RUN_11
+			);
 			ANIM_PUNCH_LEFT.push(Resource.RESC_GIRL_PUNCH_LEFT_0);
 			ANIM_PUNCH_RIGHT.push(Resource.RESC_GIRL_PUNCH_RIGHT_0);
 			ANIM_PUNCH_TOP.push(Resource.RESC_GIRL_PUNCH_UP_0);

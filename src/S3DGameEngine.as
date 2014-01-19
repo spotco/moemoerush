@@ -1,5 +1,6 @@
 package  {
 	import flash.geom.Vector3D;
+	import uiparticle.*
 	import flash.display.Stage;
 	import gameobjects.*;
 	import flash.ui.Keyboard;
@@ -18,6 +19,8 @@ package  {
 		
 		private var _decorations:Vector.<TestDecoration> = new Vector.<TestDecoration>();
 		private var _enemies:Vector.<BaseEnemy> = new Vector.<BaseEnemy>();
+		
+		private var _ui_particles:Vector.<UIParticle> = new Vector.<UIParticle>();
 		
 		public function init(stage:Stage, renderer:S3DRenderer):void {
 			_renderer = renderer;
@@ -92,29 +95,48 @@ package  {
 			if (isNaN(_dt)) return;
 			
 			_player.update(this);
+			
+			var tar_side:String = "";
+			var tar_vec:Vector3D = Vector3D.Z_AXIS.clone();
+			var particle_spawn_pos:Vector3D = tar_vec;
+			
 			if (KB.is_key_down(Keyboard.LEFT) && !_last_left) {
 				_player.push_tmp_anim(_player.ANIM_PUNCH_LEFT, 10);
 				//var enemyResult:EnemyResult = currentSong.markEnemy(currentTime, Enemy.SIDE_LEFT);
 				//enemyResult.type <-- the type
 				//enemyResult.pointValue <-- how many points the user gets, in case you wanted to have that literal number show up on the screen somewhere
 				
-				for each (var itr_enemy:BaseEnemy in _enemies) {
-					if (itr_enemy._side == BaseEnemy.SIDE_LEFT && Util.vec_dist(BaseEnemy.POS_LEFT_HIT, new Vector3D(itr_enemy._x, itr_enemy._y, itr_enemy._z)) < 7) {
-						itr_enemy.force_remove();
-						trace("punch!");
-					}
-				}
+				tar_side = BaseEnemy.SIDE_LEFT;
+				tar_vec = BaseEnemy.POS_LEFT_HIT;
+				particle_spawn_pos = new Vector3D(_player.x-100, _player.y - 140,0);
 				
 			} else if (KB.is_key_down(Keyboard.RIGHT) && !_last_right) {
 				_player.push_tmp_anim(_player.ANIM_PUNCH_RIGHT, 10);
 				
+				tar_side = BaseEnemy.SIDE_RIGHT;
+				tar_vec = BaseEnemy.POS_RIGHT_HIT;
+				particle_spawn_pos = new Vector3D(_player.x+100, _player.y - 140,0);
+				
 			} else if (KB.is_key_down(Keyboard.UP) && !_last_top) {
 				_player.push_tmp_anim(_player.ANIM_PUNCH_TOP, 10);
+				tar_side = BaseEnemy.SIDE_TOP;
+				tar_vec = BaseEnemy.POS_TOP_HIT;
+				particle_spawn_pos = new Vector3D(_player.x, _player.y - 250 ,0);
 				
 			}
 			_last_left = KB.is_key_down(Keyboard.LEFT);
 			_last_right = KB.is_key_down(Keyboard.RIGHT);
 			_last_top = KB.is_key_down(Keyboard.UP);
+			
+			for each (var itr_enemy:BaseEnemy in _enemies) {
+				if (itr_enemy._side == tar_side && Util.vec_dist(tar_vec, new Vector3D(itr_enemy._x, itr_enemy._y, itr_enemy._z)) < 7) {
+					itr_enemy.force_remove();
+					var neu:UIParticle = new FadeoutUIParticle(particle_spawn_pos.x, particle_spawn_pos.y, 10, Resource.RESC_EFFECT_POW);
+					_ui_particles.push(neu);
+					_stage.addChild(neu);
+				}
+			}
+			
 			
 			_test_ct++;
 			if (_test_ct%30==0) {
@@ -133,13 +155,23 @@ package  {
 			}
 			
 			for (var i_enemy:int = _enemies.length-1; i_enemy >= 0; i_enemy--) {
-				var itr_enemy:BaseEnemy = _enemies[i_enemy];
+				itr_enemy = _enemies[i_enemy];
 				itr_enemy.update(this);
 				if (itr_enemy.should_remove()) {
 					itr_enemy.do_remove();
 					_enemies.splice(i_enemy, 1);
 				} else {
 					_layer_objects.push(itr_enemy);
+				}
+			}
+			
+			for (var i_particle:int = _ui_particles.length-1; i_particle >= 0; i_particle--) {
+				var itr_particle:UIParticle = _ui_particles[i_particle];
+				itr_particle.update(this);
+				if (itr_particle.should_remove()) {
+					itr_particle.do_remove();
+					_ui_particles.splice(i_particle, 1);
+					_stage.removeChild(itr_particle);
 				}
 			}
 			
