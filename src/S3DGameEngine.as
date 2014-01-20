@@ -29,6 +29,18 @@ package  {
 		
 		private var _decorations:Vector.<TestDecoration> = new Vector.<TestDecoration>();
 		private var _enemies:Vector.<BaseEnemy> = new Vector.<BaseEnemy>();
+		
+		public function dispose():void {
+			_ground.dispose();
+			_ground_fill.dispose();
+			_sky_fill.dispose();
+			for each (var i : S3DObj in _decorations) i.dispose();
+			for each (var j : S3DObj in _enemies) j.dispose();
+			_decorations.length = 0;
+			_enemies.length = 0;
+			_layer_bg.length = 0;
+			_layer_objects.length = 0;
+		}
 
 		private var _music_has_started:Boolean = false;
 
@@ -42,11 +54,19 @@ package  {
 		private var _ingame_ui:IngameUI;
 		private var _cover:Sprite = new Sprite();
 		
+		public static var CT_PERFECT:Number = 0, CT_GOOD:Number = 0, CT_OK:Number = 0, CT_MISS:Number = 0, SCORE:Number = 0;
+		
 		public function init(stage:Stage, main:Main, renderer:S3DRenderer, song:Song):void {
 			_renderer = renderer;
 			_stage = stage;
 			_song = song;
             _main = main;
+			
+			CT_PERFECT = 0;
+			CT_GOOD = 0;
+			CT_OK = 0;
+			CT_MISS = 0;
+			SCORE = 0;
 				
 			_renderer._layers.push(_layer_bg);
 			_renderer._layers.push(_layer_objects);
@@ -160,6 +180,8 @@ package  {
 			_cover.graphics.drawRect(0, 0, Util.WID, Util.HEI);
 			_cover.graphics.endFill();
 			_stage.addChild(_cover);
+			
+			trace('gameengine initialized, ending:',ending);
 		}
 		
 		public var _start_time:Number = NaN;
@@ -180,6 +202,7 @@ package  {
 		
 		public function update():void {
 			update_dt();
+			
             if (!ending) {
                 if (isNaN(_dt)) return;
 
@@ -254,14 +277,21 @@ package  {
                         _stage.addChild(ttest);
 						
                         if (hit_result.type == EnemyResult.TYPE_GREAT || hit_result.type == EnemyResult.TYPE_PERFECT) {
+							if (hit_result.type == EnemyResult.TYPE_PERFECT) {
+								CT_PERFECT++;
+							} else {
+								CT_GOOD++;
+							}
                             Resource.RESC_SFX_HIT.play();
                         } else if (hit_result.type == EnemyResult.TYPE_OK) {
+							CT_OK++;
                             Resource.RESC_SFX_HIT_OK.play();
                         } else {
                             Resource.RESC_SFX_MISS.play();
                         }
                         
                     } else {
+						CT_MISS++;
                         Resource.RESC_SFX_MISS.play();
                         var neu_popup:UIParticle = new FlyUpFadeoutUIParticle(
                             particle_spawn_pos.x, 
@@ -349,7 +379,7 @@ package  {
                 _ingame_ui.updateComboMultiplier(_song.combo);
                 _ingame_ui.updateHealth(_song.playerHealth);
 
-                if (_song.playerHealth == 0) {
+                if (_song.playerHealth == 0 || (KB.is_key_down(Keyboard.ESCAPE) && KB.is_key_down(Keyboard.Q))) {
                     initialize_losing_sequence();
                 }
                 
@@ -428,7 +458,7 @@ package  {
             // Call end_game after animations or whatever you thought you were gonna do
             fadeout_moment = _last_time + 1000;
             fadeBox = new Sprite();
-            _channel.stop();
+            if (_channel != null) _channel.stop();
             fadeBox.graphics.beginFill(0x000000, 1);
             fadeBox.graphics.lineStyle(1, 0x000000);
             fadeBox.graphics.drawRect(0, 0, 1000, 500);
@@ -450,7 +480,7 @@ package  {
             // Call end_game after animations or whatever you thought you were gonna do
             fadeout_moment = _last_time + 1000;
             fadeBox = new Sprite();
-            _channel.stop();
+            if (_channel != null) _channel.stop();
             fadeBox.graphics.beginFill(0x000000, 1);
             fadeBox.graphics.lineStyle(1, 0x000000);
             fadeBox.graphics.drawRect(0, 0, 1000, 500);
@@ -466,13 +496,15 @@ package  {
         public function end_game(): void {
             trace("ending now");
             _renderer._context.clear();
-            if (_player.parent != null)_player.parent.removeChild(_player);
+			while (_main.numChildren > 0) _main.removeChildAt(0);
+            if (_player.parent != null) _player.parent.removeChild(_player);
             _main.end_game()
         }
 
         public function lose_game(): void {
             trace("ending now");
             _renderer._context.clear();
+			while (_main.numChildren > 0) _main.removeChildAt(0);
 			if (_player.parent != null)_player.parent.removeChild(_player);
             _main.lose_game()
         }

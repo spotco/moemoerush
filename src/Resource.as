@@ -84,6 +84,10 @@ package  {
 		private static var IMPORT_END_CARD:Class;
 		public static var RESC_END_CARD:Bitmap = new IMPORT_END_CARD as Bitmap;
 		
+		[Embed( source = "../resc/mainmenucard.png" )]
+		private static var IMPORT_MAINMENUCARD:Class;
+		public static var RESC_MAINMENUCARD:Bitmap = new IMPORT_MAINMENUCARD as Bitmap;
+		
 		//decorations
 		[Embed( source = "../resc/ground.png" )]
 		private static var IMPORT_GROUND:Class;
@@ -265,6 +269,10 @@ package  {
 		private static var IMPORT_SFX_HAI:Class;
 		public static var RESC_SFX_HAI:Sound = new IMPORT_SFX_HAI as Sound;
 		
+		[Embed( source = "../resc/sfx/end_jingle.mp3" )]
+		private static var IMPORT_SFX_END_JINGLE:Class;
+		public static var RESC_SFX_END_JINGLE:Sound = new IMPORT_SFX_END_JINGLE as Sound;
+		
         // Song Data
         // Songs we have available:
         // * days-of-dash (Normal)
@@ -272,13 +280,52 @@ package  {
         // * my-pace-de-ikimashou (Normal)
         // * scheol (Insane)
         // * weed-circulation (Normal)
-		[Embed( source = "../resc/song/days-of-dash.mp3" )]
+		/*[Embed( source = "../resc/song/scheol.mp3" )]
 		private static var IMPORT_SONG_MP3:Class;
 		public static var RESC_SONG_MP3:Sound = new IMPORT_SONG_MP3 as Sound;
 
-		[Embed( source = "../resc/song/days-of-dash.osu", mimeType="application/octet-stream")]
+		[Embed( source = "../resc/song/scheol.osu", mimeType="application/octet-stream")]
 		private static var IMPORT_SONG_BEATMAP:Class;
-		public static var RESC_SONG_BEATMAP:String = (new IMPORT_SONG_BEATMAP as ByteArray).toString();
+		public static var RESC_SONG_BEATMAP:String = (new IMPORT_SONG_BEATMAP as ByteArray).toString();*/
+		
+		public static var TAR_SONG_SOUND:Sound;
+		public static var TAR_SONG_BEATMAP:String;
+		
+		[Embed( source = "../resc/song/weed-circulation.mp3" )]
+		private static var IMPORT_SONG_WEEDCIRCULATION:Class;
+		public static var RESC_SONG_WEEDCIRCULATION:Sound = new IMPORT_SONG_WEEDCIRCULATION as Sound;
+		
+		[Embed( source = "../resc/song/weed-circulation.osu", mimeType="application/octet-stream")]
+		private static var IMPORT_SONG_WEEDCIRCULATION_BEATMAP:Class;
+		public static var RESC_SONG_WEEDCIRCULATION_BEATMAP:String = (new IMPORT_SONG_WEEDCIRCULATION_BEATMAP as ByteArray).toString();
+	
+	
+		[Embed( source = "../resc/song/my-pace-de-ikimashou.mp3" )]
+		private static var IMPORT_SONG_IKIMASHOU:Class;
+		public static var RESC_SONG_IKIMASHOU:Sound = new IMPORT_SONG_IKIMASHOU as Sound;
+		
+		[Embed( source = "../resc/song/my-pace-de-ikimashou.osu", mimeType="application/octet-stream")]
+		private static var IMPORT_SONG_IKIMASHOU_BEATMAP:Class;
+		public static var RESC_SONG_IKIMASHOU_BEATMAP:String = (new IMPORT_SONG_IKIMASHOU_BEATMAP as ByteArray).toString();
+		
+		
+		[Embed( source = "../resc/song/days-of-dash.mp3" )]
+		private static var IMPORT_SONG_DAYSOFDASH:Class;
+		public static var RESC_SONG_DAYSOFDASH:Sound = new IMPORT_SONG_DAYSOFDASH as Sound;
+		
+		[Embed( source = "../resc/song/days-of-dash.osu", mimeType="application/octet-stream")]
+		private static var IMPORT_SONG_DAYSOFDASH_BEATMAP:Class;
+		public static var RESC_SONG_DAYSOFDASH_BEATMAP:String = (new IMPORT_SONG_DAYSOFDASH_BEATMAP as ByteArray).toString();
+		
+		
+		[Embed( source = "../resc/song/drop.mp3" )]
+		private static var IMPORT_SONG_DROP:Class;
+		public static var RESC_SONG_DROP:Sound = new IMPORT_SONG_DROP as Sound;
+		
+		[Embed( source = "../resc/song/drop.osu", mimeType="application/octet-stream")]
+		private static var IMPORT_SONG_DROP_BEATMAP:Class;
+		public static var RESC_SONG_DROP_BEATMAP:String = (new IMPORT_SONG_DROP_BEATMAP as ByteArray).toString();
+	
 	}
 
 }

@@ -1,12 +1,23 @@
 package  {
 	import flash.geom.Vector3D;
-	import flash.display.Sprite;
+	import flash.display.*;
+	import flash.events.*;
+	import flash.ui.*;
 	import flash.geom.Rectangle;
 	
 	public class Util {
 		
 		public static var WID:Number = 1000;
 		public static var HEI:Number = 500;
+		
+       public static function add_mouse_over(o:DisplayObject) {
+                o.addEventListener(MouseEvent.ROLL_OVER, function():void {
+                        flash.ui.Mouse.cursor = flash.ui.MouseCursor.BUTTON;
+                });
+                o.addEventListener(MouseEvent.ROLL_OUT, function():void {
+                        flash.ui.Mouse.cursor = flash.ui.MouseCursor.AUTO;
+                });
+        }
 		
 		public static function vec_dist(a:Vector3D, b:Vector3D):Number {
 			return Math.sqrt(Math.pow(b.x-a.x, 2) + Math.pow(b.y-a.y, 2) + Math.pow(b.z-a.z, 2));

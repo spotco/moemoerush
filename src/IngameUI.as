@@ -2,10 +2,11 @@ package {
 	import models.Song;
 	import flash.display.*;
 	import flash.geom.*;
-	import flash.text.*;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
+	import flash.text.TextFieldAutoSize;
 	import flash.utils.*;
 	import flash.events.*;
-	import com.greensock.TweenLite;
 	import models.*;
 	
 	/**
@@ -23,15 +24,17 @@ package {
 		public var _currentScore:int = 0;
 		private var _displayScore:int = 0;
 		
-		public var _comboText:TextField = new TextField();
+		private var _comboText:TextField = new TextField();
 		public var _currentCombo:int = 2;
 		private var COMBO_CENTER_X:Number = 50;
 		private var COMBO_CENTER_Y:Number = 350;
+		private var _disp:Sprite;
 		
 		public function clear():void {
 			if (_comboText.parent != null) _comboText.parent.removeChild(_comboText);
 			if (_scoreText.parent != null) _scoreText.parent.removeChild(_scoreText);
 			if (_hpbar_back.parent != null) _hpbar_back.parent.removeChild(_hpbar_back);
+			if (_disp.parent != null) _disp.parent.removeChild(_disp);
 			if (Resource.RESC_COMBOTOAST.parent != null) Resource.RESC_COMBOTOAST.parent.removeChild(Resource.RESC_COMBOTOAST); 
 		}
 		
@@ -57,13 +60,13 @@ package {
 			stage.addChild(Resource.RESC_COMBOTOAST);
 			
 			var radius:Number = 50;			
-			_comboText.text = "×1";
+			_comboText.text = "COMBO x0";
 			_comboText.antiAliasType = "advanced";
 			_comboText.autoSize = TextFieldAutoSize.CENTER;
 			_comboText.width = radius*2;
 			_comboText.height = radius*2;
 			_comboText.embedFonts = true;
-			_comboText.x = COMBO_CENTER_X - _comboText.width / 2;
+			_comboText.x = COMBO_CENTER_X - _comboText.width / 2 + 50;
 			_comboText.y = Util.HEI*0.93;
 			
 			format.size = 30;
@@ -82,6 +85,10 @@ package {
 			_hpbar_back.graphics.beginBitmapFill(Resource.RESC_HEALTHBAR_BACK.bitmapData);
 			_hpbar_back.graphics.drawRect(0, 0, Resource.RESC_HEALTHBAR_BACK.width, Resource.RESC_HEALTHBAR_BACK.height);
 			_hpbar_back.graphics.endFill();
+			
+			_disp= new Sprite();
+			TextRenderer.render_text(_disp.graphics, "ESC+Q to exit", 0, 0);
+			stage.addChild(_disp);
 		}
 		
 		//0.9 -> 0.04
@@ -99,13 +106,14 @@ package {
 		
 		public function updateScore(pointValue:int):void {
 			_scoreText.text = pointValue + "";
+			S3DGameEngine.SCORE = pointValue;
 		}
 		
 		public function updateComboMultiplier(comboMultiplier:int):void {
 			if (_currentCombo != comboMultiplier) {
 				_currentCombo = comboMultiplier;
-				_comboText.text = "×" + _currentCombo;
-				
+				_comboText.text = "COMBO x" + _currentCombo;
+				/*
 				var ghostComboText:TextField = new TextField();
 				ghostComboText.x = _comboText.x;
 				ghostComboText.y = _comboText.y - 150;
@@ -124,12 +132,14 @@ package {
 				_comboText.parent.addChild(ghostComboText);
 				
 				TweenLite.to(ghostComboText, 0.3, {alpha:1, y:_comboText.y, onComplete:ghostComboText.parent.removeChild, onCompleteParams:[ghostComboText]});
-			}
+			
+			 	*/ 
+			 }
 		}
 		
 		public function resetComboMultiplier():void {
 			_currentCombo = 1;
-			_comboText.text = "×" + _currentCombo;
+			_comboText.text = "COMBO x" + _currentCombo;
 		}
 		
 		private var _last_hpval:Number = 0;

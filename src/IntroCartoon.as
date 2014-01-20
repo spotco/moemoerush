@@ -4,6 +4,7 @@ package {
 	import flash.events.Event;
 	import flash.display.Stage;
 	import flash.display.Sprite;
+	import flash.ui.Keyboard;
 	/**
 	 * @author spotco
 	 */
@@ -41,12 +42,14 @@ package {
 				this.getChildAt(i).alpha = 0;		
 			}
 			
-			//tmp
-			//_i_frame = 9999;
+			var disp:Sprite = new Sprite();
+			TextRenderer.render_text(disp.graphics, "Press ESC to skip", 0, 0);
+			this.addChild(disp);
 		}
 		
 		public function intro_cartoon_update(e:Event):void {
-			if (_i_frame < this.numChildren) {
+			if (KB.is_key_down(Keyboard.ESCAPE)) _i_frame = 9999;
+			if (_i_frame < this.numChildren - 1) {
 				var cur_frame:Bitmap = this.getChildAt(_i_frame) as Bitmap;
 				if (_anim_mode == 0) {
 					cur_frame.alpha = Math.min(cur_frame.alpha+0.05,1);
