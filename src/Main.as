@@ -21,18 +21,25 @@ package {
         public var game_timer:Timer;
 		
 		public function Main():void {
-			stage.addChild(this);
-			stage.stage3Ds[0].addEventListener( Event.CONTEXT3D_CREATE, function(e:Event):void {
-				_context = stage.stage3Ds[0].context3D;
-				_context.configureBackBuffer(1000, 500, 1);
-				
-				_context.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
-				//_context.enableErrorChecking = true;
-				_context.setCulling(Context3DTriangleFace.BACK);
-				
-				init();
-			}); 
-			stage.stage3Ds[0].requestContext3D();
+			var fn:Function = function(e:Event) {
+				stage.stage3Ds[0].addEventListener( Event.CONTEXT3D_CREATE, function(e:Event):void {
+					_context = stage.stage3Ds[0].context3D;
+					_context.configureBackBuffer(1000, 500, 1);
+					
+					_context.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
+					//_context.enableErrorChecking = true;
+					_context.setCulling(Context3DTriangleFace.BACK);
+					
+					init();
+				}); 
+				stage.stage3Ds[0].requestContext3D();
+			}
+			
+			if (stage == null) {
+				this.addEventListener(Event.ADDED_TO_STAGE, fn);
+			} else {
+				fn(null);
+			}
 		}
 		
 		public function init():void {
