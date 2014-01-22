@@ -1,4 +1,6 @@
 package {
+	import flash.text.TextFormat;
+	import flash.text.TextField;
 	import flash.events.MouseEvent;
 	import flash.display.Graphics;
 	import flash.display.Sprite;
@@ -11,6 +13,7 @@ package {
 		
 		public function MainMenuCard(main:Main) {
 			_main = main;
+			
 			this.addChild(Resource.RESC_MAINMENUCARD);			
 			
 			var btn1:Sprite = new Sprite();
@@ -38,9 +41,9 @@ package {
 			});
 			
 			btn1 = new Sprite();
-			render_button(btn1.graphics, "Drop", "Claris", "(Hard)", 0xFF0000);
+			render_button(btn1.graphics, "Irony", "Claris", "(Insane)", 0xEF843C);
 			btn1.x = Util.WID * 0.725;
-			btn1.y = Util.HEI * 0.61;
+			btn1.y = Util.HEI * 0.81;
 			this.addChild(btn1);
 			Util.add_mouse_over(btn1);
 			btn1.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
@@ -50,9 +53,9 @@ package {
 			});
 			
 			btn1 = new Sprite();
-			render_button(btn1.graphics, "Ikimashou", "YuriYuri", "(Insane)", 0xEF843C);
+			render_button(btn1.graphics, "Ikimashou", "YuriYuri", "(Hard)", 0xFF0000);
 			btn1.x = Util.WID * 0.725;
-			btn1.y = Util.HEI * 0.81;
+			btn1.y = Util.HEI * 0.61;
 			this.addChild(btn1);
 			Util.add_mouse_over(btn1);
 			btn1.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
@@ -67,6 +70,27 @@ package {
 			TextRenderer.render_text(desc.graphics, "Arrow keys (left, right, up) to play!", Util.WID*0.1, Util.HEI*0.91, 20, 0x000000);
 			this.addChild(desc);
 			Util.add_mouse_over(btn1);
+			
+			var format:TextFormat = new TextFormat();
+			format.size = 10;
+			format.align = "left";
+			format.font = "Game";
+			format.color = 0x000000;
+			
+			var credits:TextField = new TextField();
+			credits.multiline = true;
+			credits.defaultTextFormat = format;
+			credits.embedFonts = true;
+			credits.width = 300;
+			credits.height = 500;
+			credits.htmlText = "Game By:\n<a href='http://www.spotcos.com'>Shiny Yang</a>";
+			credits.htmlText += "<a href='http://www.davidpmah.com'>David Mah</a>";
+			credits.htmlText += "<a href='http://www.cierajohl.com/'>Ciera Johl</a>";
+			credits.htmlText += "<a href='http://yasukawamura.carbonmade.com/'>Yasu Kawamura</a>";
+			credits.htmlText += "<a href='https://www.facebook.com/kyle.lam.56211'>Kyle Lam</a>";
+			credits.htmlText += "<a href='https://www.facebook.com/tkaghan'>Thomas Kaghan</a>";
+			
+			//this.addChild(credits);
 			
 			
 		}

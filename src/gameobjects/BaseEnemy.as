@@ -38,15 +38,13 @@ package gameobjects {
 		public var _side:String;
 		
 		public function BaseEnemy(context:Context3D, type:String) {
-			var bitmapResource:Bitmap = null;
-			if (type == TYPE_HELICOPTER) {
-				bitmapResource = Resource.RESC_COPTER_0;
-			} else if (type == TYPE_JET_FIGHTER) {
-				bitmapResource = Resource.RESC_JET_FIGHTER_0;
-			} else if (type == TYPE_NUKE) {
-				bitmapResource = Resource.RESC_NUKE_0;
+			for each (var texbmp:Bitmap in [Resource.RESC_COPTER_0, Resource.RESC_JET_FIGHTER_0, Resource.RESC_NUKE_0]) {
+				if (TEXTURE_CACHE[texbmp.toString()] == null) {
+					TEXTURE_CACHE[texbmp.toString()] = context.createTexture(texbmp.width, texbmp.height, "bgra", false);
+					(TEXTURE_CACHE[texbmp.toString()] as Texture).uploadFromBitmapData(texbmp.bitmapData);
+				}
 			}
-			super(context, bitmapResource);
+			super(context, Resource.RESC_COPTER_0);
 
 		}
 
@@ -63,16 +61,20 @@ package gameobjects {
 			
 			this.set_anchor_point(0.5, 0.5);
 			if (side == SIDE_LEFT) {
-				this._pos_start = new Vector3D(Util.rand_range(-160, -80),Util.rand_range(40, 80),-120);
+				this._pos_start = new Vector3D(Util.rand_range(-130, -80),Util.rand_range(40, 80),-120);
 				this._pos_end = POS_LEFT_HIT.clone();
+				this._texture = TEXTURE_CACHE[Resource.RESC_COPTER_0.toString()];
 				
 			} else if (side == SIDE_RIGHT) {
-				this._pos_start = new Vector3D(Util.rand_range(80, 160),Util.rand_range(40, 80),-120);
+				this._pos_start = new Vector3D(Util.rand_range(80, 130),Util.rand_range(40, 80),-120);
 				this._pos_end = POS_RIGHT_HIT.clone();
+				this._texture = TEXTURE_CACHE[Resource.RESC_JET_FIGHTER_0.toString()];
 				
 			} else if (side == SIDE_TOP) {
 				this._pos_start = new Vector3D(Util.rand_range(-80, 80),Util.rand_range(50, 80),-120);
 				this._pos_end = POS_TOP_HIT.clone();
+				this._texture = TEXTURE_CACHE[Resource.RESC_NUKE_0.toString()];
+				
 				// Override anchor point if its coming from the top
 				// if(_pos_start.x < 0) {
 				//	 this.set_anchor_point(-0.2, 1.2);
@@ -107,6 +109,7 @@ package gameobjects {
 				game._song.damageHealth();
 				Resource.RESC_SFX_EXPLOSION.play();
                 Resource.RESC_ITAI.play(0,0,new SoundTransform(0.4));
+				S3DGameEngine.CT_MISS++;
 				
 				var neu:UIParticle = new FadeoutUIParticle(game._player.x, game._player.y-126, 20, Resource.RESC_EFFECT_POW);
 				game._ui_particles.push(neu);

@@ -20,8 +20,11 @@ package {
 		public static var _context:Context3D;
         public var game_timer:Timer;
 		
+		public static var _stage:Stage;
+		
 		public function Main():void {
 			var fn:Function = function(e:Event) {
+				_stage = stage;
 				stage.stage3Ds[0].addEventListener( Event.CONTEXT3D_CREATE, function(e:Event):void {
 					_context = stage.stage3Ds[0].context3D;
 					_context.configureBackBuffer(1000, 500, 1);

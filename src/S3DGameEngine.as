@@ -55,6 +55,7 @@ package  {
 		private var _cover:Sprite = new Sprite();
 		
 		public static var CT_PERFECT:Number = 0, CT_GOOD:Number = 0, CT_OK:Number = 0, CT_MISS:Number = 0, SCORE:Number = 0;
+		public static var CT_MAX_COMBO:Number = 0, DID_FAIL:Boolean = true;
 		
 		public function init(stage:Stage, main:Main, renderer:S3DRenderer, song:Song):void {
 			_renderer = renderer;
@@ -62,6 +63,8 @@ package  {
 			_song = song;
             _main = main;
 			
+			CT_MAX_COMBO = 0;
+			DID_FAIL = true;
 			CT_PERFECT = 0;
 			CT_GOOD = 0;
 			CT_OK = 0;
@@ -214,7 +217,7 @@ package  {
                 }
 
                 // End the game if we are 3 seconds after the last Enemy
-                if ((_song.savedEnemies[_song.savedEnemies.length - 1].time + 3000) < _last_time) {
+                if (_song.savedEnemies[_song.savedEnemies.length - 1].time + 3000 < _last_time) {
                     initialize_ending_sequence();
                 }
 
@@ -262,13 +265,14 @@ package  {
                 if (tar_side != "") {
                     if (hit_result != null) {
                         if (Math.random() > 0.8) {
-                            var rand:Number = Math.random();
-                            if (rand < 0.3333) {
+                            var rand:Number = Math.floor(Math.random()*3);
+                            if (rand == 0) {
                                 Resource.RESC_ILOVEYOUMOMMY_TWO.play()
-                            } else if (rand < 0.6666) {
-                                Resource.RESC_ILOVEYOUMOMMY.play()
+                            } else if (rand == 1) {
+								Resource.RESC_MAYDAY.play()
                             } else {
-                                Resource.RESC_MAYDAY.play()
+								Resource.RESC_ILOVEYOUMOMMY.play()
+                                
                             }
                         }
 						
@@ -291,7 +295,6 @@ package  {
                         }
                         
                     } else {
-						CT_MISS++;
                         Resource.RESC_SFX_MISS.play();
                         var neu_popup:UIParticle = new FlyUpFadeoutUIParticle(
                             particle_spawn_pos.x, 
@@ -321,6 +324,7 @@ package  {
                     trace("50 combo");
                     _big_combo_achieved = true;
                 }
+				CT_MAX_COMBO = Math.max(_song.combo, CT_MAX_COMBO);
                 
                 _last_left = KB.is_key_down(Keyboard.LEFT);
                 _last_right = KB.is_key_down(Keyboard.RIGHT);
@@ -495,7 +499,9 @@ package  {
 
         public function end_game(): void {
             trace("ending now");
+			DID_FAIL = false;
             _renderer._context.clear();
+			for each (var p : UIParticle in _ui_particles) if (p.parent != null) p.parent.removeChild(p);
 			while (_main.numChildren > 0) _main.removeChildAt(0);
             if (_player.parent != null) _player.parent.removeChild(_player);
             _main.end_game()
@@ -503,7 +509,9 @@ package  {
 
         public function lose_game(): void {
             trace("ending now");
+			DID_FAIL = true;
             _renderer._context.clear();
+			for each (var p : UIParticle in _ui_particles) if (p.parent != null) p.parent.removeChild(p);
 			while (_main.numChildren > 0) _main.removeChildAt(0);
 			if (_player.parent != null)_player.parent.removeChild(_player);
             _main.lose_game()

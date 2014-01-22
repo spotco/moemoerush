@@ -26,19 +26,36 @@ package {
 			t.start();
 			Resource.RESC_SFX_END_JINGLE.play(0,0,new SoundTransform(0.6));
 			
+			var total:Number = S3DGameEngine.CT_PERFECT + S3DGameEngine.CT_GOOD+S3DGameEngine.CT_OK + S3DGameEngine.CT_MISS;
+			var rank:String = "Failed";
+			if (!S3DGameEngine.DID_FAIL) {
+				if (S3DGameEngine.CT_PERFECT/total > 0.9) {
+					rank = "A+";					
+				} else if (S3DGameEngine.CT_PERFECT/total > 0.8) {
+					rank = "A";
+				} else if (S3DGameEngine.CT_PERFECT/total > 0.7) {
+					rank = "B";
+				} else if (S3DGameEngine.CT_PERFECT/total > 0.6) {
+					rank = "C";
+				} else {
+					rank = "F";
+				}
+			}
+			
 			_scoreText.text = "Thanks for playing!\n\nScore:"+S3DGameEngine.SCORE+
-			"\nPerfect:"+S3DGameEngine.CT_PERFECT+
+			"\n\nPerfect:"+S3DGameEngine.CT_PERFECT+
 			"\nGreat:"+S3DGameEngine.CT_GOOD+
 			"\nOk:"+S3DGameEngine.CT_OK+
-			"\nMiss:"+S3DGameEngine.CT_MISS;
+			"\n\nMax Combo: "+S3DGameEngine.CT_MAX_COMBO+
+			"\n\nRank: "+rank;
 			
-			_scoreText.x = Util.WID * 0.55;
-			_scoreText.y = Util.HEI * 0.2;
+			_scoreText.x = Util.WID * 0.65;
+			_scoreText.y = Util.HEI * 0.05;
 			_scoreText.width = 300;
 			_scoreText.height = 300;
 			
 			var format:TextFormat = new TextFormat();
-			format.size = 25;
+			format.size = 21;
 			format.align = "right";
 			format.font = "Game";
 			format.color = 0xFFFFFF;
@@ -48,7 +65,7 @@ package {
 			this.addChild(_scoreText);
 			
 			var btn:Sprite = new Sprite();
-			btn.x = Util.WID*0.75;
+			btn.x = Util.WID*0.85;
 			btn.y = Util.HEI*0.75;
 			btn.graphics.lineStyle(3,0x000000);
 			btn.graphics.beginFill(0xFFFFFF)

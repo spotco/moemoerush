@@ -36,7 +36,7 @@ package {
 			_index_buffer.dispose();
 		}
 		
-		private static var TEXTURE_CACHE:Dictionary = new Dictionary();
+		protected static var TEXTURE_CACHE:Dictionary = new Dictionary();
 		
 		public function S3DObj(context:Context3D, texbmp:Bitmap):void {
 			lazy_init_shader(context);
