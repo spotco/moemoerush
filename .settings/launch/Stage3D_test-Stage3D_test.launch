@@ -2,7 +2,7 @@
 <launchConfiguration type="com.powerflasher.fdt.ui.MxmlcGroup">
 <booleanAttribute key="ADVANCED_TELEMTRY" value="false"/>
 <stringAttribute key="APP_ARGUMENTS" value=""/>
-<stringAttribute key="ARGUMENTS" value="-static-link-runtime-shared-libraries=true&#10;-target-player={playerVersion}&#10;-library-path+=&quot;{flexSDK}/frameworks/locale/en_US&quot;&#10;-default-size=550,400"/>
+<stringAttribute key="ARGUMENTS" value="-static-link-runtime-shared-libraries=true&#10;-target-player={playerVersion}&#10;-library-path+=&quot;{flexSDK}/frameworks/locale/en_US&quot;&#10;-default-size=1000,500&#10;-optimize=true&#10;-omit-trace-statements=true"/>
 <listAttribute key="COMPILER_CONSTANTS"/>
 <stringAttribute key="COMPILER_TECHNOLOGY" value="Flex SDK"/>
 <booleanAttribute key="DISABLE_COMPILE_PROCESS" value="false"/>
@@ -15,7 +15,7 @@
 <booleanAttribute key="MEMORY_PROFILING" value="true"/>
 <booleanAttribute key="MEMORY_PROFILING_STACKDATA" value="true"/>
 <booleanAttribute key="NEW_WINDOW_EACH_LAUNCH" value="false"/>
-<stringAttribute key="OUTPUT" value="bin/Stage3D_test.swf"/>
+<stringAttribute key="OUTPUT" value="bin/moemoerush.swf"/>
 <booleanAttribute key="PASS_CP" value="true"/>
 <booleanAttribute key="PASS_DEFINES" value="true"/>
 <booleanAttribute key="PASS_EXTERNS" value="false"/>
@@ -25,8 +25,8 @@
 <booleanAttribute key="PERFORMANCE_PROFILING" value="false"/>
 <booleanAttribute key="PERFORMANCE_PROFILING_CLEAR_DATA" value="false"/>
 <intAttribute key="PERFORMANCE_PROFILING_CLEAR_DATA_TIME" value="3"/>
-<intAttribute key="PLAYER_HEIGHT" value="400"/>
-<intAttribute key="PLAYER_WIDTH" value="550"/>
+<intAttribute key="PLAYER_HEIGHT" value="500"/>
+<intAttribute key="PLAYER_WIDTH" value="1000"/>
 <stringAttribute key="POST_COMPILE_ANT" value=""/>
 <stringAttribute key="PRE_COMPILE_ANT" value=""/>
 <booleanAttribute key="PROFILER_FILTER_INTERNAL_ACTIONS" value="false"/>

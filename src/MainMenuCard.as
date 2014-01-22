@@ -17,9 +17,9 @@ package {
 			this.addChild(Resource.RESC_MAINMENUCARD);			
 			
 			var btn1:Sprite = new Sprite();
-			render_button(btn1.graphics, "Weed Circulation", "Hanazawa Kana ft. Snoop Dogg", "(Easy)");
+			render_button(btn1.graphics, "Weed Circulation", "Hanazawa Kana ft. Snoop Dogg", "(Normal)");
 			btn1.x = Util.WID * 0.725;
-			btn1.y = Util.HEI * 0.21;
+			btn1.y = Util.HEI * 0.41;
 			this.addChild(btn1);
 			Util.add_mouse_over(btn1);
 			btn1.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
@@ -29,9 +29,9 @@ package {
 			});
 			
 			btn1 = new Sprite();
-			render_button(btn1.graphics, "Days of Dash", "Konomi Suzuki", "(Normal)", 0xDEC776);
+			render_button(btn1.graphics, "Days of Dash", "Konomi Suzuki", "(Easy)", 0xDEC776);
 			btn1.x = Util.WID * 0.725;
-			btn1.y = Util.HEI * 0.41;
+			btn1.y = Util.HEI * 0.21;
 			this.addChild(btn1);
 			Util.add_mouse_over(btn1);
 			btn1.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
