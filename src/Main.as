@@ -11,7 +11,8 @@ package {
     import misc.*;
     import testsrc.StubModels;
 	
-	 [SWF(width="1000", height="500", frameRate="60", backgroundColor="#FFFFFF")]
+	 [SWF(width = "1000", height = "500", frameRate = "60", backgroundColor = "#FFFFFF")]
+	 [Frame(factoryClass="Preloader")]
 	public class Main extends Sprite {
 		
 		public var _renderer:S3DRenderer;
